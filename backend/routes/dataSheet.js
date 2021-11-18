@@ -13,5 +13,6 @@ router.get("/", async function (req, res, next) {
     res.status(500).json({ message: "can't load data" });
   }
 });
+router.get("/")
 
 module.exports = router;

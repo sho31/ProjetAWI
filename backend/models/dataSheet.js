@@ -1,4 +1,4 @@
-const db = require("../dataBase");
+const db = require("../database");
 
 async function getAllDataSheet() {
   try {
