@@ -1,7 +1,9 @@
+const dataSheet = require("../models/dataSheet")
+
 async function getDataSheet() {
   try {
-    dataSheet = "Voici le festival";
-    return dataSheet;
+    let dataSheets = await dataSheet.getAllDataSheet()
+    return dataSheets;
   } catch (e) {
     throw e;
   }
