@@ -27,7 +27,7 @@ router.get("/:id", async function (req, res, next) {
 
 router.post("/add", async function (req, res, next) {
     try {
-        const author = await authorController.createAuthor(req.body)
+        await authorController.createAuthor(req.body)
         res.status(200).json({ message:  "Ajout effectué"})
     } catch (e) {
         res.status(500).json({ message: "can't load data" });

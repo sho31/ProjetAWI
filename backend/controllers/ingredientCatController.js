@@ -1,8 +1,8 @@
-const ingredientCat = require("../models/ingredientCat")
+const ingredientCatModel = require("../models/ingredientCat")
 
 async function getAllIngredientCats() {
     try {
-        const res = await ingredientCat.getAllIngredientCats()
+        const res = await ingredientCatModel.getAllIngredientCats()
         return res.rows
     } catch (e) {
         throw e;
@@ -11,7 +11,7 @@ async function getAllIngredientCats() {
 
 async function getIngredientCatByID(id) {
     try {
-        const res = await ingredientCat.getIngredientCatByID(id)
+        const res = await ingredientCatModel.getIngredientCatByID(id)
         if (res !== null) {
             if (res.rowCount > 0) {
                 return res.rows;
@@ -26,7 +26,7 @@ async function getIngredientCatByID(id) {
 async function createIngredientCat(body) {
     try {
         const nomCategorieIngredient = body.nomCategorieIngredient;
-        const res = await ingredientCat.createIngredientCat(nomCategorieIngredient);
+        const res = await ingredientCatModel.createIngredientCat(nomCategorieIngredient);
         return res;
     } catch (e) {
         throw e;
@@ -35,7 +35,7 @@ async function createIngredientCat(body) {
 
 async function deleteIngredientCat(id) {
     try {
-        const res = await ingredientCat.deleteIngredientCat(id)
+        const res = await ingredientCatModel.deleteIngredientCat(id)
         if (res !== null) {
             if (res.rowCount > 0) {
                 return res;
@@ -52,7 +52,7 @@ async function updateIngredientCat(id,body) {
         const newId = parseInt(id);
         const nomCategorieIngredient = body.nomCategorieIngredient;
 
-        const res = await ingredientCat.updateIngredientCat(newId,nomCategorieIngredient)
+        const res = await ingredientCatModel.updateIngredientCat(newId,nomCategorieIngredient)
         if (res !== null) {
             if (res.rowCount > 0) {
                 return res;
