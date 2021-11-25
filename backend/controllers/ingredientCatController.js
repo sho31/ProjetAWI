@@ -2,7 +2,8 @@ const ingredientCat = require("../models/ingredientCat")
 
 async function getAllIngredientCats() {
     try {
-        return await ingredientCat.getAllIngredientCats()
+        const res = await ingredientCat.getAllIngredientCats()
+        return res.rows
     } catch (e) {
         throw e;
     }
@@ -25,7 +26,8 @@ async function getIngredientCatByID(id) {
 async function createIngredientCat(body) {
     try {
         const nomCategorieIngredient = body.nomCategorieIngredient;
-        return await ingredientCat.createIngredientCat(nomCategorieIngredient);
+        const res = await ingredientCat.createIngredientCat(nomCategorieIngredient);
+        return res;
     } catch (e) {
         throw e;
     }
@@ -33,7 +35,13 @@ async function createIngredientCat(body) {
 
 async function deleteIngredientCat(id) {
     try {
-        return  await ingredientCat.deleteIngredientCat(id)
+        const res = await ingredientCat.deleteIngredientCat(id)
+        if (res !== null) {
+            if (res.rowCount > 0) {
+                return res;
+            }
+        }
+        return null;
     } catch (e) {
         throw e;
     }
@@ -41,10 +49,16 @@ async function deleteIngredientCat(id) {
 
 async function updateIngredientCat(id,body) {
     try {
-        var newId = parseInt(id);
-        const prenomAuteur  = body.prenomAuteur;
-        const nomAuteur = body.nomAuteur;
-        return await ingredientCat.updateIngredientCat(newId,prenomAuteur,nomAuteur)
+        const newId = parseInt(id);
+        const nomCategorieIngredient = body.nomCategorieIngredient;
+
+        const res = await ingredientCat.updateIngredientCat(newId,nomCategorieIngredient)
+        if (res !== null) {
+            if (res.rowCount > 0) {
+                return res;
+            }
+        }
+        return null;
     } catch (e) {
         throw e;
     }

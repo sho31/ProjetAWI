@@ -2,7 +2,8 @@ const authorModel = require("../models/author")
 
 async function getAllAuthors() {
     try {
-        return await authorModel.getAllAuthors()
+        const res = await authorModel.getAllAuthors()
+        return res.rows;
     } catch (e) {
         throw e;
     }
@@ -16,7 +17,7 @@ async function getAuthorByID(id) {
                 return res.rows;
             }
         }
-        return res;
+        return null;
     } catch (e) {
         throw e;
     }
@@ -27,7 +28,8 @@ async function createAuthor(body) {
         const prenomAuteur  = body.prenomAuteur;
         const nomAuteur = body.nomAuteur;
 
-        return await authorModel.createAuthor(prenomAuteur,nomAuteur);
+        const res = await authorModel.createAuthor(prenomAuteur,nomAuteur);
+        return res;
     } catch (e) {
         throw e;
     }
@@ -35,7 +37,13 @@ async function createAuthor(body) {
 
 async function deleteAuthor(id) {
     try {
-        return await authorModel.deleteAuthor(id)
+        const res = await authorModel.deleteAuthor(id)
+        if (res !== null) {
+            if (res.rowCount > 0) {
+                return res;
+            }
+        }
+        return null;
     } catch (e) {
         throw e;
     }
@@ -46,7 +54,13 @@ async function updateAuthor(id,body) {
         var newId = parseInt(id);
         const prenomAuteur  = body.prenomAuteur;
         const nomAuteur = body.nomAuteur;
-        return await authorModel.updateAuthor(newId,prenomAuteur,nomAuteur)
+        const res = await authorModel.updateAuthor(newId,prenomAuteur,nomAuteur)
+        if (res !== null) {
+            if (res.rowCount > 0) {
+                return res;
+            }
+        }
+        return null;
     } catch (e) {
         throw e;
     }

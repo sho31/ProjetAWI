@@ -28,7 +28,7 @@ router.get("/:id", async function (req, res, next) {
 router.post("/add", async function (req, res, next) {
     try {
         const author = await authorController.createAuthor(req.body)
-        res.status(200).json({ message: author})
+        res.status(200).json({ message:  "Ajout effectué"})
     } catch (e) {
         res.status(500).json({ message: "can't load data" });
     }
@@ -38,7 +38,10 @@ router.delete("/delete/:id", async function (req, res, next) {
     try {
         const idAuthor = req.params.id;
         const author = await authorController.deleteAuthor(idAuthor)
-        res.status(200).json({ message: author})
+        if (!author) {
+            return res.status(400).json({error: "Aucun auteur avec cet id"});
+        }
+        res.status(200).json({ message: "Suppresion effectuée"})
     } catch (e) {
         res.status(500).json({ message: "can't load data" });
     }
@@ -48,7 +51,10 @@ router.put("/:id", async function (req, res, next) {
     try {
         const idAuthor = req.params.id;
         const author = await authorController.updateAuthor(idAuthor, req.body)
-        res.status(200).json({ message: author})
+        if (!author) {
+            return res.status(400).json({error: "Aucun auteur avec cet id"});
+        }
+        res.status(200).json({ message: "Modification effectuée"})
     } catch (e) {
         res.status(500).json({ message: "can't load data" });
     }
