@@ -3,7 +3,7 @@ const router = express.Router();
 
 const authorController = require("../controllers/authorController");
 
-router.get("/", async function (req, res, next) {
+router.get("/allAuthors", async function (req, res, next) {
     try {
         const author = await authorController.getAllAuthors();
         res.status(200).json({ message: author})
@@ -12,9 +12,9 @@ router.get("/", async function (req, res, next) {
     }
 });
 
-router.get("/:id", async function (req, res, next) {
+router.get("/", async function (req, res, next) {
     try {
-        const idAuthor = req.params.id;
+        const idAuthor = req.query.id;
         const author = await authorController.getAuthorByID(idAuthor)
         if (!author) {
             return res.status(400).json({error: "Aucun auteur"});
@@ -34,9 +34,9 @@ router.post("/add", async function (req, res, next) {
     }
 });
 
-router.delete("/delete/:id", async function (req, res, next) {
+router.delete("/delete", async function (req, res, next) {
     try {
-        const idAuthor = req.params.id;
+        const idAuthor = req.query.id;
         const author = await authorController.deleteAuthor(idAuthor)
         if (!author) {
             return res.status(400).json({error: "Aucun auteur avec cet id"});
@@ -47,9 +47,9 @@ router.delete("/delete/:id", async function (req, res, next) {
     }
 });
 
-router.put("/:id", async function (req, res, next) {
+router.put("/", async function (req, res, next) {
     try {
-        const idAuthor = req.params.id;
+        const idAuthor = req.query.id;
         const author = await authorController.updateAuthor(idAuthor, req.body)
         if (!author) {
             return res.status(400).json({error: "Aucun auteur avec cet id"});

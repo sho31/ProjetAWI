@@ -3,7 +3,7 @@ const router = express.Router();
 
 const uniteController = require("../controllers/uniteController");
 
-router.get("/", async function (req, res, next) {
+router.get("/allUnites", async function (req, res, next) {
     try {
         const unite = await uniteController.getAllUnites();
         res.status(200).json({ message: unite})
@@ -12,9 +12,9 @@ router.get("/", async function (req, res, next) {
     }
 });
 
-router.get("/:id", async function (req, res, next) {
+router.get("/", async function (req, res, next) {
     try {
-        const idUnite = req.params.id;
+        const idUnite = req.query.id;
         const unite = await uniteController.getUniteById(idUnite)
         if (!unite) {
             return res.status(400).json({error: "Aucune Unité"});
@@ -34,9 +34,9 @@ router.post("/add", async function (req, res, next) {
     }
 });
 
-router.delete("/delete/:id", async function (req, res, next) {
+router.delete("/delete", async function (req, res, next) {
     try {
-        const idUnite = req.params.id;
+        const idUnite = req.query.id;
         const unite = await uniteController.deleteUnite(idUnite)
         if (!unite) {
             return res.status(400).json({error: "Aucune Unité avec cet id"});
@@ -47,9 +47,9 @@ router.delete("/delete/:id", async function (req, res, next) {
     }
 });
 
-router.put("/:id", async function (req, res, next) {
+router.put("/", async function (req, res, next) {
     try {
-        const idUnite = req.params.id;
+        const idUnite = req.query.id;
         const unite = await uniteController.updateUnite(idUnite, req.body)
         if (!unite) {
             return res.status(400).json({error: "Aucune Unité avec cet id"});

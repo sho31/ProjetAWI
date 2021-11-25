@@ -3,7 +3,7 @@ const router = express.Router();
 
 const ingredientCatController = require("../controllers/ingredientCatController");
 
-router.get("/", async function (req, res, next) {
+router.get("/allIngredientCats", async function (req, res, next) {
     try {
         const ingredientCat = await ingredientCatController.getAllIngredientCats();
         res.status(200).json({ message: ingredientCat})
@@ -12,9 +12,9 @@ router.get("/", async function (req, res, next) {
     }
 });
 
-router.get("/:id", async function (req, res, next) {
+router.get("/", async function (req, res, next) {
     try {
-        const idIngredientCat = req.params.id;
+        const idIngredientCat = req.query.id;
         const ingredientCat = await ingredientCatController.getIngredientCatByID(idIngredientCat)
         if (!ingredientCat) {
             return res.status(400).json({error: "Aucune Catégorie d'ingrédients"});
@@ -34,9 +34,9 @@ router.post("/add", async function (req, res, next) {
     }
 });
 
-router.delete("/delete/:id", async function (req, res, next) {
+router.delete("/delete", async function (req, res, next) {
     try {
-        const idIngredientCat = req.params.id;
+        const idIngredientCat = req.query.id;
         const ingredientCat = await ingredientCatController.deleteIngredientCat(idIngredientCat)
         if (!ingredientCat) {
             return res.status(400).json({error: "Aucune Catégorie d'ingrédients avec cet id"});
@@ -47,9 +47,9 @@ router.delete("/delete/:id", async function (req, res, next) {
     }
 });
 
-router.put("/:id", async function (req, res, next) {
+router.put("/", async function (req, res, next) {
     try {
-        const idIngredientCat = req.params.id;
+        const idIngredientCat = req.query.id;
         const ingredientCat = await ingredientCatController.updateIngredientCat(idIngredientCat, req.body)
         if (!ingredientCat) {
             return res.status(400).json({error: "Aucune Catégorie d'ingrédients avec cet id"});

@@ -15,8 +15,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 app.use("/author", authorRoute);
-app.use("/catIngredients", ingredientCatRoute)
-app.use("/catAllergenes", allergenCatRoute)
+app.use("/ingredientsCat", ingredientCatRoute)
+app.use("/allergenCat", allergenCatRoute)
 app.use("/unite", uniteRoute)
 
 app.listen(port, () => {

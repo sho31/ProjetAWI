@@ -1,11 +1,9 @@
 const express = require("express");
 const router = express.Router();
 
-/* All controllers */
-
 const dataSheetController = require("../controllers/dataSheetController");
 
-router.get("/", async function (req, res, next) {
+router.get("/allDatasheets", async function (req, res, next) {
   try {
     const dataSheet = await dataSheetController.getDataSheet();
     res.send(dataSheet);

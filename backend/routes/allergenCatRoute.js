@@ -3,7 +3,7 @@ const router = express.Router();
 
 const allergenCatController = require("../controllers/allergenCatController");
 
-router.get("/", async function (req, res, next) {
+router.get("/allAllergenCats", async function (req, res, next) {
     try {
         const allergenCat = await allergenCatController.getAllAllergenCats();
         res.status(200).json({ message: allergenCat})
@@ -12,9 +12,9 @@ router.get("/", async function (req, res, next) {
     }
 });
 
-router.get("/:id", async function (req, res, next) {
+router.get("/", async function (req, res, next) {
     try {
-        const idAllergenCat = req.params.id;
+        const idAllergenCat = req.query.id;
         const allergenCat = await allergenCatController.getAllergenCatByID(idAllergenCat)
         if (!allergenCat) {
             return res.status(400).json({error: "Aucune Catégorie d'allergène"});
@@ -34,9 +34,9 @@ router.post("/add", async function (req, res, next) {
     }
 });
 
-router.delete("/delete/:id", async function (req, res, next) {
+router.delete("/delete", async function (req, res, next) {
     try {
-        const idAllergenCat = req.params.id;
+        const idAllergenCat = req.query.id;
         const allergenCat = await allergenCatController.deleteAllergenCat(idAllergenCat)
         if (!allergenCat) {
             return res.status(400).json({error: "Aucune Catégorie d'allergène avec cet id"});
@@ -47,9 +47,9 @@ router.delete("/delete/:id", async function (req, res, next) {
     }
 });
 
-router.put("/:id", async function (req, res, next) {
+router.put("/", async function (req, res, next) {
     try {
-        const idAllergenCat = req.params.id;
+        const idAllergenCat = req.query.id;
         const allergenCat = await allergenCatController.updateAllergenCat(idAllergenCat, req.body)
         if (!allergenCat) {
             return res.status(400).json({error: "Aucune Catégorie d'allergène avec cet id"});
