@@ -9,8 +9,9 @@ const port = process.env.PORT || 3333;
 const authorRoute = require("./routes/authorRoute");
 const ingredientCatRoute = require("./routes/ingredientCatRoute");
 const allergenCatRoute = require("./routes/allergenCatRoute");
-const uniteRoute = require("./routes/uniteRoute");
+const uniteRoute = require("./routes/unitRoute");
 const ingredientRoute = require("./routes/ingredientRoute");
+const stepRoute = require("./routes/stepRoute");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -20,6 +21,7 @@ app.use("/ingredientsCat", ingredientCatRoute)
 app.use("/allergenCat", allergenCatRoute)
 app.use("/unite", uniteRoute)
 app.use("/ingredient", ingredientRoute)
+app.use("/step", stepRoute)
 
 app.listen(port, () => {
   console.log(`Server is listening on port ${port}`);
