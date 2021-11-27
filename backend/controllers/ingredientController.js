@@ -29,8 +29,8 @@ async function createIngredient(body) {
         const idCategorieIngredient  = parseInt(body.idCategorieIngredient);
         const idCategorieAllergene  = parseInt(body.idCategorieAllergene);
         const idUnite  = parseInt(body.idUnite);
-        const nomIngredient  = parseInt(body.nomIngredient);
-        const prixUnitaireIngredient  = parseInt(body.prixUnitaireIngredient);
+        const nomIngredient  = body.nomIngredient;
+        const prixUnitaireIngredient  = body.prixUnitaireIngredient;
         const stock  = parseInt(body.stock);
 
         const res = await ingredientModel.createIngredient(idCategorieIngredient,idCategorieAllergene,idUnite,nomIngredient,prixUnitaireIngredient,stock);
@@ -57,12 +57,12 @@ async function deleteIngredient(id) {
 async function updateIngredient(id,body) {
     try {
         const newId = parseInt(id);
-        const idCategorieIngredient  = body.idCategorieIngredient;
-        const idCategorieAllergene  = body.idCategorieAllergene;
-        const idUnite  = body.idUnite;
+        const idCategorieIngredient  = parseInt(body.idCategorieIngredient) ;
+        const idCategorieAllergene  = parseInt(body.idCategorieAllergene) ;
+        const idUnite  = parseInt(body.idUnite);
         const nomIngredient  = body.nomIngredient;
         const prixUnitaireIngredient  = body.prixUnitaireIngredient;
-        const stock  = body.stock;
+        const stock  = parseInt(body.stock);
         console.log(idCategorieIngredient)
         console.log(idCategorieAllergene)
         console.log(idUnite)

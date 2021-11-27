@@ -36,14 +36,14 @@ CREATE TABLE Etape (
 
 );
 
-CREATE TABLE TypeFicheTechnique (
-    idTypeFicheTechnique serial PRIMARY KEY,
-    NomTypeFicheTechnique varchar(50) NOT NULL
+CREATE TABLE CategorieFicheTechnique (
+    idCategorieFicheTechnique serial PRIMARY KEY,
+    NomCategorieFicheTechnique varchar(50) NOT NULL
 );
 
 CREATE TABLE FicheTechnique (
     idFicheTechnique serial PRIMARY KEY,
-    idTypeFicheTechnique int REFERENCES  TypeFicheTechnique,
+    idCategorieFicheTechnique int REFERENCES  CategorieFicheTechnique,
     idAuteur int REFERENCES Auteur,
     nomPlat varchar(50) NOT NULL,
     nombreCouverts int,

@@ -11,6 +11,9 @@ const ingredientCatRoute = require("./routes/ingredientCatRoute");
 const allergenCatRoute = require("./routes/allergenCatRoute");
 const uniteRoute = require("./routes/uniteRoute");
 const ingredientRoute = require("./routes/ingredientRoute");
+const datasheetCatRoute = require("./routes/datasheetCatRoute")
+const datasheetRoute = require("./routes/datasheetRoute");
+const datasheetJoinRoute = require("./routes/datasheetJoinRoute");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -20,6 +23,9 @@ app.use("/ingredientsCat", ingredientCatRoute)
 app.use("/allergenCat", allergenCatRoute)
 app.use("/unite", uniteRoute)
 app.use("/ingredient", ingredientRoute)
+app.use("/datasheetCat", datasheetCatRoute)
+app.use("/datasheet", datasheetRoute)
+app.use("/datasheetJoin", datasheetJoinRoute)
 
 app.listen(port, () => {
   console.log(`Server is listening on port ${port}`);

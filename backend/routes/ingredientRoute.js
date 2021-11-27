@@ -37,8 +37,8 @@ router.post("/add", async function (req, res, next) {
 router.delete("/delete", async function (req, res, next) {
     try {
         const idIngredient = req.query.id;
-        const author = await ingredientController.deleteIngredient(idIngredient)
-        if (!author) {
+        const ingredient = await ingredientController.deleteIngredient(idIngredient)
+        if (!ingredient) {
             return res.status(400).json({error: "Aucun ingrédient avec cet id"});
         }
         res.status(200).json({ message: "Suppresion effectuée"})
@@ -52,8 +52,8 @@ router.put("/", async function (req, res, next) {
         const idIngredient = req.query.id;
         console.log(idIngredient)
         console.log(req.body)
-        const author = await ingredientController.updateIngredient(idIngredient, req.body)
-        if (!author) {
+        const ingredient = await ingredientController.updateIngredient(idIngredient, req.body)
+        if (!ingredient) {
             return res.status(400).json({error: "Aucun ingrédient avec cet id"});
         }
         res.status(200).json({ message: "Modification effectuée"})
