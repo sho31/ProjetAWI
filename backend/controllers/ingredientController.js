@@ -62,11 +62,7 @@ async function updateIngredient(id,body) {
         const idUnite  = parseInt(body.idUnite);
         const nomIngredient  = body.nomIngredient;
         const prixUnitaireIngredient  = body.prixUnitaireIngredient;
-        const stock  = parseInt(body.stock);
-        console.log(idCategorieIngredient)
-        console.log(idCategorieAllergene)
-        console.log(idUnite)
-        console.log(nomIngredient)
+        const stock  = parseInt(body.stock)
         const res = await ingredientModel.updateIngredient(newId,idCategorieIngredient,idCategorieAllergene,idUnite,nomIngredient,prixUnitaireIngredient,stock);
         if (res !== null) {
             if (res.rowCount > 0) {

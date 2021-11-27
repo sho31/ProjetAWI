@@ -9,8 +9,9 @@ const port = process.env.PORT || 3333;
 const authorRoute = require("./routes/authorRoute");
 const ingredientCatRoute = require("./routes/ingredientCatRoute");
 const allergenCatRoute = require("./routes/allergenCatRoute");
-const uniteRoute = require("./routes/uniteRoute");
+const uniteRoute = require("./routes/unitRoute");
 const ingredientRoute = require("./routes/ingredientRoute");
+const stepRoute = require("./routes/stepRoute");
 const datasheetCatRoute = require("./routes/datasheetCatRoute")
 const datasheetRoute = require("./routes/datasheetRoute");
 const datasheetJoinRoute = require("./routes/datasheetJoinRoute");
@@ -23,6 +24,7 @@ app.use("/ingredientsCat", ingredientCatRoute)
 app.use("/allergenCat", allergenCatRoute)
 app.use("/unite", uniteRoute)
 app.use("/ingredient", ingredientRoute)
+app.use("/step", stepRoute)
 app.use("/datasheetCat", datasheetCatRoute)
 app.use("/datasheet", datasheetRoute)
 app.use("/datasheetJoin", datasheetJoinRoute)

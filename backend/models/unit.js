@@ -2,7 +2,7 @@ const db = require("../dataBase");
 
 /* CRUD */
 
-async function createUnite(nomUnite) {
+async function createUnit(nomUnite) {
     try {
         const res = await db.query(
             "INSERT INTO Unite (nomUnite) VALUES($1);",
@@ -14,7 +14,7 @@ async function createUnite(nomUnite) {
     }
 }
 
-async function updateUnite(id, nomUnite) {
+async function updateUnit(id, nomUnite) {
     try {
         const res = await db.query(
             "UPDATE Unite SET nomUnite = $1 WHERE idUnite = $2;",
@@ -27,7 +27,7 @@ async function updateUnite(id, nomUnite) {
     }
 }
 
-async function deleteUnite(id) {
+async function deleteUnit(id) {
     try {
         console.log("test")
         const res = await db.query(
@@ -41,7 +41,7 @@ async function deleteUnite(id) {
     }
 }
 
-async function getAllUnites() {
+async function getAllUnits() {
     try {
         const res = await db.query("SELECT * FROM Unite;");
         return res;
@@ -50,7 +50,7 @@ async function getAllUnites() {
     }
 }
 
-async function getUniteById(id) {
+async function getUnitById(id) {
     try {
         const res = await db.query(
             "SELECT * FROM Unite WHERE idUnite = $1;",
@@ -62,10 +62,23 @@ async function getUniteById(id) {
     }
 }
 
+async function getUnitByName(nomUnite) {
+    try {
+        const res = await db.query(
+            "SELECT * FROM Unite WHERE nomUnite = $1;",
+            [nomUnite]
+        );
+        return res;
+    } catch (e) {
+        throw e;
+    }
+}
+
 module.exports = {
-    createUnite,
-    updateUnite,
-    deleteUnite,
-    getAllUnites,
-    getUniteById,
+    createUnit,
+    updateUnit,
+    deleteUnit,
+    getAllUnits,
+    getUnitById,
+    getUnitByName
 };

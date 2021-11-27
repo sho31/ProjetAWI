@@ -8,14 +8,17 @@ CREATE TABLE Auteur (
 CREATE TABLE CategorieIngredient (
     idCategorieIngredient serial PRIMARY KEY,
     nomCategorieIngredient varchar(50) NOT NULL
+    UNIQUE(nomCategorieIngredient)
 );
 CREATE TABLE Unite (
     idUnite serial PRIMARY KEY,
     nomUnite varchar(50) NOT NULL
+    UNIQUE(nomUnite)
 );
 CREATE TABLE CategorieAllergene (
     idCategorieAllergene serial PRIMARY KEY,
     categorieAllergene varchar(50) NOT NULL
+    UNIQUE(categorieAllergene)
 );
 CREATE TABLE Ingredient(
     idIngredient serial PRIMARY KEY,
@@ -25,6 +28,7 @@ CREATE TABLE Ingredient(
     nomIngredient varchar(50) NOT NULL,
     prixUnitaireIngredient numeric NOT NULL,
     stock int
+    UNIQUE(nomIngredient)
 
 );
 CREATE TABLE Etape (
