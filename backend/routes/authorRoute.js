@@ -3,7 +3,7 @@ const router = express.Router();
 
 const authorController = require("../controllers/authorController");
 
-router.get("/allAuthors", async function (req, res, next) {
+router.get("/all", async function (req, res, next) {
     try {
         const author = await authorController.getAllAuthors();
         res.status(200).json({ message: author})
@@ -25,7 +25,7 @@ router.get("/", async function (req, res, next) {
     }
 });
 
-router.post("/add", async function (req, res, next) {
+router.post("/", async function (req, res, next) {
     try {
         await authorController.createAuthor(req.body)
         res.status(200).json({ message:  "Ajout effectué"})
@@ -34,7 +34,7 @@ router.post("/add", async function (req, res, next) {
     }
 });
 
-router.delete("/delete", async function (req, res, next) {
+router.delete("/", async function (req, res, next) {
     try {
         const idAuthor = req.query.id;
         const author = await authorController.deleteAuthor(idAuthor)

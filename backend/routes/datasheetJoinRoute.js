@@ -3,7 +3,7 @@ const router = express.Router();
 
 const DatasheetJoinController = require("../controllers/datasheetJoinController");
 
-router.get("/allDatasheetJoins", async function (req, res, next) {
+router.get("/all", async function (req, res, next) {
     try {
         const DatasheetJoin = await DatasheetJoinController.getAllDatasheetJoins();
         res.status(200).json({ message: DatasheetJoin})
@@ -26,7 +26,7 @@ router.get("/", async function (req, res, next) {
     }
 });
 
-router.post("/add", async function (req, res, next) {
+router.post("/", async function (req, res, next) {
     try {
         await DatasheetJoinController.createDatasheetJoin(req.body)
         res.status(200).json({ message:  "Ajout effectué"})
@@ -35,7 +35,7 @@ router.post("/add", async function (req, res, next) {
     }
 });
 
-router.delete("/delete", async function (req, res, next) {
+router.delete("/", async function (req, res, next) {
     try {
         const idFicheTechniqueParent = req.query.idFicheTechniqueParent;
         const idFicheTechniqueFille = req.query.idFicheTechniqueFille;

@@ -3,7 +3,7 @@ const router = express.Router();
 
 const DatasheetController = require("../controllers/datasheetController");
 
-router.get("/allDatasheets", async function (req, res, next) {
+router.get("/all", async function (req, res, next) {
     try {
         const Datasheet = await DatasheetController.getAllDatasheets();
         res.status(200).json({ message: Datasheet})
@@ -25,7 +25,7 @@ router.get("/", async function (req, res, next) {
     }
 });
 
-router.post("/add", async function (req, res, next) {
+router.post("/", async function (req, res, next) {
     try {
         await DatasheetController.createDatasheet(req.body)
         res.status(200).json({ message:  "Ajout effectué"})
@@ -35,7 +35,7 @@ router.post("/add", async function (req, res, next) {
     }
 });
 
-router.delete("/delete", async function (req, res, next) {
+router.delete("/", async function (req, res, next) {
     try {
         const idDatasheet = req.query.id;
         const Datasheet = await DatasheetController.deleteDatasheet(idDatasheet)

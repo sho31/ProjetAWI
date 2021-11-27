@@ -3,7 +3,7 @@ const router = express.Router();
 
 const ingredientCatController = require("../controllers/ingredientCatController");
 
-router.get("/allIngredientCats", async function (req, res, next) {
+router.get("/all", async function (req, res, next) {
     try {
         const ingredientCat = await ingredientCatController.getAllIngredientCats();
         res.status(200).json({ message: ingredientCat})
@@ -25,7 +25,7 @@ router.get("/", async function (req, res, next) {
     }
 });
 
-router.post("/add", async function (req, res, next) {
+router.post("/", async function (req, res, next) {
     try {
         await ingredientCatController.createIngredientCat(req.body)
         res.status(200).json({ message:  "Ajout effectué"})
@@ -34,7 +34,7 @@ router.post("/add", async function (req, res, next) {
     }
 });
 
-router.delete("/delete", async function (req, res, next) {
+router.delete("/", async function (req, res, next) {
     try {
         const idIngredientCat = req.query.id;
         const ingredientCat = await ingredientCatController.deleteIngredientCat(idIngredientCat)

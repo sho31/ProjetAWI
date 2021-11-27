@@ -3,7 +3,7 @@ const router = express.Router();
 
 const stepController = require("../controllers/stepController");
 
-router.get("/allSteps", async function (req, res, next) {
+router.get("/all", async function (req, res, next) {
     try {
         const ingredient = await stepController.getAllSteps();
         res.status(200).json({ message: ingredient})
@@ -25,7 +25,7 @@ router.get("/", async function (req, res, next) {
     }
 });
 
-router.post("/add", async function (req, res, next) {
+router.post("/", async function (req, res, next) {
     try {
         await stepController.createStep(req.body)
         res.status(200).json({ message:  "Ajout effectué"})
@@ -34,7 +34,7 @@ router.post("/add", async function (req, res, next) {
     }
 });
 
-router.delete("/delete", async function (req, res, next) {
+router.delete("/", async function (req, res, next) {
     try {
         const idStep = req.query.id;
         const step = await stepController.deleteStep(idStep)

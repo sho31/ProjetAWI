@@ -1,8 +1,8 @@
-const uniteModel = require("../models/unit")
+const unitModel = require("../models/unit")
 
 async function getAllUnits() {
     try {
-        const res = await uniteModel.getAllUnits()
+        const res = await unitModel.getAllUnits()
         return res.rows
     } catch (e) {
         throw e;
@@ -11,7 +11,7 @@ async function getAllUnits() {
 
 async function getUnitById(id) {
     try {
-        const res = await uniteModel.getUnitById(id)
+        const res = await unitModel.getUnitById(id)
         if (res !== null) {
             if (res.rowCount > 0) {
                 return res.rows;
@@ -25,7 +25,7 @@ async function getUnitById(id) {
 
 async function getUnitByName(nomUnite) {
     try {
-        const res = await uniteModel.getUnitByName(nomUnite)
+        const res = await unitModel.getUnitByName(nomUnite)
         if (res !== null) {
             if (res.rowCount > 0) {
                 return res.rows;
@@ -40,7 +40,7 @@ async function getUnitByName(nomUnite) {
 async function createUnit(body) {
     try {
         const nomUnite = body.nomUnite;
-        const res = await uniteModel.createUnit(nomUnite);
+        const res = await unitModel.createUnit(nomUnite);
         return res;
     } catch (e) {
         throw e;
@@ -49,7 +49,7 @@ async function createUnit(body) {
 
 async function deleteUnit(id) {
     try {
-        const res = await uniteModel.deleteUnit(id)
+        const res = await unitModel.deleteUnit(id)
         if (res !== null) {
             if (res.rowCount > 0) {
                 return res;
@@ -66,7 +66,7 @@ async function updateUnit(id,body) {
         const newId = parseInt(id);
         const nomUnite = body.nomUnite;
 
-        const res = await uniteModel.updateUnit(newId,nomUnite)
+        const res = await unitModel.updateUnit(newId,nomUnite)
         if (res !== null) {
             if (res.rowCount > 0) {
                 return res;

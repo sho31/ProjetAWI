@@ -3,7 +3,7 @@ const router = express.Router();
 
 const DatasheetCatController = require("../controllers/datasheetCatController");
 
-router.get("/allDatasheetCats", async function (req, res, next) {
+router.get("/all", async function (req, res, next) {
     try {
         const DatasheetCat = await DatasheetCatController.getAllDatasheetCats();
         res.status(200).json({ message: DatasheetCat})
@@ -25,7 +25,7 @@ router.get("/", async function (req, res, next) {
     }
 });
 
-router.post("/add", async function (req, res, next) {
+router.post("/", async function (req, res, next) {
     try {
         await DatasheetCatController.createDatasheetCat(req.body)
         res.status(200).json({ message:  "Ajout effectué"})
@@ -34,7 +34,7 @@ router.post("/add", async function (req, res, next) {
     }
 });
 
-router.delete("/delete", async function (req, res, next) {
+router.delete("/", async function (req, res, next) {
     try {
         const id = req.query.id;
         const DatasheetCat = await DatasheetCatController.deleteDatasheetCat(id)
