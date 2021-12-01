@@ -6,7 +6,7 @@ const stepController = require("../controllers/stepController");
 router.get("/all", async function (req, res, next) {
     try {
         const ingredient = await stepController.getAllSteps();
-        res.status(200).json({ message: ingredient})
+        res.status(200).json(ingredient)
     } catch (e) {
         res.status(500).json({ message: "can't load data" });
     }
@@ -19,7 +19,7 @@ router.get("/", async function (req, res, next) {
         if (!step) {
             return res.status(400).json({error: "Aucune étape"});
         }
-        res.status(200).json({ message: step})
+        res.status(200).json(step)
     } catch (e) {
         return res.status(500).json({error: "Impossible d'accéder à la liste des étapes"});
     }

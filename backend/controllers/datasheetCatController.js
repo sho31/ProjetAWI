@@ -25,7 +25,7 @@ async function getDatasheetCatByID(id) {
 
 async function createDatasheetCat(body) {
     try {
-        const nomCategorieFicheTechnique = body.nomCategorieFicheTechnique;
+        const nomCategorieFicheTechnique = body.nomcategoriefichetechnique;
         const res = await DatasheetCatModel.createDatasheetCat(nomCategorieFicheTechnique);
         return res;
     } catch (e) {
@@ -50,7 +50,7 @@ async function deleteDatasheetCat(id) {
 async function updateDatasheetCat(id,body) {
     try {
         const newId = parseInt(id);
-        const nomCategorieFicheTechnique = body.nomCategorieFicheTechnique;
+        const nomCategorieFicheTechnique = body.nomcategoriefichetechnique;
 
         const res = await DatasheetCatModel.updateDatasheetCat(newId,nomCategorieFicheTechnique)
         if (res !== null) {

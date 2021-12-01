@@ -6,7 +6,7 @@ const DatasheetCatController = require("../controllers/datasheetCatController");
 router.get("/all", async function (req, res, next) {
     try {
         const DatasheetCat = await DatasheetCatController.getAllDatasheetCats();
-        res.status(200).json({ message: DatasheetCat})
+        res.status(200).json(DatasheetCat)
     } catch (e) {
         res.status(500).json({ message: "can't load data" });
     }
@@ -15,11 +15,12 @@ router.get("/all", async function (req, res, next) {
 router.get("/", async function (req, res, next) {
     try {
         const id = req.query.id;
+        console.log(id)
         const DatasheetCat = await DatasheetCatController.getDatasheetCatByID(id)
         if (!DatasheetCat) {
             return res.status(400).json({error: "Aucune Catégorie de fiche technique"});
         }
-        res.status(200).json({ message: DatasheetCat})
+        res.status(200).json(DatasheetCat)
     } catch (e) {
         return res.status(500).json({error: "Impossible d'accéder à la liste des catégories de fiches techniques"});
     }

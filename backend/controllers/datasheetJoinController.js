@@ -25,9 +25,9 @@ async function getDatasheetJoinByID(idFicheTechniqueParent, idFicheTechniqueFill
 
 async function createDatasheetJoin(body) {
     try {
-        const idFicheTechniqueParent = body.idFicheTechniqueParent;
-        const idFicheTechniqueFille = body.idFicheTechniqueFille;
-        const numEtape = body.numEtape;
+        const idFicheTechniqueParent = body.idfichetechniqueparent;
+        const idFicheTechniqueFille = body.idfichetechniquefille;
+        const numEtape = body.numetape;
 
         const res = await DatasheetJoinModel.createDatasheetJoin(idFicheTechniqueParent,idFicheTechniqueFille, numEtape);
         return res;
@@ -53,7 +53,7 @@ async function deleteDatasheetJoin(idFicheTechniqueParent, idFicheTechniqueFille
 async function updateDatasheetJoin(idFicheTechniqueParent, idFicheTechniqueFille, body) {
     try {
         
-        const newNumEtape = body.numEtape;
+        const newNumEtape = body.numetape;
         const res = await DatasheetJoinModel.updateDatasheetJoin(idFicheTechniqueParent,idFicheTechniqueFille, newNumEtape)
         if (res !== null) {
             if (res.rowCount > 0) {

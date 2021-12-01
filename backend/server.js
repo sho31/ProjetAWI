@@ -3,7 +3,8 @@ require("dotenv").config();
 const express = require("express");
 const app = express();
 const port = process.env.PORT || 3333;
-
+const cors = require('cors')
+app.use(cors());
 /* ROUTES */
 //const userRoute = require("./routes/dataSheetRoute");
 const authorRoute = require("./routes/authorRoute");
@@ -19,7 +20,7 @@ const datasheetJoinRoute = require("./routes/datasheetJoinRoute");
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use("/author", authorRoute);
-app.use("/ingredientsCat", ingredientCatRoute);
+app.use("/ingredientCat", ingredientCatRoute);
 app.use("/allergenCat", allergenCatRoute);
 app.use("/unit", unitRoute);
 app.use("/ingredient", ingredientRoute);

@@ -25,10 +25,10 @@ async function getStepById(id) {
 
 async function createStep(body) {
     try {
-        const idFicheTechnique  = parseInt(body.idFicheTechnique);
-        const titreEtape  = body.titreEtape;
-        const descriptionEtape  = body.descriptionEtape;
-        const tempsEtape  = body.tempsEtape;
+        const idFicheTechnique  = parseInt(body.idfichetechnique);
+        const titreEtape  = body.titreetape;
+        const descriptionEtape  = body.descriptionetape;
+        const tempsEtape  = body.tempsetape;
 
         const res = await stepModel.createStep(idFicheTechnique,titreEtape,descriptionEtape,tempsEtape);
         return res;
@@ -54,10 +54,10 @@ async function deleteStep(id) {
 async function updateStep(id,body) {
     try {
         const newId = parseInt(id);
-        const idFicheTechnique  = parseInt(body.idFicheTechnique);
-        const titreEtape  = body.titreEtape;
-        const descriptionEtape  = body.descriptionEtape;
-        const tempsEtape  = body.tempsEtape;
+        const idFicheTechnique  = parseInt(body.idfichetechnique);
+        const titreEtape  = body.titreetape;
+        const descriptionEtape  = body.descriptionetape;
+        const tempsEtape  = body.tempsetape;
 
         const res = await stepModel.updateStep(newId,idFicheTechnique,titreEtape,descriptionEtape,tempsEtape);
         if (res !== null) {

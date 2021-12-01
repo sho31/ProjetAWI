@@ -25,10 +25,10 @@ async function getDatasheetByID(id) {
 
 async function createDatasheet(body) {
     try {
-        const idCategorieFicheTechnique = parseInt(body.idCategorieFicheTechnique);
-        const idAuteur = parseInt(body.idAuteur);
-        const nomPlat = body.nomPlat;
-        const nombreCouverts = parseInt(body.nombreCouverts);
+        const idCategorieFicheTechnique = parseInt(body.idcategoriefichetechnique);
+        const idAuteur = parseInt(body.idauteur);
+        const nomPlat = body.nomplat;
+        const nombreCouverts = parseInt(body.nombrecouverts);
         const image = body.image;
 
         const res = await DatasheetModel.createDatasheet(idCategorieFicheTechnique, idAuteur, nomPlat, nombreCouverts, image);
@@ -55,10 +55,10 @@ async function deleteDatasheet(id) {
 async function updateDatasheet(id,body) {
     try {
         var newId = parseInt(id);
-        const idCategorieFicheTechnique = parseInt(body.idCategorieFicheTechnique);
-        const idAuteur = parseInt(body.idAuteur);
-        const nomPlat = body.nomPlat;
-        const nombreCouverts = parseInt(body.nombreCouverts);
+        const idCategorieFicheTechnique = parseInt(body.idcategoriefichetechnique);
+        const idAuteur = parseInt(body.idauteur);
+        const nomPlat = body.nomplat;
+        const nombreCouverts = parseInt(body.nombrecouverts);
         const image = body.image;
         const res = await DatasheetModel.updateDatasheet(newId,idCategorieFicheTechnique, idAuteur, nomPlat, nombreCouverts, image)
         if (res !== null) {

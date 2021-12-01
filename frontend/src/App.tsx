@@ -1,7 +1,9 @@
-import React from "react";
+import React from 'react';
+import MercurialPage from "./components/MercurialPage";
 
-function App() {
-  return <>Bienvenue sur notre site de Gestion de Fiches Techniques</>;
-}
-
+const App = () => {
+  return (
+      <MercurialPage></MercurialPage>
+  );
+};
 export default App;

@@ -25,8 +25,8 @@ async function getAuthorByID(id) {
 
 async function createAuthor(body) {
     try {
-        const prenomAuteur  = body.prenomAuteur;
-        const nomAuteur = body.nomAuteur;
+        const prenomAuteur  = body.prenomauteur;
+        const nomAuteur = body.nomauteur;
 
         const res = await authorModel.createAuthor(prenomAuteur,nomAuteur);
         return res;
@@ -52,8 +52,8 @@ async function deleteAuthor(id) {
 async function updateAuthor(id,body) {
     try {
         var newId = parseInt(id);
-        const prenomAuteur  = body.prenomAuteur;
-        const nomAuteur = body.nomAuteur;
+        const prenomAuteur  = body.prenomauteur;
+        const nomAuteur = body.nomauteur;
         const res = await authorModel.updateAuthor(newId,prenomAuteur,nomAuteur)
         if (res !== null) {
             if (res.rowCount > 0) {

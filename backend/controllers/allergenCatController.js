@@ -25,7 +25,7 @@ async function getAllergenCatByID(id) {
 
 async function createAllergenCat(body) {
     try {
-        const nomCategorieAllergene = body.categorieAllergene;
+        const nomCategorieAllergene = body.categorieallergene;
         const res = await allergenCatModel.createAllergenCat(nomCategorieAllergene);
         return res;
     } catch (e) {

@@ -33,7 +33,6 @@ async function deleteIngredient(id) {
             "DELETE FROM ingredient WHERE idingredient = $1;",
             [id]
         );
-        console.log(res)
         return res;
     } catch (e) {
         throw e;
@@ -61,10 +60,23 @@ async function getIngredientById(id) {
     }
 }
 
+async function getIngredientByCatIngredient(idCatIng) {
+    try {
+        const res = await db.query(
+            "SELECT * FROM ingredient WHERE idcategorieingredient = $1;",
+            [idCatIng]
+        );
+        return res;
+    } catch (e) {
+        throw e;
+    }
+}
+
 module.exports = {
     createIngredient,
     updateIngredient,
     deleteIngredient,
     getAllIngredients,
     getIngredientById,
+    getIngredientByCatIngredient,
 };

@@ -6,7 +6,7 @@ const allergenCatController = require("../controllers/allergenCatController");
 router.get("/all", async function (req, res, next) {
     try {
         const allergenCat = await allergenCatController.getAllAllergenCats();
-        res.status(200).json({ message: allergenCat})
+        res.status(200).json(allergenCat)
     } catch (e) {
         res.status(500).json({ message: "can't load data" });
     }

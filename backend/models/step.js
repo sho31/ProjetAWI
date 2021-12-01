@@ -33,7 +33,6 @@ async function deleteStep(id) {
             "DELETE FROM etape WHERE idEtape = $1;",
             [id]
         );
-        console.log(res)
         return res;
     } catch (e) {
         throw e;
