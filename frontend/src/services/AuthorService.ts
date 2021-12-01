@@ -11,7 +11,7 @@ const get = (id: any) => {
 };
 
 const create = (data: AuthorData) => {
-    return http.post<AuthorData>("/tutorials", data);
+    return http.post<AuthorData>("/author", data);
 };
 
 const update = (id: any, data: AuthorData) => {

@@ -15,7 +15,6 @@ router.get("/all", async function (req, res, next) {
 router.get("/", async function (req, res, next) {
     try {
         const id = req.query.id;
-        console.log(id)
         const DatasheetCat = await DatasheetCatController.getDatasheetCatByID(id)
         if (!DatasheetCat) {
             return res.status(400).json({error: "Aucune Catégorie de fiche technique"});

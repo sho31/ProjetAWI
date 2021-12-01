@@ -50,8 +50,6 @@ router.delete("/", async function (req, res, next) {
 router.put("/", async function (req, res, next) {
     try {
         const idIngredient = req.query.id;
-        console.log(idIngredient)
-        console.log(req.body)
         const ingredient = await ingredientController.updateIngredient(idIngredient, req.body)
         if (!ingredient) {
             return res.status(400).json({error: "Aucun ingrédient avec cet id"});

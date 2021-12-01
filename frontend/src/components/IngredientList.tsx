@@ -1,5 +1,6 @@
 import React, { useState, useEffect} from "react";
 import CatIngredientService from "../services/CatIngredientService";
+import IngredientService from "../services/IngredientService";
 import ITutorialData from '../types/Ingredient';
 
 interface Props {
@@ -19,6 +20,16 @@ const IngredientsList: React.FC<Props>= (props) => {
             });
     };
 
+    const deleteTutorial = async (id: number) => {
+        await IngredientService.remove(id)
+            .then((response: any) => {
+                console.log(response.data);
+            })
+            .catch((e: Error) => {
+                console.log(e);
+            });
+    };
+
     useEffect(() => {
         retrieveIngredients();
     }, []);
@@ -29,7 +40,14 @@ const IngredientsList: React.FC<Props>= (props) => {
                 <ul>
                     {ingredients &&
                     ingredients.map((ingredient) => (
-                        <li>{ingredient.nomingredient} prix : {ingredient.prixunitaireingredient} stock : {ingredient.stock}</li>))}
+                        <li key={ingredient.idingredient}>{ingredient.nomingredient} prix : {ingredient.prixunitaireingredient} stock : {ingredient.stock}
+                            <button className="badge badge-danger mr-2"
+                                    onClick={() => deleteTutorial(ingredient.idingredient)}
+                            >
+                                Delete
+                            </button>
+                        </li>
+                    ))}
                 </ul>
             </div>
         </div>
