@@ -29,7 +29,6 @@ router.get("/", async function (req, res, next) {
 router.get("/:idcategorieingredient", async function (req, res, next) {
     try {
         const catId = req.params.idcategorieingredient;
-        console.log(catId)
         const ingredient = await ingredientCatController.getAllIngredientByCatIngredient(catId)
         if (!ingredient) {
             return res.status(400).json({error: "Aucun ingrédient"});

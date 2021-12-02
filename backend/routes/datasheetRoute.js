@@ -51,8 +51,6 @@ router.delete("/", async function (req, res, next) {
 router.put("/", async function (req, res, next) {
     try {
         const idDatasheet = req.query.id;
-        console.log(idDatasheet)
-        console.log(req.body)
         const Datasheet = await DatasheetController.updateDatasheet(idDatasheet, req.body)
         if (!Datasheet) {
             return res.status(400).json({error: "Aucune fiche technique avec cet id"});

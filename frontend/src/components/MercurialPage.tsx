@@ -1,7 +1,7 @@
 import React, { useState, useEffect} from "react";
 import CatIngredientService from "../services/CatIngredientService";
 import CatIngredientData from '../types/CatIngredient';
-import Ingredient from "./IngredientList";
+import IngredientList from "./IngredientList";
 
 const MercurialPage: React.FC = () => {
     const [catIngredients, setCatIngredients] = useState<Array<CatIngredientData>>([]);
@@ -18,20 +18,17 @@ const MercurialPage: React.FC = () => {
     useEffect(() => {
         retrieveMercurial();
     }, []);
-
     return (
         <div>
             <div>
                 <h2>Mercurial</h2>
-                <h3>Ajouter des ingrédients</h3>
-
                 <h3>Liste des ingrédients</h3>
                 <ul>
                     {catIngredients &&
                     catIngredients.map((catIngredient) => (
-                        <li  key="unique">{catIngredient.nomcategorieingredient}
-                            <Ingredient id={catIngredient.idcategorieingredient}>
-                            </Ingredient>
+                        <li  key={catIngredient.idcategorieingredient}>{catIngredient.nomcategorieingredient}
+                            <IngredientList id={catIngredient.idcategorieingredient}>
+                            </IngredientList>
                         </li>
                         ))}
                 </ul>

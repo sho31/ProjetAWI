@@ -27,6 +27,7 @@ router.get("/", async function (req, res, next) {
 
 router.post("/", async function (req, res, next) {
     try {
+        console.log('dans le create')
         await authorController.createAuthor(req.body)
         res.status(200).json({ message:  "Ajout effectué"})
     } catch (e) {

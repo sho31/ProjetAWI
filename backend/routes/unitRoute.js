@@ -6,7 +6,6 @@ const unitController = require("../controllers/unitController");
 router.get("/all", async function (req, res, next) {
     try {
         const unit = await unitController.getAllUnits();
-        console.log("Requete bien recue")
         res.status(200).json(unit)
     } catch (e) {
         res.status(500).json({ message: "can't load data" });
