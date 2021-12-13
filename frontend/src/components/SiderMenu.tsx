@@ -3,12 +3,10 @@ import {
     DesktopOutlined,
     PieChartOutlined,
     FileOutlined,
-    TeamOutlined,
-    UserOutlined,
 } from '@ant-design/icons';
 import React from "react";
+import MercurialPage from "./MercurialPage";
 const { Header, Content, Footer, Sider } = Layout;
-const { SubMenu } = Menu;
 
 class SiderMenu extends React.Component {
     state = {
@@ -28,22 +26,16 @@ class SiderMenu extends React.Component {
                     <div>logo</div>
                     <Menu defaultSelectedKeys={['1']} mode="inline">
                         <Menu.Item key="1" icon={<PieChartOutlined />}>
-                            Option 1
+                          Accueil
                         </Menu.Item>
-                        <Menu.Item key="2" icon={<DesktopOutlined />}>
-                            Option 2
+                        <Menu.Item key="2" icon={<FileOutlined />}>
+                            Créer une FT
                         </Menu.Item>
-                        <SubMenu key="sub1" icon={<UserOutlined />} title="User">
-                            <Menu.Item key="3">Tom</Menu.Item>
-                            <Menu.Item key="4">Bill</Menu.Item>
-                            <Menu.Item key="5">Alex</Menu.Item>
-                        </SubMenu>
-                        <SubMenu key="sub2" icon={<TeamOutlined />} title="Team">
-                            <Menu.Item key="6">Team 1</Menu.Item>
-                            <Menu.Item key="8">Team 2</Menu.Item>
-                        </SubMenu>
-                        <Menu.Item key="9" icon={<FileOutlined />}>
-                            Files
+                        <Menu.Item key="3" icon={<DesktopOutlined />}>
+                          Ingrédients
+                        </Menu.Item>
+                        <Menu.Item key="4" icon={<DesktopOutlined />}>
+                            Stocks
                         </Menu.Item>
                     </Menu>
                 </Sider>

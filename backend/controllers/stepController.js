@@ -23,14 +23,28 @@ async function getStepById(id) {
     }
 }
 
+async function getStepByDataSheet(id) {
+    try {
+        const res = await stepModel.getStepByDataSheed(id)
+        if (res !== null) {
+            if (res.rowCount > 0) {
+                return res.rows;
+            }
+        }
+        return null;
+    } catch (e) {
+        throw e;
+    }
+}
 async function createStep(body) {
     try {
         const idFicheTechnique  = parseInt(body.idfichetechnique);
         const titreEtape  = body.titreetape;
         const descriptionEtape  = body.descriptionetape;
         const tempsEtape  = body.tempsetape;
+        const numEtape  = body.numetape;
 
-        const res = await stepModel.createStep(idFicheTechnique,titreEtape,descriptionEtape,tempsEtape);
+        const res = await stepModel.createStep(idFicheTechnique,titreEtape,descriptionEtape,tempsEtape,numEtape);
         return res;
     } catch (e) {
         throw e;
@@ -58,8 +72,9 @@ async function updateStep(id,body) {
         const titreEtape  = body.titreetape;
         const descriptionEtape  = body.descriptionetape;
         const tempsEtape  = body.tempsetape;
+        const numEtape  = body.numetape;
 
-        const res = await stepModel.updateStep(newId,idFicheTechnique,titreEtape,descriptionEtape,tempsEtape);
+        const res = await stepModel.updateStep(newId,idFicheTechnique,titreEtape,descriptionEtape,tempsEtape,numEtape);
         if (res !== null) {
             if (res.rowCount > 0) {
                 return res;
@@ -76,5 +91,6 @@ module.exports = {
     updateStep,
     deleteStep,
     getAllSteps,
-    getStepById
+    getStepById,
+    getStepByDataSheet,
 };

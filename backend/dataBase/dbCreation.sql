@@ -34,8 +34,8 @@ CREATE TABLE Ingredient(
 CREATE TABLE Etape (
     idEtape serial PRIMARY KEY,
     idFicheTechnique int REFERENCES FicheTechnique,
-    titreEtape varchar(50) NOT NULL,
-    descriptionEtape varchar(50) NOT NULL,
+    titreEtape varchar(500) NOT NULL,
+    descriptionEtape varchar(50000) NOT NULL,
     tempsEtape numeric NOT NULL
 
 );

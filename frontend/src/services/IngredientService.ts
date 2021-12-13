@@ -14,6 +14,7 @@ const remove = async (id: any) => {
     return await http.delete<any>(`/ingredient/?id=${id}`);
 };
 
+
 const IngredientService = {
     getAllIngredients,
     update,

@@ -25,6 +25,20 @@ router.get("/", async function (req, res, next) {
     }
 });
 
+router.get("/bydatasheet", async function (req, res, next) {
+    try {
+        const idStep = req.query.id;
+        const step = await stepController.getStepByDataSheet(idStep)
+        console.log(step)
+        if (!step) {
+            return res.status(400).json({error: "Aucune étape"});
+        }
+        res.status(200).json(step)
+    } catch (e) {
+        return res.status(500).json({error: "Impossible d'accéder à la liste des étapes"});
+    }
+});
+
 router.post("/", async function (req, res, next) {
     try {
         await stepController.createStep(req.body)

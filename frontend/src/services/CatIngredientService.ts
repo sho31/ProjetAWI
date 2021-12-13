@@ -6,6 +6,7 @@ const getAllCatIngredients = async () => {
     const tmp = await http.get<Array<ITCatIngredientData>>("/ingredientCat/all");
     return tmp.data;
 };
+
 const getIngredientByCat = async (id: any) => {
     const tmp = await http.get<Array<ITIngredientData>>(`/ingredientCat/${id}`);
     return tmp.data;
