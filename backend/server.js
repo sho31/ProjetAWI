@@ -16,6 +16,7 @@ const stepRoute = require("./routes/stepRoute");
 const datasheetCatRoute = require("./routes/datasheetCatRoute")
 const datasheetRoute = require("./routes/datasheetRoute");
 const datasheetJoinRoute = require("./routes/datasheetJoinRoute");
+const ingredientStepRoute = require("./routes/ingredientStepJoinRoute")
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -28,6 +29,7 @@ app.use("/step", stepRoute);
 app.use("/datasheetCat", datasheetCatRoute);
 app.use("/datasheet", datasheetRoute);
 app.use("/datasheetJoin", datasheetJoinRoute);
+app.use("/ingredientStepJoin", ingredientStepRoute);
 app.use("/", (req, res) => {res.send("Please select a correct route")});
 
 
