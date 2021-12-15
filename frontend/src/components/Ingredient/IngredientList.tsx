@@ -58,7 +58,6 @@ const IngredientsList: React.FC<Props>= (props) => {
                             <a href="#"><Button type="primary" danger>Delete</Button></a>
                         </Popconfirm>
                     </Space>
-
                 )}
             />
         </Table>

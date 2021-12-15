@@ -10,7 +10,6 @@ interface Props {
 }
 
 const HeaderDataSheet: React.FC<Props> = (props: Props) => {
-
     const [dataSheet, setdataSheet] = useState<DatasheetData>();
 
     useEffect(() => {
@@ -32,12 +31,13 @@ const HeaderDataSheet: React.FC<Props> = (props: Props) => {
             { dataSheet &&
             <p>
                 <Card title={dataSheet.nomplat} bordered={false}>
-                    <p><img src={Image} /></p>
+                    <p><img src={Image} alt={"burger"} /></p>
                     <p>Nombre de couverts : {dataSheet.nombrecouverts}</p>
                 </Card>
                 <Realization id={dataSheet.idfichetechnique} nbCouverts={dataSheet.nombrecouverts}/>
             </p>
         }
+
         </>
     );
 };
