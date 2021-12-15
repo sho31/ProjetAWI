@@ -44,10 +44,10 @@ async function getAllDatasheetJoins() {
     }
 }
 
-async function getDatasheetJoinByID(idFicheTechniqueParent, idFicheTechniqueFille) {
+async function getDatasheetJoinByID(idFicheTechniqueParent) {
     try {
-        const res = await db.query("SELECT * FROM FicheTechniqueJointure WHERE idfichetechniqueparent = $1 AND idfichetechniquefille = $2;",
-            [idFicheTechniqueParent, idFicheTechniqueFille]);
+        const res = await db.query("SELECT * FROM FicheTechniqueJointure WHERE idfichetechniqueparent = $1;",
+            [idFicheTechniqueParent]);
         return res;
     } catch (e) {
         throw e;

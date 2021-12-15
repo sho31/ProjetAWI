@@ -8,7 +8,7 @@ const getAllDataSheets = async () => {
 };
 
 const getStepsByDataSheet = async (id: any) => {
-    const tmp = await http.get<Array<StepsData>>("/step/bydatasheet?id=${id}");
+    const tmp = await http.get<Array<StepsData>>(`/step/bydatasheet?id=${id}`);
     return tmp.data;
 };
 

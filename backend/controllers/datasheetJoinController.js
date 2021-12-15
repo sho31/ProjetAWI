@@ -9,9 +9,9 @@ async function getAllDatasheetJoins() {
     }
 }
 
-async function getDatasheetJoinByID(idFicheTechniqueParent, idFicheTechniqueFille) {
+async function getDatasheetJoinByID(idFicheTechniqueParent) {
     try {
-        const res = await DatasheetJoinModel.getDatasheetJoinByID(idFicheTechniqueParent, idFicheTechniqueFille)
+        const res = await DatasheetJoinModel.getDatasheetJoinByID(idFicheTechniqueParent)
         if (res !== null) {
             if (res.rowCount > 0) {
                 return res.rows;

@@ -2,8 +2,8 @@ import React, { useState, useEffect} from "react";
 import CatIngredientService from "../services/CatIngredientService";
 import CatIngredientData from '../types/CatIngredient';
 import IngredientList from "./Ingredient/IngredientList";
-import { Typography, Space } from 'antd';
-const { Title, Link } = Typography;
+import { Typography } from 'antd';
+const { Title } = Typography;
 
 const MercurialPage: React.FC = () => {
     const [catIngredients, setCatIngredients] = useState<Array<CatIngredientData>>([]);

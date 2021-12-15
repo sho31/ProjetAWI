@@ -23,9 +23,9 @@ async function getStepById(id) {
     }
 }
 
-async function getStepByDataSheet(id) {
+async function getStepByDataSheetId(idFicheTechnique) {
     try {
-        const res = await stepModel.getStepByDataSheed(id)
+        const res = await stepModel.getStepByDataSheetId(idFicheTechnique)
         if (res !== null) {
             if (res.rowCount > 0) {
                 return res.rows;
@@ -92,5 +92,5 @@ module.exports = {
     deleteStep,
     getAllSteps,
     getStepById,
-    getStepByDataSheet,
+    getStepByDataSheetId,
 };

@@ -1,5 +1,5 @@
 export default class Datasheet {
-    idfichetechnique: number | null;
+    idfichetechnique: number;
     idcategoriefichetechnique: number | null;
     idauteur: number | null;
     nomplat: string;

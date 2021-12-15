@@ -2,48 +2,43 @@ import React, {useState, useEffect} from "react";
 import DataSheetService from "../../services/DataSheetService";
 import DatasheetData from "../../types/Datasheet";
 import Image from '../../images/burger.jpg';
-import {Card, Col, Row} from "antd";
+import {Card} from "antd";
+import Realization from "./Realization";
 
 interface Props {
     id: number;
 }
 
+const HeaderDataSheet: React.FC<Props> = (props: Props) => {
 
-const HeaderDataSheet: React.FC<Props> = (props) => {
-    const initialDataSheet = {
-        idfichetechnique: null,
-        idcategoriefichetechnique: null,
-        idauteur: null,
-        nomplat: "",
-        nombrecouverts: 0,
-        image: "",
-    };
-    const [dataSheet, setdataSheet] = useState<DatasheetData>(initialDataSheet);
-
-    const retrieveTutorials = async () => {
-        await DataSheetService.getDataSheetByID(props.id)
-            .then((response: any) => {
-                setdataSheet(response);
-            })
-            .catch((e: Error) => {
-                console.log(e);
-            });
-    };
+    const [dataSheet, setdataSheet] = useState<DatasheetData>();
 
     useEffect(() => {
-        retrieveTutorials();
-    }, []);
+        const retrieveTutorials = async (id : number) => {
+            await DataSheetService.getDataSheetByID(id)
+                .then((response: any) => {
+                    setdataSheet(response);
+                })
+                .catch((e: Error) => {
+                    console.log(e);
+                });
+        };
+
+        retrieveTutorials(props.id).then(r => "ok");
+    }, [props.id]);
 
     return (
-
-        <div>
-            <div className="site-card-border-less-wrapper">
+        <>
+            { dataSheet &&
+            <p>
                 <Card title={dataSheet.nomplat} bordered={false}>
                     <p><img src={Image} /></p>
                     <p>Nombre de couverts : {dataSheet.nombrecouverts}</p>
                 </Card>
-            </div>
-        </div>
+                <Realization id={dataSheet.idfichetechnique} nbCouverts={dataSheet.nombrecouverts}/>
+            </p>
+        }
+        </>
     );
 };
 

@@ -17,7 +17,7 @@ router.get("/", async function (req, res, next) {
         const idEtape = req.query.idEtape;
         const ingredientStepJoin = await IngredientStepJoinController.getIngredientStepJoinByStepId(idEtape)
         if (!ingredientStepJoin) {
-            return res.status(400).json({error: "Aucune IngredientEtapeJointure avec ces id : il faut entrer idEtape et idIngredient en paramètres de query"});
+            return res.status(204);
         }
         res.status(200).json(ingredientStepJoin)
     } catch (e) {

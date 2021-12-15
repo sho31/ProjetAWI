@@ -5,8 +5,7 @@ import {
     FileOutlined,
 } from '@ant-design/icons';
 import React from "react";
-import MercurialPage from "./MercurialPage";
-const { Header, Content, Footer, Sider } = Layout;
+const {Content, Footer, Sider } = Layout;
 
 class SiderMenu extends React.Component {
     state = {

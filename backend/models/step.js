@@ -41,7 +41,7 @@ async function deleteStep(id) {
 
 async function getAllSteps() {
     try {
-        const res = await db.query("SELECT * FROM etape;");
+        const res = await db.query("SELECT * FROM etape ORDER BY numetape;");
         return res;
     } catch (e) {
         throw e;
@@ -60,11 +60,11 @@ async function getStepById(id) {
     }
 }
 
-async function getStepByDataSheed(id) {
+async function getStepByDataSheetId(idFicheTechnique) {
     try {
         const res = await db.query(
-            "SELECT * FROM etape WHERE idfichetechnique = $1;",
-            [id]
+            "SELECT * FROM etape WHERE idfichetechnique = $1 ORDER BY numetape;",
+            [idFicheTechnique]
         );
         return res;
     } catch (e) {
@@ -78,5 +78,5 @@ module.exports = {
     deleteStep,
     getStepById,
     getAllSteps,
-    getStepByDataSheed,
+    getStepByDataSheetId,
 };

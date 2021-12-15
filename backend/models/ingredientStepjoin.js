@@ -44,17 +44,10 @@ async function getAllIngredientStepJoin() {
     }
 }
 
-async function getAllIngredientStepJoinByIdStep(idEtape) {
-    try {
-        const res  = await db.query("SELECT * FROM ingredientetapejointure where idEtape = $1;",[idEtape]);
-        return res;
-    } catch (e) {
-        throw e;
-    }
-}
 async function getIngredientStepJoinByStepId(idEtape) {
     try {
-        const res = await db.query("SELECT * FROM ingredientetapejointure NATURAL Join etape NATURAL Join ingredient Natural Join unite where idEtape = $1;",
+        console.log("idEtape = ",idEtape)
+        const res = await db.query("SELECT idetape,numetape,titreetape,descriptionetape,tempsetape,nomingredient,quantite,nomunite FROM ingredientetapejointure NATURAL Join etape NATURAL Join ingredient Natural Join unite where idEtape = $1;",
             [idEtape]);
         return res;
     } catch (e) {
