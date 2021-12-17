@@ -31,7 +31,6 @@ router.post("/", async function (req, res, next) {
         await DatasheetController.createDatasheet(req.body)
         res.status(200).json({ message:  "Ajout effectué"})
     } catch (e) {
-        console.log(e)
         res.status(500).json({ message: "can't load data" });
     }
 });

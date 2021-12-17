@@ -17,7 +17,7 @@ router.get("/", async function (req, res, next) {
         const idFicheTechniqueParent = req.query.idFicheTechniqueParent;
         const DatasheetJoin = await DatasheetJoinController.getDatasheetJoinByID(idFicheTechniqueParent)
         if (!DatasheetJoin) {
-            return res.status(400).json({error: "Aucune FicheTechniqueJointure avec ces id : il faut entrer idFicheTechniqueParent et idFicheTechniqueFille en paramètres de query"});
+            return res.status(204).json({error:"Il n'y a rien dans la jointure"});
         }
         res.status(200).json(DatasheetJoin)
     } catch (e) {

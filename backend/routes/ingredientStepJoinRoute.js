@@ -17,7 +17,7 @@ router.get("/", async function (req, res, next) {
         const idEtape = req.query.idEtape;
         const ingredientStepJoin = await IngredientStepJoinController.getIngredientStepJoinByStepId(idEtape)
         if (!ingredientStepJoin) {
-            return res.status(204);
+            return res.status(204).json({error:"Il n'y a rien dans la jointure"})
         }
         res.status(200).json(ingredientStepJoin)
     } catch (e) {
