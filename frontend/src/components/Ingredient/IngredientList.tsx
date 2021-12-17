@@ -24,7 +24,6 @@ const IngredientsList: React.FC<Props>= (props) => {
     const deleteTutorial = async (id: number) => {
         await IngredientService.remove(id)
             .then((response: any) => {
-                console.log(response.data);
             })
             .catch((e: Error) => {
                 console.log(e);

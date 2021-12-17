@@ -46,7 +46,6 @@ async function getAllIngredientStepJoin() {
 
 async function getIngredientStepJoinByStepId(idEtape) {
     try {
-        console.log("idEtape = ",idEtape)
         const res = await db.query("SELECT idetape,numetape,titreetape,descriptionetape,tempsetape,nomingredient,quantite,nomunite FROM ingredientetapejointure NATURAL Join etape NATURAL Join ingredient Natural Join unite where idEtape = $1;",
             [idEtape]);
         return res;

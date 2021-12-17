@@ -3,7 +3,7 @@ import DataSheetService from "../../services/DataSheetService";
 import DatasheetData from "../../types/Datasheet";
 import Image from '../../images/burger.jpg';
 import {Card} from "antd";
-import Realization from "./Realization";
+import RealizationCall from "./RealizationCall";
 
 interface Props {
     id: number;
@@ -29,15 +29,17 @@ const HeaderDataSheet: React.FC<Props> = (props: Props) => {
     return (
         <>
             { dataSheet &&
-            <p>
-                <Card title={dataSheet.nomplat} bordered={false}>
+            <div key={1}>
+                <Card title={dataSheet.nomplat} bordered={false} key={2}>
                     <p><img src={Image} alt={"burger"} /></p>
                     <p>Nombre de couverts : {dataSheet.nombrecouverts}</p>
                 </Card>
-                <Realization id={dataSheet.idfichetechnique} nbCouverts={dataSheet.nombrecouverts}/>
-            </p>
-        }
+                <br></br>
+                <RealizationCall id={dataSheet.idfichetechnique} nbCouverts={dataSheet.nombrecouverts}/>
+                <br></br>
 
+            </div>
+        }
         </>
     );
 };
