@@ -1,4 +1,5 @@
 const ingredientCatModel = require("../models/ingredientCat")
+const ingredientModel = require("../models/ingredient");
 
 async function getAllIngredientCats() {
     try {
@@ -25,7 +26,7 @@ async function getIngredientCatByID(id) {
 
 async function createIngredientCat(body) {
     try {
-        const nomCategorieIngredient = body.nomCategorieIngredient;
+        const nomCategorieIngredient = body.nomcategorieingredient;
         const res = await ingredientCatModel.createIngredientCat(nomCategorieIngredient);
         return res;
     } catch (e) {
@@ -50,7 +51,7 @@ async function deleteIngredientCat(id) {
 async function updateIngredientCat(id,body) {
     try {
         const newId = parseInt(id);
-        const nomCategorieIngredient = body.nomCategorieIngredient;
+        const nomCategorieIngredient = body.nomcategorieingredient;
 
         const res = await ingredientCatModel.updateIngredientCat(newId,nomCategorieIngredient)
         if (res !== null) {
@@ -64,10 +65,25 @@ async function updateIngredientCat(id,body) {
     }
 }
 
+async function getAllIngredientByCatIngredient(idCatIngr) {
+    try {
+        const res = await ingredientCatModel.getAllIngredientByCatIngredient(idCatIngr)
+        if (res !== null) {
+            if (res.rowCount > 0) {
+                return res.rows;
+            }
+        }
+        return null;
+    } catch (e) {
+        throw e;
+    }
+}
+
 module.exports = {
     createIngredientCat,
     updateIngredientCat,
     deleteIngredientCat,
     getAllIngredientCats,
-    getIngredientCatByID
+    getIngredientCatByID,
+    getAllIngredientByCatIngredient
 };

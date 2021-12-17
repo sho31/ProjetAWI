@@ -2,11 +2,11 @@ const db = require("../dataBase");
 
 /* CRUD */
 
-async function createStep(idFicheTechnique,titreEtape,descriptionEtape,tempsEtape) {
+async function createStep(idFicheTechnique,titreEtape,descriptionEtape,tempsEtape,numEtape) {
     try {
         const res = await db.query(
-            "INSERT INTO etape (idFicheTechnique,titreEtape,descriptionEtape,tempsEtape) VALUES($1,$2,$3,$4);",
-            [idFicheTechnique,titreEtape,descriptionEtape,tempsEtape]
+            "INSERT INTO etape (idFicheTechnique,titreEtape,descriptionEtape,tempsEtape,numEtape) VALUES($1,$2,$3,$4,$5);",
+            [idFicheTechnique,titreEtape,descriptionEtape,tempsEtape,numEtape]
         );
         return res;
     } catch (e) {
@@ -14,11 +14,11 @@ async function createStep(idFicheTechnique,titreEtape,descriptionEtape,tempsEtap
     }
 }
 
-async function updateStep(id, idFicheTechnique,titreEtape,descriptionEtape,tempsEtape) {
+async function updateStep(id, idFicheTechnique,titreEtape,descriptionEtape,tempsEtape,numEtape) {
     try {
         const res = await db.query(
-            "UPDATE etape SET idFicheTechnique = $2,titreEtape =$3,descriptionEtape = $4,tempsEtape = $5 WHERE idetape = $1;",
-            [id,idFicheTechnique,titreEtape,descriptionEtape,tempsEtape]
+            "UPDATE etape SET idFicheTechnique = $2,titreEtape =$3,descriptionEtape = $4,tempsEtape = $5,numEtape = $6 WHERE idetape = $1;",
+            [id,idFicheTechnique,titreEtape,descriptionEtape,tempsEtape,numEtape]
         );
         return res
     } catch (e) {
@@ -33,7 +33,6 @@ async function deleteStep(id) {
             "DELETE FROM etape WHERE idEtape = $1;",
             [id]
         );
-        console.log(res)
         return res;
     } catch (e) {
         throw e;
@@ -42,7 +41,7 @@ async function deleteStep(id) {
 
 async function getAllSteps() {
     try {
-        const res = await db.query("SELECT * FROM etape;");
+        const res = await db.query("SELECT * FROM etape ORDER BY numetape;");
         return res;
     } catch (e) {
         throw e;
@@ -61,10 +60,23 @@ async function getStepById(id) {
     }
 }
 
+async function getStepByDataSheetId(idFicheTechnique) {
+    try {
+        const res = await db.query(
+            "SELECT * FROM etape WHERE idfichetechnique = $1 ORDER BY numetape;",
+            [idFicheTechnique]
+        );
+        return res;
+    } catch (e) {
+        throw e;
+    }
+}
+
 module.exports = {
     createStep,
     updateStep,
     deleteStep,
     getStepById,
     getAllSteps,
+    getStepByDataSheetId,
 };

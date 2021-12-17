@@ -29,12 +29,10 @@ async function updateAllergenCat(id, nomcategorieAllergene) {
 
 async function deleteAllergenCat(id) {
     try {
-        console.log("test")
         const res = await db.query(
             "DELETE FROM CategorieAllergene WHERE idcategorieallergene = $1;",
             [id]
         );
-        console.log(res)
         return res;
     } catch (e) {
         throw e;

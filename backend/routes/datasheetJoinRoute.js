@@ -6,7 +6,7 @@ const DatasheetJoinController = require("../controllers/datasheetJoinController"
 router.get("/all", async function (req, res, next) {
     try {
         const DatasheetJoin = await DatasheetJoinController.getAllDatasheetJoins();
-        res.status(200).json({ message: DatasheetJoin})
+        res.status(200).json(DatasheetJoin)
     } catch (e) {
         res.status(500).json({ message: "can't load data" });
     }
@@ -15,12 +15,11 @@ router.get("/all", async function (req, res, next) {
 router.get("/", async function (req, res, next) {
     try {
         const idFicheTechniqueParent = req.query.idFicheTechniqueParent;
-        const idFicheTechniqueFille = req.query.idFicheTechniqueFille;
-        const DatasheetJoin = await DatasheetJoinController.getDatasheetJoinByID(idFicheTechniqueParent, idFicheTechniqueFille)
+        const DatasheetJoin = await DatasheetJoinController.getDatasheetJoinByID(idFicheTechniqueParent)
         if (!DatasheetJoin) {
             return res.status(400).json({error: "Aucune FicheTechniqueJointure avec ces id : il faut entrer idFicheTechniqueParent et idFicheTechniqueFille en paramètres de query"});
         }
-        res.status(200).json({ message: DatasheetJoin})
+        res.status(200).json(DatasheetJoin)
     } catch (e) {
         return res.status(500).json({error: "Impossible d'accéder à la liste des FicheTechniqueJointure"});
     }

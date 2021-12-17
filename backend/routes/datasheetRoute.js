@@ -2,11 +2,12 @@ const express = require("express");
 const router = express.Router();
 
 const DatasheetController = require("../controllers/datasheetController");
+const {json} = require("express");
 
 router.get("/all", async function (req, res, next) {
     try {
         const Datasheet = await DatasheetController.getAllDatasheets();
-        res.status(200).json({ message: Datasheet})
+        res.status(200).json(Datasheet)
     } catch (e) {
         res.status(500).json({ message: "can't load data" });
     }
@@ -19,7 +20,7 @@ router.get("/", async function (req, res, next) {
         if (!Datasheet) {
             return res.status(400).json({error: "Aucune fiche technique"});
         }
-        res.status(200).json({ message: Datasheet})
+        res.status(200).json(Datasheet)
     } catch (e) {
         return res.status(500).json({error: "Impossible d'accéder à la liste des fiches technique"});
     }
@@ -51,8 +52,6 @@ router.delete("/", async function (req, res, next) {
 router.put("/", async function (req, res, next) {
     try {
         const idDatasheet = req.query.id;
-        console.log(idDatasheet)
-        console.log(req.body)
         const Datasheet = await DatasheetController.updateDatasheet(idDatasheet, req.body)
         if (!Datasheet) {
             return res.status(400).json({error: "Aucune fiche technique avec cet id"});

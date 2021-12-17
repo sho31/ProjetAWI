@@ -6,7 +6,7 @@ const unitController = require("../controllers/unitController");
 router.get("/all", async function (req, res, next) {
     try {
         const unit = await unitController.getAllUnits();
-        res.status(200).json({ message: unit})
+        res.status(200).json(unit)
     } catch (e) {
         res.status(500).json({ message: "can't load data" });
     }
@@ -19,7 +19,7 @@ router.get("/", async function (req, res, next) {
         if (!unit) {
             return res.status(400).json({error: "Aucune Unité"});
         }
-        res.status(200).json({ message: unit})
+        res.status(200).json(unit)
     } catch (e) {
         return res.status(500).json({error: "Impossible d'accéder à la liste des unités"});
     }

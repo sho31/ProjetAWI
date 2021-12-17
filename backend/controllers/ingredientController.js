@@ -22,15 +22,14 @@ async function getIngredientById(id) {
         throw e;
     }
 }
-
 async function createIngredient(body) {
     try {
         []
-        const idCategorieIngredient  = parseInt(body.idCategorieIngredient);
-        const idCategorieAllergene  = parseInt(body.idCategorieAllergene);
-        const idUnite  = parseInt(body.idUnite);
-        const nomIngredient  = body.nomIngredient;
-        const prixUnitaireIngredient  = body.prixUnitaireIngredient;
+        const idCategorieIngredient  = parseInt(body.idcategorieingredient);
+        const idCategorieAllergene  = parseInt(body.idcategorieallergene);
+        const idUnite  = parseInt(body.idunite);
+        const nomIngredient  = body.nomingredient;
+        const prixUnitaireIngredient  = body.prixunitaireingredient;
         const stock  = parseInt(body.stock);
 
         const res = await ingredientModel.createIngredient(idCategorieIngredient,idCategorieAllergene,idUnite,nomIngredient,prixUnitaireIngredient,stock);
@@ -57,11 +56,11 @@ async function deleteIngredient(id) {
 async function updateIngredient(id,body) {
     try {
         const newId = parseInt(id);
-        const idCategorieIngredient  = parseInt(body.idCategorieIngredient) ;
-        const idCategorieAllergene  = parseInt(body.idCategorieAllergene) ;
-        const idUnite  = parseInt(body.idUnite);
-        const nomIngredient  = body.nomIngredient;
-        const prixUnitaireIngredient  = body.prixUnitaireIngredient;
+        const idCategorieIngredient  = parseInt(body.idcategorieingredient) ;
+        const idCategorieAllergene  = parseInt(body.idcategorieallergene) ;
+        const idUnite  = parseInt(body.idunite);
+        const nomIngredient  = body.nomingredient;
+        const prixUnitaireIngredient  = body.prixunitaireingredient;
         const stock  = parseInt(body.stock)
         const res = await ingredientModel.updateIngredient(newId,idCategorieIngredient,idCategorieAllergene,idUnite,nomIngredient,prixUnitaireIngredient,stock);
         if (res !== null) {
@@ -80,5 +79,5 @@ module.exports = {
     updateIngredient,
     deleteIngredient,
     getAllIngredients,
-    getIngredientById
+    getIngredientById,
 };

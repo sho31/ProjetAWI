@@ -29,12 +29,10 @@ async function updateUnit(id, nomUnite) {
 
 async function deleteUnit(id) {
     try {
-        console.log("test")
         const res = await db.query(
             "DELETE FROM Unite WHERE idUnite = $1;",
             [id]
         );
-        console.log(res)
         return res;
     } catch (e) {
         throw e;

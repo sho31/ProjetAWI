@@ -6,7 +6,7 @@ const authorController = require("../controllers/authorController");
 router.get("/all", async function (req, res, next) {
     try {
         const author = await authorController.getAllAuthors();
-        res.status(200).json({ message: author})
+        res.status(200).json(author)
     } catch (e) {
         res.status(500).json({ message: "can't load data" });
     }
@@ -19,7 +19,7 @@ router.get("/", async function (req, res, next) {
         if (!author) {
             return res.status(400).json({error: "Aucun auteur"});
         }
-        res.status(200).json({ message: author})
+        res.status(200).json(author)
     } catch (e) {
         return res.status(500).json({error: "Impossible d'accéder à la liste des auteurs"});
     }

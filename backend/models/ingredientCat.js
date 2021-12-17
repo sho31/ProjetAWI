@@ -48,6 +48,18 @@ async function getAllIngredientCats() {
   }
 }
 
+async function getAllIngredientByCatIngredient(idCatIng) {
+  try {
+    const res = await db.query(
+        "SELECT * FROM ingredient WHERE idcategorieingredient = $1;",
+        [idCatIng]
+    );
+    return res;
+  } catch (e) {
+    throw e;
+  }
+}
+
 async function getIngredientCatByID(id) {
   try {
     const res = await db.query(
@@ -66,4 +78,5 @@ module.exports = {
   deleteIngredientCat,
   getAllIngredientCats,
   getIngredientCatByID,
+  getAllIngredientByCatIngredient,
 };

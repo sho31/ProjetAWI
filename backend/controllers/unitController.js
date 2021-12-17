@@ -39,7 +39,7 @@ async function getUnitByName(nomUnite) {
 
 async function createUnit(body) {
     try {
-        const nomUnite = body.nomUnite;
+        const nomUnite = body.nomunite;
         const res = await unitModel.createUnit(nomUnite);
         return res;
     } catch (e) {
@@ -64,7 +64,7 @@ async function deleteUnit(id) {
 async function updateUnit(id,body) {
     try {
         const newId = parseInt(id);
-        const nomUnite = body.nomUnite;
+        const nomUnite = body.nomunite;
 
         const res = await unitModel.updateUnit(newId,nomUnite)
         if (res !== null) {

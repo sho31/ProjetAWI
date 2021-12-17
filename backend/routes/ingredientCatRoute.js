@@ -2,11 +2,12 @@ const express = require("express");
 const router = express.Router();
 
 const ingredientCatController = require("../controllers/ingredientCatController");
+const ingredientController = require("../controllers/ingredientController");
 
 router.get("/all", async function (req, res, next) {
     try {
         const ingredientCat = await ingredientCatController.getAllIngredientCats();
-        res.status(200).json({ message: ingredientCat})
+        res.status(200).json(ingredientCat)
     } catch (e) {
         res.status(500).json({ message: "can't load data" });
     }
@@ -19,7 +20,20 @@ router.get("/", async function (req, res, next) {
         if (!ingredientCat) {
             return res.status(400).json({error: "Aucune Catégorie d'ingrédients"});
         }
-        res.status(200).json({ message: ingredientCat})
+        res.status(200).json(ingredientCat)
+    } catch (e) {
+        return res.status(500).json({error: "Impossible d'accéder à la liste des catégories d'ingrédients"});
+    }
+});
+
+router.get("/:idcategorieingredient", async function (req, res, next) {
+    try {
+        const catId = req.params.idcategorieingredient;
+        const ingredient = await ingredientCatController.getAllIngredientByCatIngredient(catId)
+        if (!ingredient) {
+            return res.status(400).json({error: "Aucun ingrédient"});
+        }
+        res.status(200).json(ingredient)
     } catch (e) {
         return res.status(500).json({error: "Impossible d'accéder à la liste des catégories d'ingrédients"});
     }
