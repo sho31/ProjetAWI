@@ -19,7 +19,7 @@ router.get("/", async function (req, res, next) {
         if (!DatasheetJoin) {
             return res.status(204).json({error:"Il n'y a rien dans la jointure"});
         }
-        res.status(200).json(DatasheetJoin)
+        return res.status(200).json(DatasheetJoin)
     } catch (e) {
         return res.status(500).json({error: "Impossible d'accéder à la liste des FicheTechniqueJointure"});
     }

@@ -1,12 +1,12 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useRef} from "react";
 
 import {Col, Row} from "antd";
 
-import StepService from "../../services/StepService";
-import Step from "../../types/Step";
+import StepService from "../../../services/StepService";
+import Step from "../../../types/Step";
 import IngEtape from "./IngEtape";
-import DataSheetService from "../../services/DataSheetService";
-import DataSheetJoin from "../../types/DataSheetJoin";
+import DataSheetService from "../../../services/DataSheetService";
+import DataSheetJoin from "../../../types/DataSheetJoin";
 import NameDataSheet from "./NameDataSheet";
 
 interface Props {
@@ -19,10 +19,13 @@ const RecursiveRealization: React.FC<Props> = (props) => {
     const [dataSheetJoin, setDataSheetJoin] = useState<DataSheetJoin>();
 
     useEffect( () => {
+        let unmounted = false;
         const getDataSheetJoin = async (id: number) => {
             await DataSheetService.getDataSheetJoin(id)
                 .then((response: any) => {
-                    setDataSheetJoin(response);
+                    if(!unmounted){
+                        setDataSheetJoin(response);
+                    }
                 })
                 .catch((e: Error) => {
                 });
@@ -31,7 +34,9 @@ const RecursiveRealization: React.FC<Props> = (props) => {
         const getAllStepsDataSheet = async (id: number) => {
             await StepService.getStepsByDataSheet(id)
                 .then((response: any) => {
-                    setSteps(response);
+                    if(!unmounted){
+                        setSteps(response);
+                    }
                 })
                 .catch((e: Error) => {
                 });
@@ -39,25 +44,30 @@ const RecursiveRealization: React.FC<Props> = (props) => {
         getAllStepsDataSheet(props.id).then(r => "ok");
         getDataSheetJoin(props.id).then(r => "ok");
 
+        return () => {
+            unmounted = true;
+        }
+
     }, [props.id]);
 
     return (
         <div>
                         {steps && dataSheetJoin?
                         steps.map((step, index) => (
-                            <div>{step.numetape === dataSheetJoin.numetape+1 &&
-                                <>
+                            <div key={index}>
+                                {step.numetape === dataSheetJoin.numetape+1 &&
+                                <React.Fragment key={index}>
                                     <Row>
-                                    <Col span={12} key={index+1}><h1>Utilisation d'une nouvelle fiche technique</h1></Col>
-                                    <Col span={2} key={index+2}>{dataSheetJoin.numetape}</Col>
-                                        <Col span={10} key={index+3}>
+                                    <Col span={12} key={index}><h1>Utilisation d'une nouvelle fiche technique</h1></Col>
+                                    <Col span={2} key={index+1}>{dataSheetJoin.numetape}</Col>
+                                        <Col span={10} key={index+2}>
                                             <NameDataSheet id={dataSheetJoin.idfichetechniquefille}></NameDataSheet>
                                     </Col>
                                     </Row>
                                     <RecursiveRealization id={dataSheetJoin.idfichetechniquefille} nbCouverts={props.nbCouverts}/>
-                                </>
-                            }
-                            <Row key={index}>
+                                </React.Fragment>
+                                }
+                            <Row key={index+1}>
                                 <Col span={12} key={index+1}>
                                     <IngEtape id={step.idetape} nbCouverts={props.nbCouverts}></IngEtape>
                                 </Col>
@@ -77,17 +87,17 @@ const RecursiveRealization: React.FC<Props> = (props) => {
                                 {steps &&
                                 steps.map((step, index) => (
                                     <Row key={index}>
-                                        <Col span={12} key={index+1}>
-                                            <IngEtape id={step.idetape} nbCouverts={props.nbCouverts}></IngEtape>
+                                        <Col span={12} key={index}>
+                                                <IngEtape id={step.idetape} nbCouverts={props.nbCouverts} key={index}></IngEtape>
                                         </Col>
-                                        <Col span={2} key={index+2}>{step.numetape}</Col>
-                                        <Col span={10} key={index+3}>
+                                        <Col span={2} key={index+1}>{step.numetape}</Col>
+                                        <Col span={10} key={index+2}>
                                             <h3>{step.titreetape}
                                                 <br></br>
                                                 {step.tempsetape}min
                                             </h3>
                                             {step.descriptionetape}
-                                            <p></p>
+                                            <br></br>
                                         </Col>
                                     </Row>
                                 ))}

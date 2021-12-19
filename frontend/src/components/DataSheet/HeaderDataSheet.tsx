@@ -3,7 +3,8 @@ import DataSheetService from "../../services/DataSheetService";
 import DatasheetData from "../../types/Datasheet";
 import Image from '../../images/burger.jpg';
 import {Card} from "antd";
-import RealizationCall from "./RealizationCall";
+import RealizationCall from "./Realization/RealizationCall";
+import Synthesis from "./Synthesis/Synthesis";
 
 interface Props {
     id: number;
@@ -37,7 +38,7 @@ const HeaderDataSheet: React.FC<Props> = (props: Props) => {
                 <br></br>
                 <RealizationCall id={dataSheet.idfichetechnique} nbCouverts={dataSheet.nombrecouverts}/>
                 <br></br>
-
+                <Synthesis id={dataSheet.idfichetechnique} nbCouverts={dataSheet.nombrecouverts}></Synthesis>
             </div>
         }
         </>

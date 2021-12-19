@@ -16,4 +16,5 @@ export default class Ingredient {
         this.prixunitaireingredient = prixunitaireingredient;
         this.stock = stock;
     }
+
 }
