@@ -29,7 +29,7 @@ const CatAllergenList: React.FC<Props> = (props) => {
             {catAllergens &&
             catAllergens.map((catAllergen,index) => (
                 <div key={index}>
-                    {catAllergen.categorieallergene}
+                    <h4>{catAllergen.categorieallergene}</h4>
                     <AllergenList idDataSheet={props.id} idCatAllergen={catAllergen.idcategorieallergene} key={catAllergen.idcategorieallergene}/>
                     <br/>
                 </div>

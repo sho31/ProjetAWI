@@ -18,11 +18,11 @@ const Synthesis: React.FC<Props> = (props) => {
                 <Col span={8} key={3}><h3>Couts</h3></Col>
             </Row>
             <Row key={2}>
-                <Col span={8} key={1}><h3></h3></Col>
-                <Col span={8} key={2}><h3>
+                <Col span={8} key={1}><h3>test</h3></Col>
+                <Col span={8} key={2}><div>
                     <CatAllergenList id={props.id}/>
-                </h3></Col>
-                <Col span={8} key={3}><h3>Couts</h3></Col>
+                </div></Col>
+                <Col span={8} key={3}><h3>test</h3></Col>
             </Row>
         </Card>
     )};

@@ -1,8 +1,8 @@
 import React, {useState, useEffect} from "react";
 import DataSheetService from "../../services/DataSheetService";
 import DatasheetData from "../../types/Datasheet";
-import Image from '../../images/burger.jpg';
-import {Card} from "antd";
+import Img from '../../images/burger.jpg';
+import {Card,Image} from "antd";
 import RealizationCall from "./Realization/RealizationCall";
 import Synthesis from "./Synthesis/Synthesis";
 
@@ -32,7 +32,11 @@ const HeaderDataSheet: React.FC<Props> = (props: Props) => {
             { dataSheet &&
             <div key={1}>
                 <Card title={dataSheet.nomplat} bordered={false} key={2}>
-                    <p><img src={Image} alt={"burger"} /></p>
+                    <Image
+                        width={200}
+                        src={Img}
+                        alt={"burger"}
+                    />
                     <p>Nombre de couverts : {dataSheet.nombrecouverts}</p>
                 </Card>
                 <br></br>

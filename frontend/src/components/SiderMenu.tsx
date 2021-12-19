@@ -5,6 +5,7 @@ import {
     FileOutlined,
 } from '@ant-design/icons';
 import React from "react";
+import {Link} from "react-router-dom";
 const {Content, Footer, Sider } = Layout;
 
 class SiderMenu extends React.Component {
@@ -47,6 +48,7 @@ class SiderMenu extends React.Component {
                     <Footer style={{ textAlign: 'center' }}>Fiche Technique Manager</Footer>
                 </Layout>
             </Layout>
+
         );
     }
 }
