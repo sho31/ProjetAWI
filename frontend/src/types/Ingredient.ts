@@ -5,7 +5,7 @@ export default class Ingredient {
     idunite: number | null;
     nomingredient: string;
     prixunitaireingredient: number;
-    stock: number
+    stock: number;
 
     constructor(idingredient: number, idcategorieingredient: number | null, idcategorieallergene: number | null, idunite: number | null, nomingredient: string, prixunitaireingredient: number, stock: number) {
         this.idingredient = idingredient;

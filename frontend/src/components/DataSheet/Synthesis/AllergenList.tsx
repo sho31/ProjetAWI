@@ -24,7 +24,7 @@ const MercurialPage: React.FC<Props> = (props) => {
                 });
         };
         getCatAllergen(props.idDataSheet,props.idCatAllergen);
-    }, []);
+    }, [props.idDataSheet,props.idCatAllergen]);
     return (
         <div>
             {allergens &&

@@ -12,8 +12,8 @@ const CatAllergenList: React.FC<Props> = (props) => {
     const [catAllergens, setCatAllergens] = useState<Array<AllergenCat>>([]);
 
     useEffect(() => {
-        const getCatAllergen = async (idDataSheet: number) => {
-            await StepIngredientJoinService.getAllergenCat(idDataSheet)
+        const getAllergenCatsList = async (idDataSheet: number) => {
+            await StepIngredientJoinService.getAllergenCatsList(idDataSheet)
                 .then((response: any) => {
                     setCatAllergens(response);
                 })
@@ -21,8 +21,8 @@ const CatAllergenList: React.FC<Props> = (props) => {
                     console.log(e);
                 });
         };
-        getCatAllergen(props.id);
-    }, []);
+        getAllergenCatsList(props.id).then( () => "ok");
+    }, [props.id]);
 
     return (
         <div key={props.id}>

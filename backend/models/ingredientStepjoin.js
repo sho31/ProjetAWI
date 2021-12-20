@@ -54,10 +54,10 @@ async function getIngredientStepJoinByStepId(idEtape) {
     }
 }
 
-async function getIngredientStepJoinByDataSheetID(idDataSheet,idCatIngredient) {
+async function getIngredientStepJoinByDataSheetID(idDataSheet,idIngredientCat) {
     try {
         const res = await db.query("SELECT idingredient,nomingredient,Sum(quantite) FROM ingredientetapejointure NATURAL Join etape NATURAL Join ingredient Natural Join unite where idfichetechnique = $1 AND idcategorieingredient= $2 GROUP BY idingredient, nomingredient;",
-            [idDataSheet,idCatIngredient]);
+            [idDataSheet,idIngredientCat]);
         return res;
     } catch (e) {
         throw e;
@@ -67,6 +67,16 @@ async function getIngredientStepJoinByDataSheetID(idDataSheet,idCatIngredient) {
 async function getAllergenCatListStepId(idFicheTechnique) {
     try {
         const res = await db.query("SELECT DISTINCT idcategorieallergene,categorieallergene FROM ingredientetapejointure NATURAL Join etape NATURAL Join ingredient NATURAL Join categorieallergene where idfichetechnique = $1 ORDER BY categorieallergene;",
+            [idFicheTechnique]);
+        return res;
+    } catch (e) {
+        throw e;
+    }
+}
+
+async function getIngredientCatListStepId(idFicheTechnique) {
+    try {
+        const res = await db.query("SELECT DISTINCT idcategorieingredient,nomcategorieingredient FROM ingredientetapejointure NATURAL Join etape NATURAL Join ingredient NATURAL Join categorieingredient where idfichetechnique = $1 ORDER BY nomcategorieingredient;",
             [idFicheTechnique]);
         return res;
     } catch (e) {
@@ -93,4 +103,5 @@ module.exports = {
     getAllergenCatListStepId,
     getAllergenListByCatAndStepId,
     getIngredientStepJoinByDataSheetID,
+    getIngredientCatListStepId,
 };

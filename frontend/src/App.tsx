@@ -1,16 +1,14 @@
-import React from 'react';
-import SiderMenu from "./components/SiderMenu";
+import React, {Fragment} from 'react';
 import "antd/dist/antd.css";
 import "./App.less";
 
-import DataSheet from "./components/DataSheet/HeaderDataSheet";
-import PrintPage from "./components/DataSheet/PrintPage";
+import AppRoutes from "./components/AppRoutes";
 
 const App = () => {
   return (
-      <SiderMenu>
-          <PrintPage></PrintPage>
-      </SiderMenu>
+      <Fragment>
+          <AppRoutes></AppRoutes>
+      </Fragment>
   );
 };
 export default App;

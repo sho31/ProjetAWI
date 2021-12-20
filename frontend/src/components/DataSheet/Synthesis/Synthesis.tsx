@@ -1,8 +1,8 @@
 import {Card, Col, Row} from "antd";
-import RecursiveRealization from "../Realization/RecursiveRealization";
+
 import React from "react";
-import AllergenList from "./CatAllergenList";
 import CatAllergenList from "./CatAllergenList";
+import CatIngredientList from "./CatIngredientList";
 
 interface Props {
     id: number;
@@ -18,11 +18,13 @@ const Synthesis: React.FC<Props> = (props) => {
                 <Col span={8} key={3}><h3>Couts</h3></Col>
             </Row>
             <Row key={2}>
-                <Col span={8} key={1}><h3>test</h3></Col>
+                <Col span={8} key={1}>
+                    <CatIngredientList id={props.id}/>
+                </Col>
                 <Col span={8} key={2}><div>
                     <CatAllergenList id={props.id}/>
                 </div></Col>
-                <Col span={8} key={3}><h3>test</h3></Col>
+                <Col span={8} key={3}><h3>TO DO</h3></Col>
             </Row>
         </Card>
     )};

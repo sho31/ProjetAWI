@@ -2,14 +2,14 @@ import http from "../http-common";
 import RealizationData from "../types/RealizationM";
 import AllergenCat from "../types/AllergenCat"
 import SimpleIngredient from "../types/SimpleIngredient"
-
+import IngredientCat from "../types/IngredientCat"
 
 const getAllRealizations = async (id : number) => {
         const tmp = await http.get<Array<RealizationData>>(`/ingredientStepJoin?idEtape=${id}`);
         return tmp.data
 };
 
-const getAllergenCat = async (idFicheTechnique : number) => {
+const getAllergenCatsList = async (idFicheTechnique : number) => {
     const tmp = await http.get<Array<AllergenCat>>(`/ingredientStepJoin/catallergen?idFicheTechnique=${idFicheTechnique}`);
     return tmp.data
 };
@@ -19,11 +19,22 @@ const getAllergenListByCatAndDataSheet = async (idFicheTechnique : number,idCatA
     return tmp.data
 };
 
+const getIngredientCatsList = async (idFicheTechnique : number) => {
+    const tmp = await http.get<Array<IngredientCat>>(`/ingredientStepJoin/catingredient?idFicheTechnique=${idFicheTechnique}`);
+    return tmp.data
+};
+
+const getIngredientListByCatAndDataSheet = async (idFicheTechnique : number,idIngredientCat: number) => {
+    const tmp = await http.get<Array<SimpleIngredient>>(`/ingredientStepJoin/ingredientlist?idFicheTechnique=${idFicheTechnique}&idIngredientCat=${idIngredientCat}`);
+    return tmp.data
+};
 
 const IngredientService = {
     getAllRealizations,
-    getAllergenCat,
+    getAllergenCatsList,
     getAllergenListByCatAndDataSheet,
+    getIngredientCatsList,
+    getIngredientListByCatAndDataSheet,
 };
 
 export default IngredientService;

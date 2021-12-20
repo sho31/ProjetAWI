@@ -37,6 +37,20 @@ async function getAllergenCatListStepId(idFicheTechnique) {
     }
 }
 
+async function getIngredientCatListStepId(idFicheTechnique) {
+    try {
+        const res = await IngredientStepJoinModel.getIngredientCatListStepId(idFicheTechnique)
+        if (res !== null) {
+            if (res.rowCount > 0) {
+                return res.rows;
+            }
+        }
+        return null;
+    } catch (e) {
+        throw e;
+    }
+}
+
 async function getAllergenListByCatAndStepId(idFicheTechnique,idCatAllergene) {
     try {
         const res = await IngredientStepJoinModel.getAllergenListByCatAndStepId(idFicheTechnique,idCatAllergene)
@@ -51,9 +65,9 @@ async function getAllergenListByCatAndStepId(idFicheTechnique,idCatAllergene) {
     }
 }
 
-async function getIngredientStepJoinByDataSheetID(idFicheTechnique,idCatIngredient) {
+async function getIngredientStepJoinByDataSheetID(idFicheTechnique,idIngredientCat) {
     try {
-        const res = await IngredientStepJoinModel.getIngredientStepJoinByDataSheetID(idFicheTechnique,idCatIngredient)
+        const res = await IngredientStepJoinModel.getIngredientStepJoinByDataSheetID(idFicheTechnique,idIngredientCat)
         if (res !== null) {
             if (res.rowCount > 0) {
                 return res.rows;
@@ -117,4 +131,5 @@ module.exports = {
     getAllergenCatListStepId,
     getAllergenListByCatAndStepId,
     getIngredientStepJoinByDataSheetID,
+    getIngredientCatListStepId,
 };
