@@ -1,9 +1,10 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useRef, Fragment} from "react";
 import DataSheetService from "../../services/DataSheetService";
 import DatasheetData from "../../types/Datasheet";
-import Image from '../../images/burger.jpg';
-import {Card} from "antd";
-import RealizationCall from "./RealizationCall";
+import {Button, Card, Image} from "antd";
+import RealizationCall from "./Realization/RealizationCall";
+import Synthesis from "./Synthesis/Synthesis";
+import ReactToPrint from "react-to-print";
 
 interface Props {
     id: number;
@@ -11,6 +12,7 @@ interface Props {
 
 const HeaderDataSheet: React.FC<Props> = (props: Props) => {
     const [dataSheet, setdataSheet] = useState<DatasheetData>();
+    const componentRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         const retrieveTutorials = async (id : number) => {
@@ -26,20 +28,41 @@ const HeaderDataSheet: React.FC<Props> = (props: Props) => {
         retrieveTutorials(props.id).then(r => "ok");
     }, [props.id]);
 
+    const addSale =  (saleNumber : number) => {
+        console.log("Incrémenter ", saleNumber, " ventes")
+    }
+
     return (
         <>
             { dataSheet &&
-            <div key={1}>
-                <Card title={dataSheet.nomplat} bordered={false} key={2}>
-                    <p><img src={Image} alt={"burger"} /></p>
-                    <p>Nombre de couverts : {dataSheet.nombrecouverts}</p>
-                </Card>
-                <br></br>
-                <RealizationCall id={dataSheet.idfichetechnique} nbCouverts={dataSheet.nombrecouverts}/>
-                <br></br>
-
-            </div>
+                <Fragment>
+                    <div key={1} ref={componentRef}>
+                        <Card title={dataSheet.nomplat} bordered={false} key={2}>
+                            <Image
+                                width={200}
+                                src={dataSheet.image}
+                                alt={"burger"}
+                            />
+                            <p>Nombre de couverts : {dataSheet.nombrecouverts}
+                                <br/>
+                                par {dataSheet.nomauteur}</p>
+                        </Card>
+                        <br></br>
+                        <RealizationCall id={dataSheet.idfichetechnique} nbCouverts={dataSheet.nombrecouverts}/>
+                        <br></br>
+                        <Synthesis id={dataSheet.idfichetechnique} nbCouverts={dataSheet.nombrecouverts}></Synthesis>
+                        <br></br>
+                    </div>
+                    <div key={2}>
+                        <ReactToPrint
+                            trigger={() => <Button color="primary" onClick={() => addSale(dataSheet.nombrecouverts)}>Imprimer la fiche technique</Button>}
+                            content={() => componentRef.current}
+                        />
+                    </div>
+                </Fragment>
         }
+
+
         </>
     );
 };

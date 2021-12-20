@@ -46,8 +46,48 @@ async function getAllIngredientStepJoin() {
 
 async function getIngredientStepJoinByStepId(idEtape) {
     try {
-        const res = await db.query("SELECT idetape,numetape,titreetape,descriptionetape,tempsetape,nomingredient,quantite,nomunite FROM ingredientetapejointure NATURAL Join etape NATURAL Join ingredient Natural Join unite where idEtape = $1;",
+        const res = await db.query("SELECT idetape,numetape,titreetape,descriptionetape,tempsetape,idingredient,nomingredient,quantite,nomunite FROM ingredientetapejointure NATURAL Join etape NATURAL Join ingredient Natural Join unite where idEtape = $1;",
             [idEtape]);
+        return res;
+    } catch (e) {
+        throw e;
+    }
+}
+
+async function getIngredientStepJoinByDataSheetID(idDataSheet,idIngredientCat) {
+    try {
+        const res = await db.query("SELECT idingredient,nomingredient,Sum(quantite) FROM ingredientetapejointure NATURAL Join etape NATURAL Join ingredient Natural Join unite where idfichetechnique = $1 AND idcategorieingredient= $2 GROUP BY idingredient, nomingredient;",
+            [idDataSheet,idIngredientCat]);
+        return res;
+    } catch (e) {
+        throw e;
+    }
+}
+
+async function getAllergenCatListStepId(idFicheTechnique) {
+    try {
+        const res = await db.query("SELECT DISTINCT idcategorieallergene,categorieallergene FROM ingredientetapejointure NATURAL Join etape NATURAL Join ingredient NATURAL Join categorieallergene where idfichetechnique = $1 ORDER BY categorieallergene;",
+            [idFicheTechnique]);
+        return res;
+    } catch (e) {
+        throw e;
+    }
+}
+
+async function getIngredientCatListStepId(idFicheTechnique) {
+    try {
+        const res = await db.query("SELECT DISTINCT idcategorieingredient,nomcategorieingredient FROM ingredientetapejointure NATURAL Join etape NATURAL Join ingredient NATURAL Join categorieingredient where idfichetechnique = $1 ORDER BY nomcategorieingredient;",
+            [idFicheTechnique]);
+        return res;
+    } catch (e) {
+        throw e;
+    }
+}
+
+async function getAllergenListByCatAndStepId(idFicheTechnique,idCatAllergene) {
+    try {
+        const res = await db.query("SELECT DISTINCT nomingredient,idingredient FROM ingredientetapejointure NATURAL JOIN etape NATURAL JOIN ingredient NATURAL JOIN categorieallergene where idfichetechnique = $1 AND idcategorieallergene=$2 ORDER BY nomingredient;",
+            [idFicheTechnique,idCatAllergene]);
         return res;
     } catch (e) {
         throw e;
@@ -60,4 +100,8 @@ module.exports = {
     deleteIngredientStepJoin,
     getAllIngredientStepJoin,
     getIngredientStepJoinByStepId,
+    getAllergenCatListStepId,
+    getAllergenListByCatAndStepId,
+    getIngredientStepJoinByDataSheetID,
+    getIngredientCatListStepId,
 };

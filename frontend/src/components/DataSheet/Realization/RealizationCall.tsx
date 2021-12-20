@@ -8,7 +8,6 @@ interface Props {
 }
 
 const RealizationCall: React.FC<Props> = (props) => {
-
     return (
         <Card title='Technique de Réalisation' bordered={false}>
             <Row key={1}>
@@ -18,7 +17,7 @@ const RealizationCall: React.FC<Props> = (props) => {
                 <Col span={2} key={5}><h3>Numéro</h3></Col>
                 <Col span={10} key={6}><h3>Etapes</h3></Col>
             </Row>
-            <RecursiveRealization id={props.id} nbCouverts={props.nbCouverts}/>
+            <RecursiveRealization id={props.id} nbCouverts={props.nbCouverts} key={props.id+6}/>
         </Card>
     )};
 

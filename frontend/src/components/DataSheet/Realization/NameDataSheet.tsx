@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
 
-import DataSheetService from "../../services/DataSheetService";
+import DataSheetService from "../../../services/DataSheetService";
 
 interface Props {
     id: number;

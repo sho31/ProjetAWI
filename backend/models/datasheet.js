@@ -45,7 +45,7 @@ async function getAllDatasheets() {
 
 async function getDatasheetByID(id) {
     try {
-        const res = await db.query('SELECT * FROM FicheTechnique WHERE idFicheTechnique=$1',[id])
+        const res = await db.query('SELECT * FROM FicheTechnique NATURAL JOIN Auteur where idFicheTechnique=$1',[id])
         return res;
     } catch (e) {
         throw e;

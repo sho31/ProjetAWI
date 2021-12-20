@@ -5,6 +5,8 @@ import {
     FileOutlined,
 } from '@ant-design/icons';
 import React from "react";
+import {Link} from "react-router-dom";
+
 const {Content, Footer, Sider } = Layout;
 
 class SiderMenu extends React.Component {
@@ -23,17 +25,17 @@ class SiderMenu extends React.Component {
                 <Sider collapsible collapsed={collapsed} onCollapse={this.onCollapse}>
                     <div>logo</div>
                     <Menu defaultSelectedKeys={['1']} mode="inline">
-                        <Menu.Item key="1" icon={<PieChartOutlined />}>
-                          Accueil
+                        <Menu.Item key={1} icon={<PieChartOutlined />} >
+                            <Link to='/'>Accueil</Link>
                         </Menu.Item>
-                        <Menu.Item key="2" icon={<FileOutlined />}>
-                            Créer une FT
+                        <Menu.Item key={2} icon={<FileOutlined />} >
+                            <Link to='/creerDT'>Nouvelle FT</Link>
                         </Menu.Item>
-                        <Menu.Item key="3" icon={<DesktopOutlined />}>
-                          Ingrédients
+                        <Menu.Item key={3} icon={<DesktopOutlined />} >
+                            <Link to='/mercurial'>Mercurial</Link>
                         </Menu.Item>
-                        <Menu.Item key="4" icon={<DesktopOutlined />}>
-                            Stocks
+                        <Menu.Item key={4} icon={<DesktopOutlined />} >
+                            <Link to='/stock'>stock</Link>
                         </Menu.Item>
                     </Menu>
                 </Sider>
@@ -47,6 +49,7 @@ class SiderMenu extends React.Component {
                     <Footer style={{ textAlign: 'center' }}>Fiche Technique Manager</Footer>
                 </Layout>
             </Layout>
+
         );
     }
 }

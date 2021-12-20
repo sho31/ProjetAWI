@@ -23,6 +23,62 @@ async function getIngredientStepJoinByStepId(idEtape) {
     }
 }
 
+async function getAllergenCatListStepId(idFicheTechnique) {
+    try {
+        const res = await IngredientStepJoinModel.getAllergenCatListStepId(idFicheTechnique)
+        if (res !== null) {
+            if (res.rowCount > 0) {
+                return res.rows;
+            }
+        }
+        return null;
+    } catch (e) {
+        throw e;
+    }
+}
+
+async function getIngredientCatListStepId(idFicheTechnique) {
+    try {
+        const res = await IngredientStepJoinModel.getIngredientCatListStepId(idFicheTechnique)
+        if (res !== null) {
+            if (res.rowCount > 0) {
+                return res.rows;
+            }
+        }
+        return null;
+    } catch (e) {
+        throw e;
+    }
+}
+
+async function getAllergenListByCatAndStepId(idFicheTechnique,idCatAllergene) {
+    try {
+        const res = await IngredientStepJoinModel.getAllergenListByCatAndStepId(idFicheTechnique,idCatAllergene)
+        if (res !== null) {
+            if (res.rowCount > 0) {
+                return res.rows;
+            }
+        }
+        return null;
+    } catch (e) {
+        throw e;
+    }
+}
+
+async function getIngredientStepJoinByDataSheetID(idFicheTechnique,idIngredientCat) {
+    try {
+        const res = await IngredientStepJoinModel.getIngredientStepJoinByDataSheetID(idFicheTechnique,idIngredientCat)
+        if (res !== null) {
+            if (res.rowCount > 0) {
+                return res.rows;
+            }
+        }
+        return null;
+    } catch (e) {
+        throw e;
+    }
+}
+
 async function createIngredientStepJoin(body) {
     try {
         const idEtape = body.idetape;
@@ -72,4 +128,8 @@ module.exports = {
     deleteIngredientStepJoin,
     getAllIngredientStepJoins,
     getIngredientStepJoinByStepId,
+    getAllergenCatListStepId,
+    getAllergenListByCatAndStepId,
+    getIngredientStepJoinByDataSheetID,
+    getIngredientCatListStepId,
 };

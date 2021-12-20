@@ -1,14 +1,14 @@
 import http from "../http-common";
-import ITCatIngredientData from "../types/CatIngredient";
-import ITIngredientData from "../types/Ingredient";
+import CatIngredientData from "../types/IngredientCat";
+import IngredientData from "../types/Ingredient";
 
 const getAllCatIngredients = async () => {
-    const tmp = await http.get<Array<ITCatIngredientData>>("/ingredientCat/all");
+    const tmp = await http.get<Array<CatIngredientData>>("/ingredientCat/all");
     return tmp.data;
 };
 
 const getIngredientByCat = async (id: any) => {
-    const tmp = await http.get<Array<ITIngredientData>>(`/ingredientCat/${id}`);
+    const tmp = await http.get<Array<IngredientData>>(`/ingredientCat/${id}`);
     return tmp.data;
 };
 
