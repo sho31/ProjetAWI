@@ -36,7 +36,7 @@ async function deleteDatasheet(id) {
 
 async function getAllDatasheets() {
     try {
-        const res  = await db.query('SELECT * FROM FicheTechnique;')
+        const res  = await db.query('SELECT * FROM FicheTechnique NATURAL JOIN auteur;')
         return res;
     } catch (e) {
         throw e;

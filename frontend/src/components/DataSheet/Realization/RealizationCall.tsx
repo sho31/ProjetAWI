@@ -5,6 +5,7 @@ import React from "react";
 interface Props {
     id: number;
     nbCouverts: number;
+    theoricalNbCouverts: number;
 }
 
 const RealizationCall: React.FC<Props> = (props) => {
@@ -17,7 +18,7 @@ const RealizationCall: React.FC<Props> = (props) => {
                 <Col span={2} key={5}><h3>Numéro</h3></Col>
                 <Col span={10} key={6}><h3>Etapes</h3></Col>
             </Row>
-            <RecursiveRealization id={props.id} nbCouverts={props.nbCouverts} key={props.id+6}/>
+            <RecursiveRealization id={props.id} nbCouverts={props.nbCouverts} key={props.id+6} theoricalNbCouverts={props.theoricalNbCouverts}/>
         </Card>
     )};
 

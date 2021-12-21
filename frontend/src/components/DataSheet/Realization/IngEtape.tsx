@@ -7,6 +7,7 @@ import {Col, Row} from "antd";
 interface Props {
     id: number;
     nbCouverts: number;
+    theoricalNbCouverts: number;
 }
 
 const Realization: React.FC<Props> = (props) => {
@@ -39,7 +40,7 @@ const Realization: React.FC<Props> = (props) => {
                         realizations.map((realization, index) => (
                             <React.Fragment key={index}>
                                     <Col span={8} key={realization.nomingredient}>{realization.nomingredient}</Col>
-                                    <Col span={8} key={realization.idingredient}>{ realization.quantite * props.nbCouverts}</Col>
+                                    <Col span={8} key={realization.idingredient}>{ Math.round((realization.quantite * (props.theoricalNbCouverts/props.nbCouverts)) * 100) / 100}</Col>
                                     <Col span={8} key={realization.nomunite}>{realization.nomunite}</Col>
                             </React.Fragment>
                         ))}
