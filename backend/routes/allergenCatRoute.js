@@ -17,7 +17,7 @@ router.get("/", async function (req, res, next) {
         const idAllergenCat = req.query.id;
         const allergenCat = await allergenCatController.getAllergenCatByID(idAllergenCat)
         if (!allergenCat) {
-            return res.status(400).json({error: "Aucune Catégorie d'allergène"});
+            return res.status(204).json({message: "Aucune Catégorie d'allergène"});
         }
         res.status(200).json({ message: allergenCat})
     } catch (e) {
@@ -39,7 +39,7 @@ router.delete("/", async function (req, res, next) {
         const idAllergenCat = req.query.id;
         const allergenCat = await allergenCatController.deleteAllergenCat(idAllergenCat)
         if (!allergenCat) {
-            return res.status(400).json({error: "Aucune Catégorie d'allergène avec cet id"});
+            return res.status(204).json({message: "Aucune Catégorie d'allergène avec cet id"});
         }
         res.status(200).json({ message: "Suppresion effectuée"})
     } catch (e) {
@@ -52,7 +52,7 @@ router.put("/", async function (req, res, next) {
         const idAllergenCat = req.query.id;
         const allergenCat = await allergenCatController.updateAllergenCat(idAllergenCat, req.body)
         if (!allergenCat) {
-            return res.status(400).json({error: "Aucune Catégorie d'allergène avec cet id"});
+            return res.status(204).json({message: "Aucune Catégorie d'allergène avec cet id"});
         }
         res.status(200).json({ message: "Modification effectuée"})
     } catch (e) {

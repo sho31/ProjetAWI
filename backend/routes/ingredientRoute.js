@@ -17,7 +17,7 @@ router.get("/", async function (req, res, next) {
         const idIngredient = req.query.id;
         const ingredient = await ingredientController.getIngredientById(idIngredient)
         if (!ingredient) {
-            return res.status(400).json({error: "Aucun ingrédient"});
+            return res.status(204).json({message: "Aucun ingrédient"});
         }
         res.status(200).json(ingredient)
     } catch (e) {
@@ -39,7 +39,7 @@ router.delete("/", async function (req, res, next) {
         const idIngredient = req.query.id;
         const ingredient = await ingredientController.deleteIngredient(idIngredient)
         if (!ingredient) {
-            return res.status(400).json({error: "Aucun ingrédient avec cet id"});
+            return res.status(204).json({message: "Aucun ingrédient avec cet id"});
         }
         res.status(200).json({ message: "Suppresion effectuée"})
     } catch (e) {
@@ -52,7 +52,7 @@ router.put("/", async function (req, res, next) {
         const idIngredient = req.query.id;
         const ingredient = await ingredientController.updateIngredient(idIngredient, req.body)
         if (!ingredient) {
-            return res.status(400).json({error: "Aucun ingrédient avec cet id"});
+            return res.status(204).json({message: "Aucun ingrédient avec cet id"});
         }
         res.status(200).json({ message: "Modification effectuée"})
     } catch (e) {

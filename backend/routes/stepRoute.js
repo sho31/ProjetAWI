@@ -17,7 +17,7 @@ router.get("/", async function (req, res, next) {
         const idStep = req.query.id;
         const step = await stepController.getStepById(idStep)
         if (!step) {
-            return res.status(400).json({error: "Aucune étape"});
+            return res.status(204).json({message: "Aucune étape"});
         }
         res.status(200).json(step)
     } catch (e) {
@@ -30,7 +30,7 @@ router.get("/bydatasheet", async function (req, res, next) {
         const idDataSheet = req.query.id;
         const step = await stepController.getStepByDataSheetId(idDataSheet)
         if (!step) {
-            return res.status(400).json({error: "Aucune étape"});
+            return res.status(204).json({message: "Aucune étape"});
         }
         res.status(200).json(step)
     } catch (e) {

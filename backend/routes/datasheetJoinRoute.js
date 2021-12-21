@@ -40,7 +40,7 @@ router.delete("/", async function (req, res, next) {
         const idFicheTechniqueFille = req.query.idFicheTechniqueFille;
         const datasheetJoinStatus = await DatasheetJoinController.deleteDatasheetJoin(idFicheTechniqueParent, idFicheTechniqueFille)
         if (!datasheetJoinStatus) {
-            return res.status(400).json({error: "Aucune FicheTechniqueJointure avec ces id : il faut entrer idFicheTechniqueParent et idFicheTechniqueFille en paramètres de query"});
+            return res.status(204).json({message: "Aucune FicheTechniqueJointure avec ces id : il faut entrer idFicheTechniqueParent et idFicheTechniqueFille en paramètres de query"});
         }
         res.status(200).json({ message: "Suppresion effectuée"})
     } catch (e) {
@@ -54,7 +54,7 @@ router.put("/", async function (req, res, next) {
         const idFicheTechniqueFille = req.query.idFicheTechniqueFille;
         const datasheetJoinStatus = await DatasheetJoinController.updateDatasheetJoin(idFicheTechniqueParent, idFicheTechniqueFille, req.body)
         if (!datasheetJoinStatus) {
-            return res.status(400).json({error: "Aucune FicheTechniqueJointure avec ces id : il faut entrer idFicheTechniqueParent et idFicheTechniqueFille en paramètres de query"});
+            return res.status(204).json({message: "Aucune FicheTechniqueJointure avec ces id : il faut entrer idFicheTechniqueParent et idFicheTechniqueFille en paramètres de query"});
         }
         res.status(200).json({ message: "Modification effectuée"})
     } catch (e) {

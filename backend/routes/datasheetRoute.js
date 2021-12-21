@@ -21,7 +21,7 @@ router.get("/", async function (req, res, next) {
         const idDatasheet = req.query.id;
         const Datasheet = await DatasheetController.getDatasheetByID(idDatasheet)
         if (!Datasheet) {
-            return res.status(400).json({error: "Aucune fiche technique"});
+            return res.status(204).json({message: "Aucune fiche technique"});
         }
         res.status(200).json(Datasheet)
     } catch (e) {
@@ -43,7 +43,7 @@ router.delete("/", async function (req, res, next) {
         const idDatasheet = req.query.id;
         const Datasheet = await DatasheetController.deleteDatasheet(idDatasheet)
         if (!Datasheet) {
-            return res.status(400).json({error: "Aucune fiche technique avec cet id"});
+            return res.status(204).json({message: "Aucune fiche technique avec cet id"});
         }
         res.status(200).json({ message: "Suppresion effectuée"})
     } catch (e) {
@@ -56,7 +56,7 @@ router.put("/", async function (req, res, next) {
         const idDatasheet = req.query.id;
         const Datasheet = await DatasheetController.updateDatasheet(idDatasheet, req.body)
         if (!Datasheet) {
-            return res.status(400).json({error: "Aucune fiche technique avec cet id"});
+            return res.status(204).json({message: "Aucune fiche technique avec cet id"});
         }
         res.status(200).json({ message: "Modification effectuée"})
     } catch (e) {

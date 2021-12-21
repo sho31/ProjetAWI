@@ -95,7 +95,7 @@ router.delete("/", async function (req, res, next) {
         const idIngredient = req.query.idIngredient;
         const ingredientStepJoin = await IngredientStepJoinController.deleteIngredientStepJoin(idEtape, idIngredient)
         if (!ingredientStepJoin) {
-            return res.status(400).json({error: "Aucune IngredientEtapeJointure avec ces id : il faut entrer idEtape et idIngredient en paramètres de query"});
+            return res.status(204).json({message: "Aucune IngredientEtapeJointure avec ces id : il faut entrer idEtape et idIngredient en paramètres de query"});
         }
         res.status(200).json({ message: "Suppresion effectuée"})
     } catch (e) {
@@ -109,7 +109,7 @@ router.put("/", async function (req, res, next) {
         const idIngredient = req.query.idIngredient;
         const ingredientStepJoin = await IngredientStepJoinController.updateIngredientStepJoin(idEtape, idIngredient, req.body)
         if (!ingredientStepJoin) {
-            return res.status(400).json({error: "Aucune IngredientEtapeJointure avec ces id : il faut entrer idEtape et idIngredient en paramètres de query"});
+            return res.status(204).json({message: "Aucune IngredientEtapeJointure avec ces id : il faut entrer idEtape et idIngredient en paramètres de query"});
         }
         res.status(200).json({ message: "Modification effectuée"})
     } catch (e) {

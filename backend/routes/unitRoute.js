@@ -17,7 +17,7 @@ router.get("/", async function (req, res, next) {
         const idUnit = req.query.id;
         const unit = await unitController.getUnitById(idUnit)
         if (!unit) {
-            return res.status(400).json({error: "Aucune Unité"});
+            return res.status(204).json({message: "Aucune Unité"});
         }
         res.status(200).json(unit)
     } catch (e) {
@@ -39,7 +39,7 @@ router.delete("/", async function (req, res, next) {
         const idUnit = req.query.id;
         const unit = await unitController.deleteUnit(idUnit)
         if (!unit) {
-            return res.status(400).json({error: "Aucune Unité avec cet id"});
+            return res.status(204).json({message: "Aucune Unité avec cet id"});
         }
         res.status(200).json({ message: "Suppresion effectuée"})
     } catch (e) {
