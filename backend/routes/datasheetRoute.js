@@ -7,6 +7,9 @@ const {json} = require("express");
 router.get("/all", async function (req, res, next) {
     try {
         const Datasheet = await DatasheetController.getAllDatasheets();
+        if (!Datasheet) {
+            return res.status(204).json({message: "Aucune fiche technique"});
+        }
         res.status(200).json(Datasheet)
     } catch (e) {
         res.status(500).json({ message: "can't load data" });

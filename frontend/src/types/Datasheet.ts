@@ -7,7 +7,6 @@ export default class Datasheet {
     nombrecouverts: number;
     image: string;
 
-
     constructor(idfichetechnique: number, idcategoriefichetechnique: number, idauteur: number,nomauteur: string, nomplat: string, nombrecouverts: number, image: string) {
         this.idfichetechnique = idfichetechnique;
         this.idcategoriefichetechnique = idcategoriefichetechnique;

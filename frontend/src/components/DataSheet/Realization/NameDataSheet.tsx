@@ -1,31 +1,34 @@
 import React, {useState, useEffect} from "react";
 
 import DataSheetService from "../../../services/DataSheetService";
+import DatasheetData from "../../../types/Datasheet";
 
 interface Props {
     id: number;
+    nbCouvertsParents: number;
+    theoricalNbCouverts: number;
 }
+
+let initDataSheet = new DatasheetData(0,0,0,"","",0,"");
 
 const NameDataSheet: React.FC<Props> = (props) => {
 
-    const [dataSheetName, setDataSheetName] = useState<string>();
+    const [dataSheet, setdataSheet] = useState<DatasheetData>(initDataSheet);
 
-    useEffect( () => {
-        const getDataSheetName = async (id: number) => {
+    useEffect(() => {
+        const retrieveTutorials = async (id : number) => {
             await DataSheetService.getDataSheetByID(id)
                 .then((response: any) => {
-                    setDataSheetName(response.nomplat);
+                    setdataSheet(response);
                 })
                 .catch((e: Error) => {
+                    console.log(e);
                 });
         };
-
-        getDataSheetName(props.id).then(r => "ok");
-
+        retrieveTutorials(props.id).then( () => "ok");
     }, [props.id]);
-
     return (
-       <h1>{dataSheetName}</h1>
+       <h1>{dataSheet.nomplat} (Attention pour {Math.round((dataSheet.nombrecouverts*(props.theoricalNbCouverts/props.nbCouvertsParents))*1)/1} personnes)</h1>
     )};
 
 export default NameDataSheet;
