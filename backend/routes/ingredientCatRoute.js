@@ -18,7 +18,7 @@ router.get("/", async function (req, res, next) {
         const idIngredientCat = req.query.id;
         const ingredientCat = await ingredientCatController.getIngredientCatByID(idIngredientCat)
         if (!ingredientCat) {
-            return res.status(400).json({error: "Aucune Catégorie d'ingrédients"});
+            return res.status(204).json({message: "Aucune Catégorie d'ingrédients"});
         }
         res.status(200).json(ingredientCat)
     } catch (e) {
@@ -31,7 +31,7 @@ router.get("/:idcategorieingredient", async function (req, res, next) {
         const catId = req.params.idcategorieingredient;
         const ingredient = await ingredientCatController.getAllIngredientByCatIngredient(catId)
         if (!ingredient) {
-            return res.status(400).json({error: "Aucun ingrédient"});
+            return res.status(204).json({message: "Aucun ingrédient"});
         }
         res.status(200).json(ingredient)
     } catch (e) {
@@ -53,7 +53,7 @@ router.delete("/", async function (req, res, next) {
         const idIngredientCat = req.query.id;
         const ingredientCat = await ingredientCatController.deleteIngredientCat(idIngredientCat)
         if (!ingredientCat) {
-            return res.status(400).json({error: "Aucune Catégorie d'ingrédients avec cet id"});
+            return res.status(204).json({message: "Aucune Catégorie d'ingrédients avec cet id"});
         }
         res.status(200).json({ message: "Suppresion effectuée"})
     } catch (e) {
@@ -66,7 +66,7 @@ router.put("/", async function (req, res, next) {
         const idIngredientCat = req.query.id;
         const ingredientCat = await ingredientCatController.updateIngredientCat(idIngredientCat, req.body)
         if (!ingredientCat) {
-            return res.status(400).json({error: "Aucune Catégorie d'ingrédients avec cet id"});
+            return res.status(204).json({message: "Aucune Catégorie d'ingrédients avec cet id"});
         }
         res.status(200).json({ message: "Modification effectuée"})
     } catch (e) {

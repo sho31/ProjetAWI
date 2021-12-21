@@ -11,7 +11,6 @@ import {
 import Title from "antd/es/typography/Title";
 import Meta from "antd/es/card/Meta";
 import {Link} from "react-router-dom";
-import Img from "../../images/burger.jpg"
 
 const HomePage: React.FC = () => {
     const [dataSheets, setDataSheets] = useState<Array<DatasheetData>>([]);
@@ -28,14 +27,6 @@ const HomePage: React.FC = () => {
         };
         retrieveIngredients().then( () => "ok");
     }, []);
-
-    const contentStyle = {
-        height: '160px',
-        color: '#fff',
-        lineHeight: '160px',
-        textAlign: 'center',
-        background: '#364d79',
-    };
     return (
         <Fragment key={1}>
             <div key={1}>

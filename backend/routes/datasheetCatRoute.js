@@ -17,7 +17,7 @@ router.get("/", async function (req, res, next) {
         const id = req.query.id;
         const DatasheetCat = await DatasheetCatController.getDatasheetCatByID(id)
         if (!DatasheetCat) {
-            return res.status(400).json({error: "Aucune Catégorie de fiche technique"});
+            return res.status(204).json({message: "Aucune Catégorie de fiche technique"});
         }
         res.status(200).json(DatasheetCat)
     } catch (e) {
@@ -39,7 +39,7 @@ router.delete("/", async function (req, res, next) {
         const id = req.query.id;
         const DatasheetCat = await DatasheetCatController.deleteDatasheetCat(id)
         if (!DatasheetCat) {
-            return res.status(400).json({error: "Aucune Catégorie de fiches technique avec cet id"});
+            return res.status(204).json({message: "Aucune Catégorie de fiches technique avec cet id"});
         }
         res.status(200).json({ message: "Suppresion effectuée"})
     } catch (e) {
@@ -52,7 +52,7 @@ router.put("/", async function (req, res, next) {
         const id = req.query.id;
         const DatasheetCat = await DatasheetCatController.updateDatasheetCat(id, req.body)
         if (!DatasheetCat) {
-            return res.status(400).json({error: "Aucune Catégorie de fiches technique avec cet id"});
+            return res.status(204).json({message: "Aucune Catégorie de fiches technique avec cet id"});
         }
         res.status(200).json({ message: "Modification effectuée"})
     } catch (e) {

@@ -17,7 +17,7 @@ router.get("/", async function (req, res, next) {
         const idAuthor = req.query.id;
         const author = await authorController.getAuthorByID(idAuthor)
         if (!author) {
-            return res.status(400).json({error: "Aucun auteur"});
+            return res.status(204).json({message: "Aucun auteur"});
         }
         res.status(200).json(author)
     } catch (e) {
@@ -39,7 +39,7 @@ router.delete("/", async function (req, res, next) {
         const idAuthor = req.query.id;
         const author = await authorController.deleteAuthor(idAuthor)
         if (!author) {
-            return res.status(400).json({error: "Aucun auteur avec cet id"});
+            return res.status(204).json({message: "Aucun auteur avec cet id"});
         }
         res.status(200).json({ message: "Suppresion effectuée"})
     } catch (e) {
@@ -52,7 +52,7 @@ router.put("/", async function (req, res, next) {
         const idAuthor = req.query.id;
         const author = await authorController.updateAuthor(idAuthor, req.body)
         if (!author) {
-            return res.status(400).json({error: "Aucun auteur avec cet id"});
+            return res.status(204).json({message: "Aucun auteur avec cet id"});
         }
         res.status(200).json({ message: "Modification effectuée"})
     } catch (e) {
