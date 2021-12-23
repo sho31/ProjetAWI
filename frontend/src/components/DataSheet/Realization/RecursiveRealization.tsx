@@ -17,8 +17,8 @@ interface Props {
 
 const RecursiveRealization: React.FC<Props> = (props) => {
     const [steps, setSteps] = useState<Array<Step>>([]);
-    const [dataSheetJoin, setDataSheetJoin] = useState<DataSheetJoin>();
-
+    const [dataSheetJoin, setDataSheetJoin] = useState<Array<DataSheetJoin>>([]);
+    const [current,setCurrent] = useState<number>(0);
     useEffect( () => {
         let unmounted = false;
         const getDataSheetJoin = async (id: number) => {
@@ -49,63 +49,75 @@ const RecursiveRealization: React.FC<Props> = (props) => {
             unmounted = true;
         }
 
-    }, [props.id]);
 
-    return (
-        <div>
-                        {steps && dataSheetJoin?
-                        steps.map((step, index) => (
-                            <div key={index}>
-                                {step.numetape === dataSheetJoin.numetape+1 &&
-                                <React.Fragment key={index}>
-                                    <Row>
-                                    <Col span={12} key={index}><h1>Utilisation d'une nouvelle fiche technique</h1></Col>
-                                    <Col span={2} key={index+1}>{dataSheetJoin.numetape}</Col>
-                                        <Col span={10} key={index+2}>
-                                            <NameDataSheet id={dataSheetJoin.idfichetechniquefille} theoricalNbCouverts={props.theoricalNbCouverts} nbCouvertsParents={props.nbCouverts}></NameDataSheet>
-                                    </Col>
-                                    </Row>
-                                    <RecursiveRealization id={dataSheetJoin.idfichetechniquefille} nbCouverts={props.nbCouverts} theoricalNbCouverts={props.theoricalNbCouverts}/>
-                                </React.Fragment>
-                                }
-                            <Row key={index+1}>
-                                <Col span={12} key={index+1}>
-                                    <IngEtape id={step.idetape} nbCouverts={props.nbCouverts} theoricalNbCouverts={props.theoricalNbCouverts}></IngEtape>
-                                </Col>
-                                <Col span={2} key={index+2}>{step.numetape}</Col>
-                                <Col span={10} key={index+3}>
-                                    <h3>{step.titreetape}
-                                        <br></br>
-                                        {step.tempsetape}min
-                                    </h3>
-                                    {step.descriptionetape}
-                                    <p></p>
+    }, [props.id]);
+    const incrementCurrent= () => {
+        setCurrent(current+1);
+    }
+
+    if (dataSheetJoin[0]!==undefined){ //Si on a une fiche technique fille
+        return (
+            <div>
+                {steps &&
+                steps.map((step, index) => (
+                    <div key={index}>
+                        <Row key={index+1}>
+                            <Col span={12} key={index+1}>
+                                <IngEtape id={step.idetape} nbCouverts={props.nbCouverts} theoricalNbCouverts={props.theoricalNbCouverts}></IngEtape>
+                            </Col>
+                            <Col span={2} key={index+2}>{step.numetape}</Col>
+                            <Col span={10} key={index+3}>
+                                <h3>{step.titreetape}
+                                    <br></br>
+                                    {step.tempsetape}min
+                                </h3>
+                                {step.descriptionetape}
+                                <p></p>
+                            </Col>
+                        </Row>
+                        {step.numetape+1 === dataSheetJoin[0].numetape &&
+
+                        <React.Fragment key={index}>
+
+                            <Row>
+                                <Col span={12} key={index}><h1>Utilisation d'une nouvelle fiche technique</h1></Col>
+                                <Col span={2} key={index+1}>{dataSheetJoin[0].numetape}</Col>
+                                <Col span={10} key={index+2}>
+                                    <NameDataSheet id={dataSheetJoin[0].idfichetechniquefille} theoricalNbCouverts={props.theoricalNbCouverts} nbCouvertsParents={props.nbCouverts}></NameDataSheet>
                                 </Col>
                             </Row>
-                            </div>
-                        )) : ( // FICHE Technique fille
-                            <div>
-                                {steps &&
-                                steps.map((step, index) => (
-                                    <Row key={index}>
-                                        <Col span={12} key={index}>
-                                                <IngEtape id={step.idetape} nbCouverts={props.nbCouverts} key={index} theoricalNbCouverts={props.theoricalNbCouverts}></IngEtape>
-                                        </Col>
-                                        <Col span={2} key={index+1}>{step.numetape}</Col>
-                                        <Col span={10} key={index+2}>
-                                            <h3>{step.titreetape}
-                                                <br></br>
-                                                {step.tempsetape}min
-                                            </h3>
-                                            {step.descriptionetape}
-                                            <br></br>
-                                        </Col>
-                                    </Row>
-                                ))}
-                            </div>
-                            )}
-        </div>
-    );
+                            <RecursiveRealization id={dataSheetJoin[0].idfichetechniquefille} nbCouverts={props.nbCouverts} theoricalNbCouverts={props.theoricalNbCouverts}/>
+                        </React.Fragment>
+                        }
+                    </div>
+
+                ))}
+            </div>
+        );
+    }
+    else {
+        return (// FICHE Technique fille
+            <div>
+                {steps &&
+                steps.map((step, index) => (
+                    <Row key={index}>
+                        <Col span={12} key={index}>
+                            <IngEtape id={step.idetape} nbCouverts={props.nbCouverts} key={index} theoricalNbCouverts={props.theoricalNbCouverts}></IngEtape>
+                        </Col>
+                        <Col span={2} key={index+1}>{step.numetape}</Col>
+                        <Col span={10} key={index+2}>
+                            <h3>{step.titreetape}
+                                <br></br>
+                                {step.tempsetape}min
+                            </h3>
+                            {step.descriptionetape}
+                            <br></br>
+                        </Col>
+                    </Row>
+                ))}
+            </div>
+        );
+    }
 };
 
 export default RecursiveRealization;

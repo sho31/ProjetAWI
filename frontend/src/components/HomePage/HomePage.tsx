@@ -1,21 +1,34 @@
 import React, {useState, useEffect, Fragment} from "react";
 import DataSheetService from "../../services/DataSheetService";
 import DatasheetData from "../../types/Datasheet";
-import {Avatar, Card, Carousel, Col, Row} from "antd";
 import "../../tailwind.css";
-
-import {
-    FileDoneOutlined
-} from '@ant-design/icons';
-
-import Title from "antd/es/typography/Title";
-import Meta from "antd/es/card/Meta";
+import {Avatar, Card, Carousel, Col, Row, Select} from 'antd';
+import DataSheetCat from "../../types/DataSheetCat";
+import DataSheetCatService from "../../services/DataSheetCatService";
 import {Link} from "react-router-dom";
+import Meta from "antd/es/card/Meta";
+import {FileDoneOutlined} from "@ant-design/icons";
+import Title from "antd/es/typography/Title";
+import Search from "antd/es/input/Search";
+
 
 const HomePage: React.FC = () => {
+
+    const [catDataSheets, setCatDataSheets] = useState<Array<DataSheetCat>>([]);
     const [dataSheets, setDataSheets] = useState<Array<DatasheetData>>([]);
+    const [currentDataSheets,setCurrentDataSheets] = useState<Array<number>>([-1]);
+    const [searchItem,setSearchItem] = useState("");
 
     useEffect(() => {
+        const getAllergenCatsList = async () => {
+            await DataSheetCatService.getAllDataSheetCat()
+                .then((response: any) => {
+                    setCatDataSheets(response);
+                })
+                .catch((e: Error) => {
+                    console.log(e);
+                });
+        };
         const retrieveIngredients = async () => {
             await DataSheetService.getAllDataSheets()
                 .then((response: any) => {
@@ -26,16 +39,100 @@ const HomePage: React.FC = () => {
                 });
         };
         retrieveIngredients().then( () => "ok");
+        getAllergenCatsList().then( () => "ok");
     }, []);
+
+    const { Option } = Select;
+
+    function handleChange(value: any) {
+        if(value.length>0){
+            setCurrentDataSheets(value);
+        }
+        else{
+            setCurrentDataSheets([-1]);
+        }
+    }
+
+    const children = [];
+
+    for(let j=0; j<catDataSheets.length;j++){
+        children.push(<Option value={catDataSheets[j].idcategoriefichetechnique} key={catDataSheets[j].idcategoriefichetechnique}>{catDataSheets[j].nomcategoriefichetechnique}</Option>);
+    }
+
     return (
         <Fragment key={1}>
-            <div key={1}>
-                <Title level={2} key={1}>Accueil</Title>
-            </div>
-            <div key={2}>
-                <Row gutter={16}>
+            {
+             <Carousel autoplay style={{width: '50%'}}>
                 {dataSheets &&
                 dataSheets.map((dataSheet,index) => (
+                    ( index<3 &&
+                        <Fragment key={index}>
+                        <Link to={"/fichetechnique/"+dataSheet.idfichetechnique}>
+                            <div>
+                                <img
+                                alt={dataSheet.nomplat}
+                                src={dataSheet.image}
+                                style={{height: 200}}
+                                />
+                            </div>
+                        </Link>
+                        <Col span={0.5} key={index+1}/>
+                    </Fragment>
+                    )
+
+                ))}
+            </Carousel>
+            }
+            <h2>Par catégorie
+            <Select
+                mode="multiple"
+                allowClear
+                style={{ width: '30%' }}
+                placeholder="Please select"
+                defaultValue={[]}
+                onChange={handleChange}
+            >{children}
+            </Select>
+            </h2>
+            <h2>
+                <Search
+                    placeholder="Quel plat cherchez vous ?"
+                    allowClear
+                    onChange={(event)=> {
+                        setSearchItem(event.target.value)
+                    }}
+                    style={{ width: '30%' }} />
+            </h2>
+
+                <div key={2}>
+                    <Row justify="space-between">
+            {dataSheets &&
+                dataSheets.filter((val)=> {
+                    if(searchItem === ""){
+                        if (currentDataSheets[0] === -1) {
+                            return val;
+                        } else {
+                            for (let i = 0; i < currentDataSheets.length; i++) {
+                                if (val.idcategoriefichetechnique === currentDataSheets[i]) {
+                                    return val
+                                }
+                            }
+                        }
+                    }
+                    else if(val.nomplat.toLowerCase().includes(searchItem.toLowerCase())){
+                        if (currentDataSheets[0] === -1) {
+                            return val;
+                        } else {
+                            for (let i = 0; i < currentDataSheets.length; i++) {
+                                if (val.idcategoriefichetechnique === currentDataSheets[i]) {
+                                    return val
+                                }
+                            }
+                        }
+                    }
+
+                }
+                ).map((dataSheet,index) => (
                     <Fragment key={index}>
                         <Col span={8} key={index}>
                             <Link to={"/fichetechnique/"+dataSheet.idfichetechnique}>
@@ -59,34 +156,12 @@ const HomePage: React.FC = () => {
                                 </Card>
                             </Link>
                         </Col>
-                        <Col span={0.5} key={index+1}/>
                     </Fragment>
                 ))}
-                </Row>
-            </div>
-            <Carousel autoplay>
-                {dataSheets &&
-                dataSheets.map((dataSheet,index) => (
-                    ( index<3 &&
-                        <Fragment key={index}>
-                        <Link to={"/fichetechnique/"+dataSheet.idfichetechnique}>
-                            <div>
-                                <img
-                                alt={dataSheet.nomplat}
-                                src={dataSheet.image}
-                                style={{height: 300 }}
-                                />
-                            </div>
-                        </Link>
-                        <Col span={0.5} key={index+1}/>
-                    </Fragment>
-                    )
-
-                ))}
-
-            </Carousel>,
+                    </Row>
+                </div>
         </Fragment>
-        );
+    );
 };
 
 export default HomePage;
