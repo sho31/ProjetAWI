@@ -46,7 +46,7 @@ async function getAllDatasheetJoins() {
 
 async function getDatasheetJoinByID(idFicheTechniqueParent) {
     try {
-        const res = await db.query("SELECT * FROM FicheTechniqueJointure WHERE idfichetechniqueparent = $1;",
+        const res = await db.query("SELECT * FROM FicheTechniqueJointure WHERE idfichetechniqueparent = $1 ORDER BY numetape;",
             [idFicheTechniqueParent]);
         return res;
     } catch (e) {

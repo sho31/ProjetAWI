@@ -14,6 +14,7 @@ async function getDatasheetJoinByID(idFicheTechniqueParent) {
         const res = await DatasheetJoinModel.getDatasheetJoinByID(idFicheTechniqueParent)
         if (res !== null) {
             if (res.rowCount > 0) {
+                console.log(res.rows)
                 return res.rows;
             }
         }

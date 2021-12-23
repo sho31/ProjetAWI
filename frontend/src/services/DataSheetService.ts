@@ -15,7 +15,7 @@ const getDataSheetByID = async (id: any) => {
 
 const getDataSheetJoin = async (id: any) => {
     const tmp = await http.get<Array<DataSheetJoin>>(`/datasheetJoin?idFicheTechniqueParent=${id}`);
-    return tmp.data[0];
+    return tmp.data;
 };
 
 const getStepsByDataSheet = async () => {
