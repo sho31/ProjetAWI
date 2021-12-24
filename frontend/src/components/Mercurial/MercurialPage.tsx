@@ -21,7 +21,7 @@ const MercurialPage: React.FC = () => {
     useEffect(() => {
         retrieveMercurial().then(() => "ok");
     }, []);
-
+    console.log("A")
     return (
         <Fragment key={1}>
             <div key={1}>
