@@ -34,8 +34,6 @@ const HeaderDataSheet: React.FC = () => {
         retrieveTutorials(props.id).then( () => "ok");
     }, [props.id]);
 
-
-
     const addSale =  (saleNumber : number) => {
         console.log("Incrémenter ", saleNumber, " ventes")
     }
@@ -56,8 +54,6 @@ const HeaderDataSheet: React.FC = () => {
 
     if(dataSheet.idfichetechnique !==0){ // Si on a récupérer une fiche technique
         return (
-            <>
-                { dataSheet &&
                 <Fragment>
                     <div key={1} ref={componentRef}>
                         <Card title="En-tête" bordered={false} key={2}>
@@ -94,13 +90,14 @@ const HeaderDataSheet: React.FC = () => {
                         />
                     </div>
                 </Fragment>
-                }
-            </>
+
         );
     }
+    else{
         return( // Dans le cas où l'on a aucune fiche technique on affiche quand même quelque chose
             <></>
         );
+    }
 };
 
 export default HeaderDataSheet;

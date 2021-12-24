@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
 
-import {Col, Row} from "antd";
+import {Card, Col, Row} from "antd";
 
 import StepService from "../../../services/StepService";
 import Step from "../../../types/Step";
@@ -18,7 +18,8 @@ interface Props {
 const RecursiveRealization: React.FC<Props> = (props) => {
     const [steps, setSteps] = useState<Array<Step>>([]);
     const [dataSheetJoin, setDataSheetJoin] = useState<Array<DataSheetJoin>>([]);
-    const [current,setCurrent] = useState<number>(0);
+    //let [current, setCurrent] = useState<number>(0);
+    let current = 0;
     useEffect( () => {
         let unmounted = false;
         const getDataSheetJoin = async (id: number) => {
@@ -51,11 +52,8 @@ const RecursiveRealization: React.FC<Props> = (props) => {
 
 
     }, [props.id]);
-    const incrementCurrent= () => {
-        setCurrent(current+1);
-    }
 
-    if (dataSheetJoin[0]!==undefined){ //Si on a une fiche technique fille
+    if (dataSheetJoin[current]!==undefined){ //Si on a une fiche technique fille
         return (
             <div>
                 {steps &&
@@ -75,19 +73,23 @@ const RecursiveRealization: React.FC<Props> = (props) => {
                                 <p></p>
                             </Col>
                         </Row>
-                        {step.numetape+1 === dataSheetJoin[0].numetape &&
+                        {step.numetape+1 === dataSheetJoin[current].numetape &&
 
                         <React.Fragment key={index}>
-
+                            <Card key={index}>
                             <Row>
                                 <Col span={12} key={index}><h1>Utilisation d'une nouvelle fiche technique</h1></Col>
-                                <Col span={2} key={index+1}>{dataSheetJoin[0].numetape}</Col>
+                                <Col span={2} key={index+1}>{dataSheetJoin[current].numetape}</Col>
                                 <Col span={10} key={index+2}>
-                                    <NameDataSheet id={dataSheetJoin[0].idfichetechniquefille} theoricalNbCouverts={props.theoricalNbCouverts} nbCouvertsParents={props.nbCouverts}></NameDataSheet>
+                                    <NameDataSheet id={dataSheetJoin[current].idfichetechniquefille} theoricalNbCouverts={props.theoricalNbCouverts} nbCouvertsParents={props.nbCouverts}></NameDataSheet>
                                 </Col>
                             </Row>
-                            <RecursiveRealization id={dataSheetJoin[0].idfichetechniquefille} nbCouverts={props.nbCouverts} theoricalNbCouverts={props.theoricalNbCouverts}/>
+                            <RecursiveRealization id={dataSheetJoin[current].idfichetechniquefille} nbCouverts={props.nbCouverts} theoricalNbCouverts={props.theoricalNbCouverts}/>
+                            {current < dataSheetJoin.length && <div style={{visibility: 'hidden'}}>{current++}</div>
+                            }
+                            </Card>
                         </React.Fragment>
+
                         }
                     </div>
 

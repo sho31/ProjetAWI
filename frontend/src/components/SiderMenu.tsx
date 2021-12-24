@@ -22,9 +22,10 @@ class SiderMenu extends React.Component {
         const { collapsed } = this.state;
         return (
             <Layout style={{ minHeight: '100vh' }}>
-                <Sider collapsible collapsed={collapsed} onCollapse={this.onCollapse}>
+                <Sider breakpoint="lg"
+                       collapsible collapsed={collapsed} onCollapse={this.onCollapse}>
                     <div>logo</div>
-                    <Menu defaultSelectedKeys={['1']} mode="inline">
+                    <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
                         <Menu.Item key={1} icon={<PieChartOutlined />} >
                             <Link to='/'>Accueil</Link>
                         </Menu.Item>
@@ -40,7 +41,6 @@ class SiderMenu extends React.Component {
                     </Menu>
                 </Sider>
                 <Layout className="site-layout">
-                    {/*<Header className="site-layout-background" style={{ padding: 0 }} />*/}
                     <Content style={{ margin: '0 16px' }}>
                         <div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
                             {this.props.children}

@@ -8,7 +8,6 @@ import DataSheetCatService from "../../services/DataSheetCatService";
 import {Link} from "react-router-dom";
 import Meta from "antd/es/card/Meta";
 import {FileDoneOutlined} from "@ant-design/icons";
-import Title from "antd/es/typography/Title";
 import Search from "antd/es/input/Search";
 
 
@@ -83,17 +82,15 @@ const HomePage: React.FC = () => {
                 ))}
             </Carousel>
             }
-            <h2>Par catégorie
             <Select
                 mode="multiple"
                 allowClear
                 style={{ width: '30%' }}
-                placeholder="Please select"
+                placeholder="Choisissez une catégorie"
                 defaultValue={[]}
                 onChange={handleChange}
             >{children}
             </Select>
-            </h2>
             <h2>
                 <Search
                     placeholder="Quel plat cherchez vous ?"
@@ -107,30 +104,30 @@ const HomePage: React.FC = () => {
                 <div key={2}>
                     <Row justify="space-between">
             {dataSheets &&
-                dataSheets.filter((val)=> {
+                dataSheets.filter((dataSheet)=> {
                     if(searchItem === ""){
                         if (currentDataSheets[0] === -1) {
-                            return val;
+                            return dataSheet;
                         } else {
                             for (let i = 0; i < currentDataSheets.length; i++) {
-                                if (val.idcategoriefichetechnique === currentDataSheets[i]) {
-                                    return val
+                                if (dataSheet.idcategoriefichetechnique === currentDataSheets[i]) {
+                                    return dataSheet
                                 }
                             }
                         }
                     }
-                    else if(val.nomplat.toLowerCase().includes(searchItem.toLowerCase())){
+                    else if(dataSheet.nomplat.toLowerCase().includes(searchItem.toLowerCase())){
                         if (currentDataSheets[0] === -1) {
-                            return val;
+                            return dataSheet;
                         } else {
                             for (let i = 0; i < currentDataSheets.length; i++) {
-                                if (val.idcategoriefichetechnique === currentDataSheets[i]) {
-                                    return val
+                                if (dataSheet.idcategoriefichetechnique === currentDataSheets[i]) {
+                                    return dataSheet
                                 }
                             }
                         }
                     }
-
+                    return null;
                 }
                 ).map((dataSheet,index) => (
                     <Fragment key={index}>
