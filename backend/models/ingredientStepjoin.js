@@ -2,11 +2,11 @@ const db = require("../dataBase/index");
 
 /* CRUD */
 
-async function createIngredientStepJoin(idFicheTechniqueParent, idFicheTechniqueFille, numEtape) {
+async function createIngredientStepJoin(idetape, idingredient, quantite) {
     try {
         const res = await db.query(
-            "INSERT INTO FicheTechniqueJointure (idFicheTechniqueParent,idFicheTechniqueFille, numEtape) VALUES($1, $2, $3);",
-            [idFicheTechniqueParent,idFicheTechniqueFille, numEtape]
+            "INSERT INTO ingredientetapejointure (idetape, idingredient, quantite) VALUES($1, $2, $3) RETURNING (idetape, idingredient);",
+            [idetape, idingredient, quantite]
         );
         return res;
     } catch (e) {
@@ -14,10 +14,10 @@ async function createIngredientStepJoin(idFicheTechniqueParent, idFicheTechnique
     }
 }
 
-async function updateIngredientStepJoin(idFicheTechniqueParent,idFicheTechniqueFille, numEtape) {
+async function updateIngredientStepJoin(idetape, idingredient, quantite) {
     try {
-        const res = await db.query("UPDATE FicheTechniqueJointure SET numetape = $3  WHERE idfichetechniqueparent = $1 AND idfichetechniquefille = $2;",
-            [idFicheTechniqueParent,idFicheTechniqueFille, numEtape]);
+        const res = await db.query("UPDATE ingredientetapejointure SET quantite = $3  WHERE idetape = $1 AND idingredient = $2;",
+            [idetape, idingredient, quantite]);
         return res;
     } catch (e) {
         console.log(e);

@@ -45,19 +45,19 @@ const CostManagement: React.FC<DatasheetProps> = ({ onChange, fields, onFinish})
                             <Radio value={0.05}>5% du coût de la matière</Radio>
                             <Radio value={radioVal2}>
                                 Montant fixe (en euros)
-                                {(radioVal !== 0.05)  ? <InputNumber name={"seasoningFixe"} style={{ width: 100, marginLeft: 10 }} onChange={((value : number) => {setRadioVal2(value)})} />  : null}
+                                {(radioVal !== 0.05)  ? <InputNumber required={true} name={"seasoningFixe"} style={{ width: 100, marginLeft: 10 }} onChange={((value : number) => {setRadioVal2(value)})} />  : null}
                             </Radio>
                         </Space>
                     </Radio.Group>
                 </Form.Item>
                 <Divider />
-                <Form.Item name="chargesCalculated">
-                <Radio.Group defaultValue="true" size="large" onChange={onRadioChangeCost}>
+                <Form.Item name="chargesCalculated" rules={[{ required: true, message: "Il faut choisir la méthode de calcul des coûts" }]}>
+                <Radio.Group size="large" onChange={onRadioChangeCost}>
                     <Radio.Button value="true">Calculer le coût des fluides et de personnel</Radio.Button>
                     <Radio.Button value="false">Uniquement calculer le coût matière</Radio.Button>
                 </Radio.Group>
                 </Form.Item>
-                {radioValCost === "a" ?
+                {radioValCost === "true" ?
                     <><h3>Charges</h3>
                         <Form.Item name ="salarycost" label="Coût horaire moyen du personnel"  rules={[{required: true, message: "Il faut indiquer le coût horaire moyen du personnel"}]}>
                             <InputNumber addonAfter="€/h"
@@ -84,7 +84,8 @@ const CostManagement: React.FC<DatasheetProps> = ({ onChange, fields, onFinish})
                                 defaultValue={1}
                                 controls={true}/>
                         </Form.Item></>
-                    : <>
+                    : radioValCost === "false"?
+                        <>
                         <h3>Prix de vente</h3>
                         <Form.Item name="coefwithoutcharges" label="Coefficient utilisé lorsque l’on a pas évalué les charges" rules={[{required: true, message: "Entrer le coefficient"}]}>
                             <InputNumber
@@ -95,7 +96,7 @@ const CostManagement: React.FC<DatasheetProps> = ({ onChange, fields, onFinish})
                                 controls={true}
                             />
                         </Form.Item>
-                    </>
+                    </> :<></>
 
                 }
                 <Form.Item>

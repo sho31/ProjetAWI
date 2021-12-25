@@ -3,6 +3,16 @@ import DatasheetsData from "../types/Datasheet";
 import DataSheetJoin from "../types/DataSheetJoin";
 
 
+const create = async (data: DatasheetsData) => {
+    const tmp =  await http.post<DatasheetsData>("/datasheet", data);
+    console.log(tmp)
+    return  tmp.data
+};
+const createJoin = async (data: DataSheetJoin) => {
+    const tmp =  await http.post<DataSheetJoin>("/datasheetJoin", data);
+    console.log(tmp)
+    return  tmp.data
+};
 const getAllDataSheets = async () => {
     const tmp = await http.get<Array<DatasheetsData>>("/datasheet/all");
     return tmp.data;
@@ -28,6 +38,8 @@ const IngredientService = {
     getDataSheetByID,
     getStepsByDataSheet,
     getDataSheetJoin,
+    create,
+    createJoin
 };
 
 export default IngredientService;

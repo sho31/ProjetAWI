@@ -60,3 +60,23 @@ CREATE TABLE FicheTechniqueJointure (
     numEtape int,
     PRIMARY KEY (idFicheTechniqueFille, idFicheTechniqueParent)
 );
+
+create table ingredientetapejointure
+(
+    idetape          integer not null
+        constraint idetape
+            references etape,
+    idingredient     integer not null
+        constraint idingredient
+            references ingredient,
+    quantite         numeric,
+    idfichetechnique integer
+        constraint idfichetechnique
+            references fichetechnique,
+    constraint ingredientetapejointure_pk
+        unique (idetape, idfichetechnique, idingredient)
+);
+
+alter table ingredientetapejointure
+    owner to postgres;
+

@@ -5,7 +5,7 @@ const db = require("../dataBase");
 async function createUnit(nomUnite) {
     try {
         const res = await db.query(
-            "INSERT INTO Unite (nomUnite) VALUES($1);",
+            "INSERT INTO Unite (nomUnite) VALUES($1) RETURNING idunite;",
             [nomUnite]
         );
         return res;

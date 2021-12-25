@@ -48,7 +48,7 @@ const StepCreation: React.FC<DatasheetProps> = ({onChange, fields, onFinish}) =>
                 fields={fields}
                 initialValues={{ etapes:[{descriptionetape : "",ingredients: [null],numetape: null,tempsetape: null,titreetape: null}]}}
                 onFieldsChange={(_, allFields) => {
-                    console.log("fieeeelds", fieldss)
+                    //console.log("fieeeelds", fieldss)
                     onChange(allFields);
                 }}
                 onFinish={(values) => {
@@ -68,7 +68,7 @@ const StepCreation: React.FC<DatasheetProps> = ({onChange, fields, onFinish}) =>
                                         <Card key={key} title={"Étape"}
                                               extra={<MinusCircleOutlined onClick={() => {
                                                   remove(name)
-                                                  console.log("test",fieldss)
+                                                  //console.log("test",fieldss)
                                                   onChange(fieldss);
                                               }}
                                               />}
@@ -125,8 +125,8 @@ const StepCreation: React.FC<DatasheetProps> = ({onChange, fields, onFinish}) =>
                                                         {fields.map(({ key, name, fieldKey }) => (
                                                             <Space key={key} style={{ display: 'flex', marginBottom: 8 }} align="center">
                                                                 <Form.Item
-                                                                    name={[name, 'ingredient']}
-                                                                    fieldKey={[fieldKey, 'ingredient']}
+                                                                    name={[name, 'idingredient']}
+                                                                    fieldKey={[fieldKey, 'idingredient']}
                                                                     rules={[{ required: true, message: 'Il faut choisir un ingrédient' }]}
                                                                 >
                                                                     <Select placeholder="Ingrédient"
@@ -146,8 +146,8 @@ const StepCreation: React.FC<DatasheetProps> = ({onChange, fields, onFinish}) =>
                                                                     </Select>
                                                                 </Form.Item>
                                                                 <Form.Item
-                                                                    name={[name, 'last']}
-                                                                    fieldKey={[fieldKey, 'last']}
+                                                                    name={[name, 'quantite']}
+                                                                    fieldKey={[fieldKey, 'quantite']}
                                                                     rules={[{ required: true, message: 'Il faut choisir une quantité' }]}
                                                                 >
                                                                     <InputNumber
@@ -158,7 +158,7 @@ const StepCreation: React.FC<DatasheetProps> = ({onChange, fields, onFinish}) =>
                                                                 </Form.Item>
                                                                 <MinusCircleOutlined onClick={() => {
                                                                     remove(name)
-                                                                    console.log("test",fieldss)
+                                                                    //console.log("test",fieldss)
                                                                     onChange(fieldss);
                                                                 }}/>
                                                             </Space>
@@ -194,7 +194,7 @@ const StepCreation: React.FC<DatasheetProps> = ({onChange, fields, onFinish}) =>
                                 <Space key={key} size={"large"}  >
                                 <Card extra={ <MinusCircleOutlined onClick={() => {
                                     remove(name)
-                                    console.log("test",fieldss)
+                                    //console.log("test",fieldss)
                                     onChange(fieldss);
                                 }}/>}
                                       style={{width:'19vw',margin:8}}

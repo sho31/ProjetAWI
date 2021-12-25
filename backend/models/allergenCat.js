@@ -5,7 +5,7 @@ const db = require("../dataBase");
 async function createAllergenCat(nomcategorieAllergene) {
     try {
         const res = await db.query(
-            "INSERT INTO CategorieAllergene (CategorieAllergene) VALUES($1);",
+            "INSERT INTO CategorieAllergene (CategorieAllergene) VALUES($1) RETURNING idcategorieallergene;",
             [nomcategorieAllergene]
         );
         return res;

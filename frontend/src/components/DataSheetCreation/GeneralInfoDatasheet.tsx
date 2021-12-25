@@ -64,7 +64,7 @@ const GeneralInfoDatasheet: React.FC<DatasheetProps> = ({ onChange, fields, onFi
                     <Input />
                 </Form.Item>
                 <Form.Item
-                    name="categoriefichetechnique"
+                    name="idcategoriefichetechnique"
                     label="Catégorie de fiche technique"
                     rules={[{ required: true, message: 'Il faut sélectionner une catégorie de fiche technique' }]}
                 >
@@ -73,7 +73,7 @@ const GeneralInfoDatasheet: React.FC<DatasheetProps> = ({ onChange, fields, onFi
                     </Select>
                 </Form.Item>
                 <Form.Item label="Nombre de couverts">
-                    <Form.Item name="input-number"
+                    <Form.Item name="nombrecouverts"
                                rules={[{ required: true, message: 'Il faut entrer le nombre de couverts de la fiche technique!' }]}
                     >
                         <InputNumber min={1} max={50} />

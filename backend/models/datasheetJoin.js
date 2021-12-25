@@ -5,7 +5,7 @@ const db = require("../dataBase/index");
 async function createDatasheetJoin(idFicheTechniqueParent, idFicheTechniqueFille, numEtape) {
     try {
         const res = await db.query(
-            "INSERT INTO FicheTechniqueJointure (idFicheTechniqueParent,idFicheTechniqueFille, numEtape) VALUES($1, $2, $3);",
+            "INSERT INTO FicheTechniqueJointure (idFicheTechniqueParent,idFicheTechniqueFille, numEtape) VALUES($1, $2, $3) RETURNING (idfichetechniquefille, idfichetechniqueparent);",
             [idFicheTechniqueParent,idFicheTechniqueFille, numEtape]
         );
         return res;
