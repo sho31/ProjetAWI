@@ -74,10 +74,29 @@ async function updateIngredient(id,body) {
     }
 }
 
+async function updateStockIngredient(id,body) {
+    try {
+        const newId = parseInt(id);
+        const currentStock = await ingredientModel.getIngredientStock(id);
+        const stockToRemove  = parseInt(body.stock)
+        console.log(currentStock)
+        console.log(stockToRemove)
+        const res = await ingredientModel.updateStockIngredient(newId,currentStock-stockToRemove);
+        if (res !== null) {
+            if (res.rowCount > 0) {
+                return res;
+            }
+        }
+        return null;
+    } catch (e) {
+        throw e;
+    }
+}
 module.exports = {
     createIngredient,
     updateIngredient,
     deleteIngredient,
     getAllIngredients,
     getIngredientById,
+    updateStockIngredient,
 };

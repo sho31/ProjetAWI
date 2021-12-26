@@ -59,4 +59,17 @@ router.put("/", async function (req, res, next) {
         res.status(500).json({ message: "can't load data" });
     }
 });
+
+router.put("/stock", async function (req, res, next) {
+    try {
+        const idIngredient = req.query.id;
+        const ingredient = await ingredientController.updateStockIngredient(idIngredient, req.body)
+        if (!ingredient) {
+            return res.status(204).json({message: "Aucun ingrédient avec cet id"});
+        }
+        res.status(200).json({ message: "Modification effectuée"})
+    } catch (e) {
+        res.status(500).json({ message: "can't load data" });
+    }
+});
 module.exports = router;

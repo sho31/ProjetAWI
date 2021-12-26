@@ -26,6 +26,18 @@ async function updateIngredient(id, idCategorieIngredient,idCategorieAllergene,i
         throw e;
     }
 }
+async function updateStockIngredient(id,stock) {
+    try {
+        const res = await db.query(
+            "UPDATE ingredient SET stock = $2 WHERE idIngredient = $1;",
+            [id,stock]
+        );
+        return res
+    } catch (e) {
+        console.log(e);
+        throw e;
+    }
+}
 
 async function deleteIngredient(id) {
     try {
@@ -72,6 +84,18 @@ async function getIngredientByCatIngredient(idCatIng) {
     }
 }
 
+async function getIngredientStock(idIngredient) {
+    try {
+        const res = await db.query(
+            "SELECT json_agg(stock) FROM ingredient WHERE idingredient = $1;",
+            [idIngredient]
+        );
+        return res.rows[0].json_agg[0]; // json_agg permet de récupérer la réponse en un json transformé
+        // On renvoi donc juste un int correspondant au stock présent dans la table
+    } catch (e) {
+        throw e;
+    }
+}
 module.exports = {
     createIngredient,
     updateIngredient,
@@ -79,4 +103,6 @@ module.exports = {
     getAllIngredients,
     getIngredientById,
     getIngredientByCatIngredient,
+    updateStockIngredient,
+    getIngredientStock,
 };

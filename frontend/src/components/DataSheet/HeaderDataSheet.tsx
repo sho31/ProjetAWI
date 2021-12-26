@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useRef, Fragment} from "react";
 import DataSheetService from "../../services/DataSheetService";
 import DatasheetData from "../../types/Datasheet";
-import {Button, Card, Image} from "antd";
+import {Button, Card, Image, Popconfirm,message} from "antd";
 import RealizationCall from "./Realization/RealizationCall";
 import Synthesis from "./Synthesis/Synthesis";
 import ReactToPrint from "react-to-print";
@@ -19,6 +19,8 @@ const HeaderDataSheet: React.FC = () => {
     const [dataSheet, setdataSheet] = useState<DatasheetData>(initDataSheet);
     const componentRef = useRef<HTMLDivElement>(null);
     const [theoricalNbCouverts,setTheoricalNbCouverts] = useState<number>(initDataSheet.nombrecouverts);
+    const [visible, setVisible] = React.useState(false);
+    const [confirmLoading, setConfirmLoading] = React.useState(false);
 
     useEffect(() => {
         const retrieveTutorials = async (id : any) => {
@@ -52,6 +54,28 @@ const HeaderDataSheet: React.FC = () => {
         }
     };
 
+    const showPopconfirm = () => {
+        setVisible(true);
+    };
+
+    const handleOk = () => {
+        setConfirmLoading(true);
+        setTimeout(() => {
+            setVisible(false);
+            setConfirmLoading(false);
+        }, 2000);
+    };
+
+    const handleCancel = () => {
+        console.log('Clicked cancel button');
+        setVisible(false);
+    };
+    const openMessage = (theoricalNbCouverts: number) => {
+        message.loading({ content: 'Enregistrement des ventes', duration: 1 });
+        setTimeout(() => {
+            message.success({ content: 'Vous avez vendu ' +theoricalNbCouverts+ ' plats', duration: 5 });
+        }, 1000);
+    };
     if(dataSheet.idfichetechnique !==0){ // Si on a récupérer une fiche technique
         return (
                 <Fragment>
@@ -88,6 +112,17 @@ const HeaderDataSheet: React.FC = () => {
                             trigger={() => <Button color="primary" onClick={() => addSale(dataSheet.nombrecouverts)}>Imprimer la fiche technique</Button>}
                             content={() => componentRef.current}
                         />
+                        <Popconfirm
+                            title="Title"
+                            visible={visible}
+                            onConfirm={handleOk}
+                            okButtonProps={{ loading: confirmLoading }}
+                            onCancel={handleCancel}
+                        >
+                            <Button type="primary" onClick={ () => openMessage(theoricalNbCouverts)}>
+                                Valider les ventes pour {theoricalNbCouverts} couverts
+                            </Button>
+                        </Popconfirm>
                     </div>
                 </Fragment>
 
