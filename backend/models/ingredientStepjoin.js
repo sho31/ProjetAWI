@@ -56,9 +56,26 @@ async function getIngredientStepJoinByStepId(idEtape) {
 
 async function getIngredientStepJoinByDataSheetID(idDataSheet,idIngredientCat) {
     try {
-        const res = await db.query("SELECT idingredient,nomingredient,Sum(quantite) as sumquantite,prixunitaireingredient FROM ingredientetapejointure NATURAL Join etape NATURAL Join ingredient Natural Join unite where idfichetechnique = $1 AND idcategorieingredient= $2 GROUP BY idingredient, nomingredient,prixunitaireingredient;",
-            [idDataSheet,idIngredientCat]);
-        return res;
+        const resA = await db.query(
+            "SELECT idfichetechniquefille as nbfichetechnique FROM fichetechniquejointure WHERE idfichetechniqueparent=$1;",
+            [idDataSheet]
+        );
+        const nbdefichetechniquefille = resA.rowCount;
+        console.log(nbdefichetechniquefille)
+        let resB =null;
+        if(nbdefichetechniquefille > 0){ // on récupère les éléments des fiches techniques filles
+            resB = await db.query(
+                "SELECT idingredient,nomingredient,prixunitaireingredient,ROUND(sum((quantite/$2))) as sumquantite FROM fichetechnique f INNER JOIN fichetechniquejointure fj ON f.idfichetechnique=fj.idfichetechniqueparent NATURAL JOIN ingredientetapejointure NATURAL JOIN ingredient WHERE idfichetechnique = $1 AND idcategorieingredient = $3 GROUP by idingredient,nomingredient,prixunitaireingredient;",
+                [idDataSheet,nbdefichetechniquefille,idIngredientCat]
+            );
+            return resB;
+        }
+        else{// aucune fiche technique fille
+            resB = await db.query("SELECT idingredient,nomingredient,Sum(quantite) as sumquantite,prixunitaireingredient FROM ingredientetapejointure NATURAL Join etape NATURAL Join ingredient Natural Join unite where idfichetechnique = $1 AND idcategorieingredient= $2 GROUP BY idingredient, nomingredient,prixunitaireingredient;",
+                [idDataSheet,idIngredientCat]);
+            return resB;
+        }
+
     } catch (e) {
         throw e;
     }

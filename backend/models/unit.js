@@ -60,33 +60,6 @@ async function getUnitById(id) {
     }
 }
 
-/*
-async function getUnitById(id) {
-    try {
-        const resA = await db.query(
-            //  "SELECT idfichetechniquefille,nomingredient,prixunitaireingredient,quantite FROM fichetechnique f INNER JOIN fichetechniquejointure fj ON f.idfichetechnique=fj.idfichetechniqueparent NATURAL JOIN ingredientetapejointure NATURAL JOIN ingredient WHERE idfichetechnique = $1 group by nomingredient, prixunitaireingredient,idfichetechniquefille,quantite ORDER BY idfichetechniquefille;",
-            "SELECT idfichetechniquefille as nbfichetechnique FROM fichetechniquejointure WHERE idfichetechniqueparent=$1;",
-            [id]
-        );
-        const nbdefichetechniquefille = resA.rowCount;
-        if(nbdefichetechniquefille > 0){ // on récupère les éléments des fiches techniques filles
-            const resB = await db.query(
-                  "SELECT idfichetechniquefille,nomingredient,prixunitaireingredient,(quantite/$2) as quantite FROM fichetechnique f INNER JOIN fichetechniquejointure fj ON f.idfichetechnique=fj.idfichetechniqueparent NATURAL JOIN ingredientetapejointure NATURAL JOIN ingredient WHERE idfichetechnique = $1 group by nomingredient, prixunitaireingredient,idfichetechniquefille,quantite ORDER BY idfichetechniquefille;",
-                [id,nbdefichetechniquefille]
-            );
-            return resB;
-        }
-        else{// aucune fiche technique fille
-
-            return resB;
-        }
-
-    } catch (e) {
-        throw e;
-    }
-}
-*/
-
 async function getUnitByName(nomUnite) {
     try {
         const res = await db.query(
