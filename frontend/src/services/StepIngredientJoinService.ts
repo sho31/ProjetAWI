@@ -8,7 +8,6 @@ import StepsData from "../types/Step";
 
 const create = async (data: StepIngredientJoin) => {
     const tmp =  await http.post<StepIngredientJoin>("/ingredientStepJoin", data);
-    //console.log(tmp)
     return  tmp.data
 };
 const getAllRealizations = async (id : number) => {

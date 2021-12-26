@@ -70,8 +70,8 @@ router.get("/ingredientlist", async function (req, res, next) {
     try {
         const idFicheTechnique = req.query.idFicheTechnique;
         const idIngredientCat = req.query.idIngredientCat;
-        console.log(idIngredientCat)
         const ingredientStepJoin = await IngredientStepJoinController.getIngredientStepJoinByDataSheetID(idFicheTechnique,idIngredientCat)
+        console.log(ingredientStepJoin)
         if (!ingredientStepJoin) {
             return res.status(204).json({message:"Il n'y a rien dans la jointure"})
         }

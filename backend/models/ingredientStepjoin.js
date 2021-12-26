@@ -56,7 +56,7 @@ async function getIngredientStepJoinByStepId(idEtape) {
 
 async function getIngredientStepJoinByDataSheetID(idDataSheet,idIngredientCat) {
     try {
-        const res = await db.query("SELECT idingredient,nomingredient,Sum(quantite) FROM ingredientetapejointure NATURAL Join etape NATURAL Join ingredient Natural Join unite where idfichetechnique = $1 AND idcategorieingredient= $2 GROUP BY idingredient, nomingredient;",
+        const res = await db.query("SELECT idingredient,nomingredient,Sum(quantite) as sumquantite,prixunitaireingredient FROM ingredientetapejointure NATURAL Join etape NATURAL Join ingredient Natural Join unite where idfichetechnique = $1 AND idcategorieingredient= $2 GROUP BY idingredient, nomingredient,prixunitaireingredient;",
             [idDataSheet,idIngredientCat]);
         return res;
     } catch (e) {

@@ -80,7 +80,7 @@ const HeaderDataSheet: React.FC = () => {
                         <br></br>
                         <RealizationCall id={dataSheet.idfichetechnique} nbCouverts={dataSheet.nombrecouverts} theoricalNbCouverts={theoricalNbCouverts}/>
                         <br></br>
-                        <Synthesis id={dataSheet.idfichetechnique} nbCouverts={dataSheet.nombrecouverts}></Synthesis>
+                        <Synthesis id={dataSheet.idfichetechnique} nbCouverts={dataSheet.nombrecouverts} theoricalNbCouverts={theoricalNbCouverts}></Synthesis>
                         <br></br>
                     </div>
                     <div key={2}>

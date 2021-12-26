@@ -8,6 +8,8 @@ interface Props {
     idDataSheet: number;
     idCatIngredient: number;
     cout: boolean;
+    theoricalNbCouverts: number;
+    nbCouverts: number;
 }
 
 const IngredientListDataSheet: React.FC<Props> = (props) => {
@@ -48,7 +50,7 @@ const IngredientListDataSheet: React.FC<Props> = (props) => {
                 <Fragment key={index}>
                     <Row key={index}>
                         <Col span={12} key={index}>{ingredient.nomingredient}</Col>
-                        <Col span={12} key={index+1}>{1}€</Col>
+                        <Col span={12} key={index+1}>{(Math.round((ingredient.sumquantite * (props.theoricalNbCouverts/props.nbCouverts)) * 100) / 100)*ingredient.prixunitaireingredient}€</Col>
                         <br/>
                     </Row>
                 </Fragment>
