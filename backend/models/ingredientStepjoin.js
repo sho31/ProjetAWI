@@ -61,7 +61,6 @@ async function getIngredientStepJoinByDataSheetID(idDataSheet,idIngredientCat) {
             [idDataSheet]
         );
         const nbdefichetechniquefille = resA.rowCount;
-        console.log(nbdefichetechniquefille)
         let resB =null;
         if(nbdefichetechniquefille > 0){ // on récupère les éléments des fiches techniques filles
             resB = await db.query(

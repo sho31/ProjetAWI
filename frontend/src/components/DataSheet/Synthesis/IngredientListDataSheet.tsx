@@ -1,5 +1,6 @@
 import React, {useState, useEffect, Fragment} from "react";
 
+import IngredientService from "../../../services/IngredientService";
 import StepIngredientJoinService from "../../../services/StepIngredientJoinService";
 import SimpleIngredient from "../../../types/SimpleIngredient"
 import {Col,Row} from "antd";
@@ -10,6 +11,7 @@ interface Props {
     cout: boolean;
     theoricalNbCouverts: number;
     nbCouverts: number;
+    decrementStock: boolean;
 }
 
 const IngredientListDataSheet: React.FC<Props> = (props) => {
@@ -26,8 +28,17 @@ const IngredientListDataSheet: React.FC<Props> = (props) => {
                 });
         };
 
+        const decrementStock = async (nb: number,decrementStock:boolean ) => {
+            if(decrementStock){
+                ingredients.map((ingredient) => {
+                    IngredientService.updateStock(ingredient.idingredient,Math.round(((ingredient.sumquantite * (props.theoricalNbCouverts/props.nbCouverts)) * 100) / 100));
+                })
+            }
+        }
+        decrementStock(props.theoricalNbCouverts, props.decrementStock).then( () => "ok");
         getIngredientList(props.idDataSheet, props.idCatIngredient).then( () => "ok");
-    }, [props.idDataSheet,props.idCatIngredient]);
+    }, [props.idDataSheet,props.idCatIngredient, props.decrementStock]);
+
     if (!props.cout) {
         return (
             <div>
@@ -37,7 +48,6 @@ const IngredientListDataSheet: React.FC<Props> = (props) => {
                     <Fragment key={index}>
                         {ingredient.nomingredient}<br/>
                     </Fragment>
-
                 ))}
             </div>
         );

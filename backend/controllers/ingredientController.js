@@ -74,13 +74,13 @@ async function updateIngredient(id,body) {
     }
 }
 
-async function updateStockIngredient(id,body) {
+async function updateStockIngredient(id,quantite) {
     try {
         const newId = parseInt(id);
+        const stockToRemove  = parseInt(quantite);
+
         const currentStock = await ingredientModel.getIngredientStock(id);
-        const stockToRemove  = parseInt(body.stock)
-        console.log(currentStock)
-        console.log(stockToRemove)
+
         const res = await ingredientModel.updateStockIngredient(newId,currentStock-stockToRemove);
         if (res !== null) {
             if (res.rowCount > 0) {

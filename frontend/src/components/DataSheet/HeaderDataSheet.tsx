@@ -21,6 +21,7 @@ const HeaderDataSheet: React.FC = () => {
     const [theoricalNbCouverts,setTheoricalNbCouverts] = useState<number>(initDataSheet.nombrecouverts);
     const [visible, setVisible] = React.useState(false);
     const [confirmLoading, setConfirmLoading] = React.useState(false);
+    const [decrementStock, setDecrementStock] = React.useState(false);
 
     useEffect(() => {
         const retrieveTutorials = async (id : any) => {
@@ -39,6 +40,7 @@ const HeaderDataSheet: React.FC = () => {
     const addSale =  (saleNumber : number) => {
         console.log("Incrémenter ", saleNumber, " ventes")
     }
+
 
     const increaseBadge = () => {
         /* On fixe la quantité max à 100 couverts*/
@@ -71,6 +73,7 @@ const HeaderDataSheet: React.FC = () => {
         setVisible(false);
     };
     const openMessage = (theoricalNbCouverts: number) => {
+        setDecrementStock(true);
         message.loading({ content: 'Enregistrement des ventes', duration: 1 });
         setTimeout(() => {
             message.success({ content: 'Vous avez vendu ' +theoricalNbCouverts+ ' plats', duration: 5 });
@@ -104,7 +107,7 @@ const HeaderDataSheet: React.FC = () => {
                         <br></br>
                         <RealizationCall id={dataSheet.idfichetechnique} nbCouverts={dataSheet.nombrecouverts} theoricalNbCouverts={theoricalNbCouverts}/>
                         <br></br>
-                        <Synthesis id={dataSheet.idfichetechnique} nbCouverts={dataSheet.nombrecouverts} theoricalNbCouverts={theoricalNbCouverts}></Synthesis>
+                        <Synthesis id={dataSheet.idfichetechnique} nbCouverts={dataSheet.nombrecouverts} theoricalNbCouverts={theoricalNbCouverts} decrementStock={decrementStock}></Synthesis>
                         <br></br>
                     </div>
                     <div key={2}>

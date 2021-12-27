@@ -12,6 +12,7 @@ interface Props {
     id: number;
     theoricalNbCouverts: number;
     nbCouverts: number;
+    decrementStock: boolean;
 }
 
 const CatIngredientList: React.FC<Props> = (props) => {
@@ -42,7 +43,7 @@ const CatIngredientList: React.FC<Props> = (props) => {
                 catIngredients.map((catIngredient,index) => (
                     <div key={index}>
                         <h4>{catIngredient.nomcategorieingredient}</h4>
-                        <IngredientListDataSheet idCatIngredient={catIngredient.idcategorieingredient} idDataSheet={props.id} cout={isCout} theoricalNbCouverts={props.theoricalNbCouverts} nbCouverts={props.nbCouverts}/>
+                        <IngredientListDataSheet idCatIngredient={catIngredient.idcategorieingredient} idDataSheet={props.id} cout={isCout} theoricalNbCouverts={props.theoricalNbCouverts} nbCouverts={props.nbCouverts} decrementStock={props.decrementStock}/>
                         <br/>
                     </div>
                 ))}

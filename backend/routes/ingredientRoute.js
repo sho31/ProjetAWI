@@ -63,7 +63,9 @@ router.put("/", async function (req, res, next) {
 router.put("/stock", async function (req, res, next) {
     try {
         const idIngredient = req.query.id;
-        const ingredient = await ingredientController.updateStockIngredient(idIngredient, req.body)
+        const quantite = req.query.quantite;
+        console.log("quantite "+quantite)
+        const ingredient = await ingredientController.updateStockIngredient(idIngredient, quantite)
         if (!ingredient) {
             return res.status(204).json({message: "Aucun ingrédient avec cet id"});
         }

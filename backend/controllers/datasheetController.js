@@ -30,7 +30,6 @@ async function createDatasheet(body) {
         const nomPlat = body.nomplat;
         const nombreCouverts = parseInt(body.nombrecouverts);
         const image = body.image;
-        console.log(body)
         const res = await DatasheetModel.createDatasheet(idCategorieFicheTechnique, idAuteur, nomPlat, nombreCouverts, image);
         return res;
     } catch (e) {

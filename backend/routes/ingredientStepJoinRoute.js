@@ -41,7 +41,6 @@ router.get("/catallergen", async function (req, res, next) {
 router.get("/catingredient", async function (req, res, next) {
     try {
         const idFicheTechnique = req.query.idFicheTechnique;
-        console.log("salut");
         const ingredientStepJoin = await IngredientStepJoinController.getIngredientCatListStepId(idFicheTechnique)
         if (!ingredientStepJoin) {
             return res.status(204).json({message:"Il n'y a rien dans la jointure"})
@@ -71,7 +70,7 @@ router.get("/ingredientlist", async function (req, res, next) {
         const idFicheTechnique = req.query.idFicheTechnique;
         const idIngredientCat = req.query.idIngredientCat;
         const ingredientStepJoin = await IngredientStepJoinController.getIngredientStepJoinByDataSheetID(idFicheTechnique,idIngredientCat)
-        console.log(ingredientStepJoin)
+
         if (!ingredientStepJoin) {
             return res.status(204).json({message:"Il n'y a rien dans la jointure"})
         }
