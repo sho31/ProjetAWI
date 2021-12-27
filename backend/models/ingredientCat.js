@@ -5,7 +5,7 @@ const db = require("../dataBase");
 async function createIngredientCat(nomCategorieIngredient) {
   try {
     const res = await db.query(
-      "INSERT INTO CategorieIngredient (nomCategorieIngredient) VALUES($1);",
+      "INSERT INTO CategorieIngredient (nomCategorieIngredient) VALUES($1) RETURNING idcategorieingredient;",
       [nomCategorieIngredient]
     );
     return res;

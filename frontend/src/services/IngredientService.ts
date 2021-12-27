@@ -6,8 +6,8 @@ const getAllIngredients = async () => {
     return tmp.data;
 };
 
-const update = async (id: any, data: IngredientsData) => {
-    return await http.put<any>(`/ingredient/?id=${id}`, data);
+const updateStock = async (id: any, quantite: number) => {
+    return await http.put<any>(`/ingredient/stock?id=${id}&quantite=${quantite}`);
 };
 
 const remove = async (id: any) => {
@@ -17,8 +17,8 @@ const remove = async (id: any) => {
 
 const IngredientService = {
     getAllIngredients,
-    update,
     remove,
+    updateStock,
 };
 
 export default IngredientService;

@@ -5,7 +5,7 @@ const db = require("../dataBase");
 async function createStep(idFicheTechnique,titreEtape,descriptionEtape,tempsEtape,numEtape) {
     try {
         const res = await db.query(
-            "INSERT INTO etape (idFicheTechnique,titreEtape,descriptionEtape,tempsEtape,numEtape) VALUES($1,$2,$3,$4,$5);",
+            "INSERT INTO etape (idFicheTechnique,titreEtape,descriptionEtape,tempsEtape,numEtape) VALUES($1,$2,$3,$4,$5) RETURNING idetape;",
             [idFicheTechnique,titreEtape,descriptionEtape,tempsEtape,numEtape]
         );
         return res;

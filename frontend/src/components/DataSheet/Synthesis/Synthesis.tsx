@@ -7,6 +7,8 @@ import CatIngredientList from "./CatIngredientList";
 interface Props {
     id: number;
     nbCouverts: number;
+    theoricalNbCouverts: number;
+    decrementStock: boolean;
 }
 
 const Synthesis: React.FC<Props> = (props) => {
@@ -19,7 +21,7 @@ const Synthesis: React.FC<Props> = (props) => {
             </Row>
             <Row key={2}>
                 <Col span={8} key={1}>
-                    <CatIngredientList id={props.id}/>
+                    <CatIngredientList id={props.id} theoricalNbCouverts={props.theoricalNbCouverts} nbCouverts={props.nbCouverts} decrementStock={props.decrementStock}/>
                 </Col>
                 <Col span={8} key={2}><div>
                     <CatAllergenList id={props.id}/>

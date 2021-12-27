@@ -5,7 +5,7 @@ const db = require("../dataBase/index");
 async function createAuthor(prenomAuteur, nomAuteur) {
   try {
     const res = await db.query(
-      "INSERT INTO Auteur (prenomAuteur, nomAuteur) VALUES($1, $2);",
+      "INSERT INTO Auteur (prenomAuteur, nomAuteur) VALUES($1, $2) RETURNING idauteur;",
       [prenomAuteur, nomAuteur]
     );
     return res;

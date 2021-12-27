@@ -2,6 +2,11 @@ import http from "../http-common";
 import StepsData from "../types/Step";
 
 
+const create = async (data: StepsData) => {
+    const tmp =  await http.post<StepsData>("/step", data);
+    //console.log(tmp)
+    return  tmp.data
+};
 const getAllDataSheets = async () => {
     const tmp = await http.get<Array<StepsData>>("/step/all");
     return tmp.data;
@@ -15,6 +20,7 @@ const getStepsByDataSheet = async (id: any) => {
 const IngredientService = {
     getAllDataSheets,
     getStepsByDataSheet,
+    create
 
 };
 

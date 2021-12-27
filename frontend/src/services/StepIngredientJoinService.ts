@@ -3,7 +3,13 @@ import RealizationData from "../types/RealizationM";
 import AllergenCat from "../types/AllergenCat"
 import SimpleIngredient from "../types/SimpleIngredient"
 import IngredientCat from "../types/IngredientCat"
+import StepIngredientJoin from "../types/StepIngredientJoin";
+import StepsData from "../types/Step";
 
+const create = async (data: StepIngredientJoin) => {
+    const tmp =  await http.post<StepIngredientJoin>("/ingredientStepJoin", data);
+    return  tmp.data
+};
 const getAllRealizations = async (id : number) => {
         const tmp = await http.get<Array<RealizationData>>(`/ingredientStepJoin?idEtape=${id}`);
         return tmp.data
@@ -35,6 +41,7 @@ const IngredientService = {
     getAllergenListByCatAndDataSheet,
     getIngredientCatsList,
     getIngredientListByCatAndDataSheet,
+    create
 };
 
 export default IngredientService;

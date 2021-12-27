@@ -5,7 +5,7 @@ const db = require("../dataBase/index");
 async function createDatasheet(idCategorieFicheTechnique, idAuteur, nomPlat, nombreCouverts, image) {
     try {
         const res = await db.query(
-            "INSERT INTO FicheTechnique (idcategoriefichetechnique, idauteur, nomplat, nombrecouverts, image) VALUES($1, $2, $3, $4,$5 );",
+            "INSERT INTO FicheTechnique (idcategoriefichetechnique, idauteur, nomplat, nombrecouverts, image) VALUES($1, $2, $3, $4,$5 ) RETURNING idfichetechnique;",
             [idCategorieFicheTechnique, idAuteur, nomPlat, nombreCouverts, image]
         );
         return res;

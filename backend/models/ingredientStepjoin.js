@@ -2,11 +2,11 @@ const db = require("../dataBase/index");
 
 /* CRUD */
 
-async function createIngredientStepJoin(idFicheTechniqueParent, idFicheTechniqueFille, numEtape) {
+async function createIngredientStepJoin(idetape, idingredient, quantite) {
     try {
         const res = await db.query(
-            "INSERT INTO FicheTechniqueJointure (idFicheTechniqueParent,idFicheTechniqueFille, numEtape) VALUES($1, $2, $3);",
-            [idFicheTechniqueParent,idFicheTechniqueFille, numEtape]
+            "INSERT INTO ingredientetapejointure (idetape, idingredient, quantite) VALUES($1, $2, $3) RETURNING (idetape, idingredient);",
+            [idetape, idingredient, quantite]
         );
         return res;
     } catch (e) {
@@ -14,10 +14,10 @@ async function createIngredientStepJoin(idFicheTechniqueParent, idFicheTechnique
     }
 }
 
-async function updateIngredientStepJoin(idFicheTechniqueParent,idFicheTechniqueFille, numEtape) {
+async function updateIngredientStepJoin(idetape, idingredient, quantite) {
     try {
-        const res = await db.query("UPDATE FicheTechniqueJointure SET numetape = $3  WHERE idfichetechniqueparent = $1 AND idfichetechniquefille = $2;",
-            [idFicheTechniqueParent,idFicheTechniqueFille, numEtape]);
+        const res = await db.query("UPDATE ingredientetapejointure SET quantite = $3  WHERE idetape = $1 AND idingredient = $2;",
+            [idetape, idingredient, quantite]);
         return res;
     } catch (e) {
         console.log(e);
@@ -56,9 +56,25 @@ async function getIngredientStepJoinByStepId(idEtape) {
 
 async function getIngredientStepJoinByDataSheetID(idDataSheet,idIngredientCat) {
     try {
-        const res = await db.query("SELECT idingredient,nomingredient,Sum(quantite) FROM ingredientetapejointure NATURAL Join etape NATURAL Join ingredient Natural Join unite where idfichetechnique = $1 AND idcategorieingredient= $2 GROUP BY idingredient, nomingredient;",
-            [idDataSheet,idIngredientCat]);
-        return res;
+        const resA = await db.query(
+            "SELECT idfichetechniquefille as nbfichetechnique FROM fichetechniquejointure WHERE idfichetechniqueparent=$1;",
+            [idDataSheet]
+        );
+        const nbdefichetechniquefille = resA.rowCount;
+        let resB =null;
+        if(nbdefichetechniquefille > 0){ // on récupère les éléments des fiches techniques filles
+            resB = await db.query(
+                "SELECT idingredient,nomingredient,prixunitaireingredient,ROUND(sum((quantite/$2))) as sumquantite FROM fichetechnique f INNER JOIN fichetechniquejointure fj ON f.idfichetechnique=fj.idfichetechniqueparent NATURAL JOIN ingredientetapejointure NATURAL JOIN ingredient WHERE idfichetechnique = $1 AND idcategorieingredient = $3 GROUP by idingredient,nomingredient,prixunitaireingredient;",
+                [idDataSheet,nbdefichetechniquefille,idIngredientCat]
+            );
+            return resB;
+        }
+        else{// aucune fiche technique fille
+            resB = await db.query("SELECT idingredient,nomingredient,Sum(quantite) as sumquantite,prixunitaireingredient FROM ingredientetapejointure NATURAL Join etape NATURAL Join ingredient Natural Join unite where idfichetechnique = $1 AND idcategorieingredient= $2 GROUP BY idingredient, nomingredient,prixunitaireingredient;",
+                [idDataSheet,idIngredientCat]);
+            return resB;
+        }
+
     } catch (e) {
         throw e;
     }
