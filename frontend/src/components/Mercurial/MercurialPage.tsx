@@ -32,7 +32,7 @@ const MercurialPage: React.FC = () => {
                     catIngredients.map((catingredient,index) => (
                         <h3 key={index}>
                             {catingredient.nomcategorieingredient}
-                            <IngredientList id={catingredient.idcategorieingredient} key={index}/>
+                            <IngredientList id={catingredient.idcategorieingredient}/>
                         </h3>
                     ))}
             </div>
