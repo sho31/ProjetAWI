@@ -9,6 +9,7 @@ import ButtonGroup from "antd/es/button/button-group";
 import "../../tailwind.css";
 import { MinusOutlined, PlusOutlined} from '@ant-design/icons';
 import { useParams } from "react-router-dom";
+import TakeAwayCall from "./TakeAwayLabel/TakeAwayCall";
 
 
 
@@ -17,7 +18,8 @@ let initDataSheet = new DatasheetData(0,0,0,"","",0,"");
 const HeaderDataSheet: React.FC = () => {
     const props = useParams();
     const [dataSheet, setdataSheet] = useState<DatasheetData>(initDataSheet);
-    const componentRef = useRef<HTMLDivElement>(null);
+    const dataSheetRef = useRef<HTMLDivElement>(null);
+    const takeAwayLabel = useRef<HTMLDivElement>(null);
     const [theoricalNbCouverts,setTheoricalNbCouverts] = useState<number>(initDataSheet.nombrecouverts);
     const [visible, setVisible] = React.useState(false);
     const [confirmLoading, setConfirmLoading] = React.useState(false);
@@ -36,11 +38,6 @@ const HeaderDataSheet: React.FC = () => {
         };
         retrieveTutorials(props.id).then( () => "ok");
     }, [props.id]);
-
-    const addSale =  (saleNumber : number) => {
-        console.log("Incrémenter ", saleNumber, " ventes")
-    }
-
 
     const increaseBadge = () => {
         /* On fixe la quantité max à 100 couverts*/
@@ -79,10 +76,11 @@ const HeaderDataSheet: React.FC = () => {
             message.success({ content: 'Vous avez vendu ' +theoricalNbCouverts+ ' plats', duration: 5 });
         }, 1000);
     };
+
     if(dataSheet.idfichetechnique !==0){ // Si on a récupérer une fiche technique
         return (
-                <Fragment>
-                    <div key={1} ref={componentRef}>
+                <Fragment >
+                    <div key={1} ref={dataSheetRef} >
                         <Card title="En-tête" bordered={false} key={2}>
                             <h1 className="text-right">{dataSheet.nomplat}</h1>
                             <Image
@@ -112,8 +110,12 @@ const HeaderDataSheet: React.FC = () => {
                     </div>
                     <div key={2}>
                         <ReactToPrint
-                            trigger={() => <Button color="primary" onClick={() => addSale(dataSheet.nombrecouverts)}>Imprimer la fiche technique</Button>}
-                            content={() => componentRef.current}
+                            trigger={() => <Button color="primary">Imprimer la fiche technique</Button>}
+                            content={() => dataSheetRef.current}
+                        />
+                        <ReactToPrint
+                            trigger={() => <Button color="primary">Imprimer l'étiquette à emporter</Button>}
+                            content={() => takeAwayLabel.current}
                         />
                         <Popconfirm
                             title="Title"
@@ -127,8 +129,12 @@ const HeaderDataSheet: React.FC = () => {
                             </Button>
                         </Popconfirm>
                     </div>
+                    <div key={3} hidden>
+                        <div key={4} ref={takeAwayLabel}>
+                            <TakeAwayCall id={dataSheet.idfichetechnique}/>
+                        </div>
+                    </div>
                 </Fragment>
-
         );
     }
     else{

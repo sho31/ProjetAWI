@@ -2,14 +2,13 @@ import React, {useState, useEffect, Fragment} from "react";
 import DataSheetService from "../../services/DataSheetService";
 import DatasheetData from "../../types/Datasheet";
 import "../../tailwind.css";
-import {Avatar, Card, Carousel, Col, Row, Select} from 'antd';
+import {Avatar, Card, Carousel, Col, Row, Select, Space, Tag} from 'antd';
 import DataSheetCat from "../../types/DataSheetCat";
 import DataSheetCatService from "../../services/DataSheetCatService";
 import {Link} from "react-router-dom";
 import Meta from "antd/es/card/Meta";
-import {FileDoneOutlined} from "@ant-design/icons";
 import Search from "antd/es/input/Search";
-
+import ImgFT from "../../images/logo_ft.png"
 
 const HomePage: React.FC = () => {
 
@@ -57,10 +56,28 @@ const HomePage: React.FC = () => {
     for(let j=0; j<catDataSheets.length;j++){
         children.push(<Option value={catDataSheets[j].idcategoriefichetechnique} key={catDataSheets[j].idcategoriefichetechnique}>{catDataSheets[j].nomcategoriefichetechnique}</Option>);
     }
-
+    function tagRender(props: { label: any; closable: any; onClose: any; }) {
+        const { label, closable, onClose } = props;
+        const onPreventMouseDown = (event: { preventDefault: () => void; stopPropagation: () => void; }) => {
+            event.preventDefault();
+            event.stopPropagation();
+        };
+        return (
+            <Tag
+                color={"#FF9B00"}
+                onMouseDown={onPreventMouseDown}
+                closable={closable}
+                onClose={onClose}
+                style={{ marginRight: 3 }}
+            >
+                {label}
+            </Tag>
+        );
+    }
     return (
         <Fragment key={1}>
-            {
+
+            {/*
              <Carousel autoplay style={{width: '50%'}}>
                 {dataSheets &&
                 dataSheets.map((dataSheet,index) => (
@@ -81,11 +98,12 @@ const HomePage: React.FC = () => {
 
                 ))}
             </Carousel>
-            }
+            */}
             <Select
                 mode="multiple"
                 allowClear
-                style={{ width: '30%' }}
+                style={{ width: '30%'}}
+                tagRender={tagRender}
                 placeholder="Choisissez une catégorie"
                 defaultValue={[]}
                 onChange={handleChange}
@@ -102,7 +120,7 @@ const HomePage: React.FC = () => {
             </h2>
 
                 <div key={2}>
-                    <Row justify="space-between">
+                    <Row key={1}>
             {dataSheets &&
                 dataSheets.filter((dataSheet)=> {
                     if(searchItem === ""){
@@ -130,30 +148,37 @@ const HomePage: React.FC = () => {
                     return null;
                 }
                 ).map((dataSheet,index) => (
-                    <Fragment key={index}>
-                        <Col span={8} key={index}>
-                            <Link to={"/fichetechnique/"+dataSheet.idfichetechnique}>
+                            <Link to={"/fichetechnique/"+dataSheet.idfichetechnique} key={index}>
                                 <Card
+                                    style={{
+                                        width: 300,
+                                        height: 400,
+                                        margin: "20px",
+                                        borderRadius: "20px",
+                                        overflow: "hidden"
+                                    }}
                                     hoverable
-                                    style={{ width: 300, height: 400 }}
                                     cover={
                                         <img
                                             alt={dataSheet.nomplat}
                                             src={dataSheet.image}
-                                            style={{height: 300 }}
+                                            style={{
+                                                height: 300,
+                                                borderRadius: "20px",
+                                                overflow: "hidden"
+                                            }}
                                         />
                                     }
+                                    key={index}
                                 >
                                     <Meta
-                                        avatar={<Avatar src={<FileDoneOutlined />} />}
+                                        avatar={<Avatar src={ImgFT} />}
                                         title={dataSheet.nomplat}
                                         description={"Pour "+dataSheet.nombrecouverts+" personnes"}
                                         key={index}
                                     />
                                 </Card>
                             </Link>
-                        </Col>
-                    </Fragment>
                 ))}
                     </Row>
                 </div>

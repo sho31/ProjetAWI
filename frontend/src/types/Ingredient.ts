@@ -3,11 +3,12 @@ export default class Ingredient {
     idcategorieingredient: number | null;
     idcategorieallergene: number | null;
     idunite: number | null;
+    nomunite: number;
     nomingredient: string;
     prixunitaireingredient: number;
     stock: number;
 
-    constructor(idingredient: number, idcategorieingredient: number | null, idcategorieallergene: number | null, idunite: number | null, nomingredient: string, prixunitaireingredient: number, stock: number) {
+    constructor(idingredient: number, idcategorieingredient: number | null, idcategorieallergene: number | null, idunite: number | null, nomingredient: string, prixunitaireingredient: number, stock: number,nomunite: number) {
         this.idingredient = idingredient;
         this.idcategorieingredient = idcategorieingredient;
         this.idcategorieallergene = idcategorieallergene;
@@ -15,6 +16,7 @@ export default class Ingredient {
         this.nomingredient = nomingredient;
         this.prixunitaireingredient = prixunitaireingredient;
         this.stock = stock;
+        this.nomunite = nomunite;
     }
 
 }

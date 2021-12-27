@@ -2,7 +2,7 @@ import React, {useState, useEffect, Fragment} from "react";
 import CatIngredientService from "../../services/CatIngredientService";
 import IngredientService from "../../services/IngredientService";
 import ITutorialData from '../../types/Ingredient';
-import {Space, Table,Button,Popconfirm} from "antd";
+import {Space, Table, Button, Popconfirm} from "antd";
 
 interface Props {
     id: number;
@@ -43,19 +43,20 @@ const IngredientsList: React.FC<Props>= (props) => {
 
     return (
         <Fragment key={1}>
-            <Table dataSource={ingredients}  pagination={false} rowKey={"IngredientTab"}>
-                <Column title="Nom ingrédient" dataIndex="nomingredient" key={"nomingredient"}  />
+            <Table dataSource={ingredients}  pagination={false} rowKey={"idingredient"} >
+                <Column title="Nom ingrédient" dataIndex="nomingredient" key={1}  />
                 <Column title="Prix" dataIndex="prixunitaireingredient" key={2} />
                 <Column title="Quantité" dataIndex="stock" key={3} />
+                <Column title="Unité" dataIndex="nomunite" key={4} />
                 <Column
                     title="Action"
                     key={4}
-                    render={(ingredient) => (
+                    render={(ingredient,index) => (
                         <Space size="middle" key={ingredient.idingredient} >
                             <Popconfirm title="Etes vous sur de vouloir supprimer cet ingrédient？" onConfirm={() => confirm(ingredient)} onCancel={() => cancel()} key={ingredient.idingredient}>
                                 <a href="/" key={ingredient.idingredient}>
                                     <Button type="primary" danger key={ingredient.idingredient}>
-                                        Delete
+                                        Supprimer
                                     </Button>
                                 </a>
                             </Popconfirm>
