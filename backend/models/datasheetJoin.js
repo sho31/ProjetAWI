@@ -54,10 +54,24 @@ async function getDatasheetJoinByID(idFicheTechniqueParent) {
     }
 }
 
+async function getDatasheetIdByParentDataSheetParent(idFicheTechniqueParent) {
+    try {
+        const res = await db.query(
+            "SELECT  json_agg(idfichetechniquefille) FROM fichetechniquejointure WHERE idfichetechniqueparent=$1;",
+            [idFicheTechniqueParent]
+        );
+        return res;
+    } catch (e) {
+        throw e;
+    }
+}
+
+
 module.exports = {
     createDatasheetJoin,
     updateDatasheetJoin,
     deleteDatasheetJoin,
     getAllDatasheetJoins,
     getDatasheetJoinByID,
+    getDatasheetIdByParentDataSheetParent,
 };

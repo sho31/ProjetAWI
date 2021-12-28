@@ -27,14 +27,15 @@ const HeaderDataSheet: React.FC = () => {
 
     useEffect(() => {
         const retrieveTutorials = async (id : any) => {
-            await DataSheetService.getDataSheetByID(id)
-                .then((response: any) => {
-                    setdataSheet(response);
-                    setTheoricalNbCouverts(response.nombrecouverts);
-                })
-                .catch((e: Error) => {
-                    console.log(e);
-                });
+                await DataSheetService.getDataSheetByID(id)
+                    .then((response: any) => {
+                        setdataSheet(response);
+                        setTheoricalNbCouverts(response.nombrecouverts);
+                    })
+                    .catch((e: Error) => {
+                        console.log(e);
+                    });
+
         };
         retrieveTutorials(props.id).then( () => "ok");
     }, [props.id]);
