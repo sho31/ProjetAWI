@@ -96,6 +96,19 @@ async function getIngredientStock(idIngredient) {
         throw e;
     }
 }
+
+async function getAllIngredientsWithNegativeStock() {
+    try {
+        const res = await db.query(
+            "SELECT * FROM ingredient NATURAL JOIN unite WHERE stock < 1;",
+            []
+        );
+        return res.rows;
+    } catch (e) {
+        throw e;
+    }
+}
+
 module.exports = {
     createIngredient,
     updateIngredient,
@@ -105,4 +118,5 @@ module.exports = {
     getIngredientByCatIngredient,
     updateStockIngredient,
     getIngredientStock,
+    getAllIngredientsWithNegativeStock,
 };

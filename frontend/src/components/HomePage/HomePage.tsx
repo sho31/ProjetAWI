@@ -9,6 +9,7 @@ import {Link} from "react-router-dom";
 import Meta from "antd/es/card/Meta";
 import Search from "antd/es/input/Search";
 import ImgFT from "../../images/logo_ft.png"
+import Title from "antd/es/typography/Title";
 
 const HomePage: React.FC = () => {
 
@@ -16,6 +17,7 @@ const HomePage: React.FC = () => {
     const [dataSheets, setDataSheets] = useState<Array<DatasheetData>>([]);
     const [currentDataSheets,setCurrentDataSheets] = useState<Array<number>>([-1]);
     const [searchItem,setSearchItem] = useState("");
+    const { Option } = Select;
 
     useEffect(() => {
         const getAllergenCatsList = async () => {
@@ -39,8 +41,6 @@ const HomePage: React.FC = () => {
         retrieveIngredients().then( () => "ok");
         getAllergenCatsList().then( () => "ok");
     }, []);
-
-    const { Option } = Select;
 
     function handleChange(value: any) {
         if(value.length>0){
@@ -99,26 +99,31 @@ const HomePage: React.FC = () => {
                 ))}
             </Carousel>
             */}
-            <Select
-                mode="multiple"
-                allowClear
-                style={{ width: '30%'}}
-                tagRender={tagRender}
-                placeholder="Choisissez une catégorie"
-                defaultValue={[]}
-                onChange={handleChange}
-            >{children}
-            </Select>
-            <h2>
-                <Search
-                    placeholder="Quel plat cherchez vous ?"
+                <div key={1}>
+                    <Title level={2} key={1} >Fiche techniques prêtes à être utilisées</Title>
+                </div>
+            <Card key={1}>
+                <Select
+                    mode="multiple"
                     allowClear
-                    onChange={(event)=> {
-                        setSearchItem(event.target.value)
-                    }}
-                    style={{ width: '30%' }} />
-            </h2>
-
+                    style={{ width: '30%'}}
+                    tagRender={tagRender}
+                    placeholder="Choisissez une catégorie"
+                    defaultValue={[]}
+                    onChange={handleChange}
+                >{children}
+                </Select>
+                <h2>
+                    <Search
+                        placeholder="Quel plat cherchez vous ?"
+                        allowClear
+                        onChange={(event)=> {
+                            setSearchItem(event.target.value)
+                        }}
+                        style={{ width: '30%' }} />
+                </h2>
+            </Card>
+            <Card key={2} style={{marginTop: '30px',}}>
                 <div key={2}>
                     <Row key={1}>
             {dataSheets &&
@@ -182,6 +187,7 @@ const HomePage: React.FC = () => {
                 ))}
                     </Row>
                 </div>
+            </Card>
         </Fragment>
     );
 };

@@ -22,6 +22,19 @@ async function getIngredientById(id) {
         throw e;
     }
 }
+
+async function getAllIngredientsWithNegativeStock() {
+    try {
+        const res = await ingredientModel.getAllIngredientsWithNegativeStock()
+        if (res !== null) {
+            return res;
+        }
+        return null;
+    } catch (e) {
+        throw e;
+    }
+}
+
 async function createIngredient(body) {
     try {
         []
@@ -74,7 +87,7 @@ async function updateIngredient(id,body) {
     }
 }
 
-async function updateStockIngredient(id,quantite) {
+async function removeStockFromIngredient(id,quantite) {
     try {
         const newId = parseInt(id);
         const stockToRemove  = parseInt(quantite);
@@ -92,11 +105,32 @@ async function updateStockIngredient(id,quantite) {
         throw e;
     }
 }
+
+async function addStockIngredient(id,stock) {
+    try {
+        const newId = parseInt(id);
+        const newStock = parseInt(stock);
+        const currentStock = await ingredientModel.getIngredientStock(id);
+        const calcul = currentStock + newStock;
+
+        const res = await ingredientModel.updateStockIngredient(newId,calcul);
+        if (res !== null) {
+            if (res.rowCount > 0) {
+                return res;
+            }
+        }
+        return null;
+    } catch (e) {
+        throw e;
+    }
+}
 module.exports = {
     createIngredient,
     updateIngredient,
     deleteIngredient,
     getAllIngredients,
     getIngredientById,
-    updateStockIngredient,
+    removeStockFromIngredient,
+    addStockIngredient,
+    getAllIngredientsWithNegativeStock,
 };

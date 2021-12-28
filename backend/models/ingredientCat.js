@@ -51,7 +51,7 @@ async function getAllIngredientCats() {
 async function getAllIngredientByCatIngredient(idCatIng) {
   try {
     const res = await db.query(
-        "SELECT * FROM ingredient NATURAL JOIN Unite WHERE idcategorieingredient = $1;",
+        "SELECT * FROM ingredient NATURAL JOIN Unite WHERE idcategorieingredient = $1 ORDER BY nomingredient;",
         [idCatIng]
     );
     return res;
