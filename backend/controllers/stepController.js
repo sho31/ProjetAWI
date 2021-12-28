@@ -1,4 +1,5 @@
 const stepModel = require("../models/step")
+const DataSheetJoinModel = require("../models/datasheetJoin")
 
 async function getAllSteps() {
     try {
@@ -15,6 +16,34 @@ async function getStepById(id) {
         if (res !== null) {
             if (res.rowCount > 0) {
                 return res.rows;
+            }
+        }
+        return null;
+    } catch (e) {
+        throw e;
+    }
+}
+
+async function getGlobalTimeToMakeDataSheet(id) {
+    try {
+        const res = await stepModel.getGlobalTimeToMakeDataSheet(id)
+        if (res !== null) {
+            if (res.rowCount > 0) {
+                return res.rows[0];
+            }
+        }
+        return null;
+    } catch (e) {
+        throw e;
+    }
+}
+
+async function getGlobalTimeToMakeDataSheetChild(id) {
+    try {
+        const res = await stepModel.getGlobalTimeToMakeDataSheetChild(id)
+        if (res !== null) {
+            if (res.rowCount > 0) {
+                return res.rows[0];
             }
         }
         return null;
@@ -93,4 +122,6 @@ module.exports = {
     getAllSteps,
     getStepById,
     getStepByDataSheetId,
+    getGlobalTimeToMakeDataSheet,
+    getGlobalTimeToMakeDataSheetChild,
 };

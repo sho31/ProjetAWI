@@ -1,4 +1,4 @@
-export default class Datasheet {
+export default class DatasheetCat {
     idcategoriefichetechnique: number;
     nomcategoriefichetechnique: string;
 

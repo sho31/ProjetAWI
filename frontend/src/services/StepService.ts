@@ -1,7 +1,7 @@
 import http from "../http-common";
 import StepsData from "../types/Step";
-
-
+import DatasheetsData from "../types/Datasheet";
+import Time from "../types/Time";
 const create = async (data: StepsData) => {
     const tmp =  await http.post<StepsData>("/step", data);
     //console.log(tmp)
@@ -17,11 +17,22 @@ const getStepsByDataSheet = async (id: any) => {
     return tmp.data;
 };
 
+const getGlobalTimeToMakeDataSheet = async (id: number) => {
+    const tmp = await http.get<Time>(`/step/globaltime?id=${id}`);
+    return tmp.data;
+};
+
+const getGlobalTimeToMakeDataSheetChild = async (id: number) => {
+    const tmp = await http.get<Time>(`/step/globaltime/child?id=${id}`);
+    return tmp.data;
+};
+
 const IngredientService = {
     getAllDataSheets,
     getStepsByDataSheet,
-    create
-
+    create,
+    getGlobalTimeToMakeDataSheet,
+    getGlobalTimeToMakeDataSheetChild,
 };
 
 export default IngredientService;

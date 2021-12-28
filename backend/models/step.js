@@ -48,6 +48,31 @@ async function getAllSteps() {
     }
 }
 
+
+async function getGlobalTimeToMakeDataSheetChild(idDataSheet) {
+    try {
+        //const res = await db.query("SELECT Sum(tempsetape) as sumtempsetape  FROM etape e where e.idfichetechnique = $1 GROUP BY idfichetechnique;",
+        //        [idDataSheet]);
+        const res = await db.query("SELECT Sum(tempsetape) as tempsetape FROM etape e INNER JOIN fichetechniquejointure f on e.idfichetechnique = f.idfichetechniquefille WHERE f.idfichetechniqueparent = $1 AND e.idfichetechnique = f.idfichetechniquefille GROUP BY f.idfichetechniqueparent;",
+                [idDataSheet]);
+        return res;
+
+    } catch (e) {
+        throw e;
+    }
+}
+
+async function getGlobalTimeToMakeDataSheet(idDataSheet) {
+    try {
+        const res = await db.query("SELECT Sum(tempsetape) as tempsetape  FROM etape e where e.idfichetechnique = $1 GROUP BY idfichetechnique;",
+                [idDataSheet]);
+        return res;
+
+    } catch (e) {
+        throw e;
+    }
+}
+
 async function getStepById(id) {
     try {
         const res = await db.query(
@@ -79,4 +104,6 @@ module.exports = {
     getStepById,
     getAllSteps,
     getStepByDataSheetId,
+    getGlobalTimeToMakeDataSheetChild,
+    getGlobalTimeToMakeDataSheet,
 };

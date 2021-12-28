@@ -25,6 +25,31 @@ router.get("/", async function (req, res, next) {
     }
 });
 
+router.get("/globaltime", async function (req, res, next) {
+    try {
+        const idDataSheet = req.query.id;
+        const step = await stepController.getGlobalTimeToMakeDataSheet(idDataSheet)
+        if (!step) {
+            return res.status(204).json({message: "Aucune étape"});
+        }
+        res.status(200).json(step)
+    } catch (e) {
+        return res.status(500).json({error: "Impossible d'accéder à la liste des étapes"});
+    }
+});
+router.get("/globaltime/child", async function (req, res, next) {
+    try {
+        const idDataSheet = req.query.id;
+        const step = await stepController.getGlobalTimeToMakeDataSheetChild(idDataSheet)
+        if (!step) {
+            return res.status(204).json({message: "Aucune étape"});
+        }
+        res.status(200).json(step)
+    } catch (e) {
+        return res.status(500).json({error: "Impossible d'accéder à la liste des étapes"});
+    }
+});
+
 router.get("/bydatasheet", async function (req, res, next) {
     try {
         const idDataSheet = req.query.id;

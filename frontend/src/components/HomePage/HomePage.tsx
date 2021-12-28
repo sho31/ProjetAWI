@@ -102,26 +102,25 @@ const HomePage: React.FC = () => {
                 <div key={1}>
                     <Title level={2} key={1} >Fiche techniques prêtes à être utilisées</Title>
                 </div>
-            <Card key={1}>
-                <Select
-                    mode="multiple"
-                    allowClear
-                    style={{ width: '30%'}}
-                    tagRender={tagRender}
-                    placeholder="Choisissez une catégorie"
-                    defaultValue={[]}
-                    onChange={handleChange}
-                >{children}
-                </Select>
-                <h2>
-                    <Search
-                        placeholder="Quel plat cherchez vous ?"
-                        allowClear
-                        onChange={(event)=> {
-                            setSearchItem(event.target.value)
-                        }}
-                        style={{ width: '30%' }} />
-                </h2>
+            <Card key={4}>
+                        <Search
+                            placeholder="Quel plat cherchez vous ?"
+                            allowClear
+                            onChange={(event)=> {
+                                setSearchItem(event.target.value)
+                            }}
+                            style={{ width: '30%' }}
+                        />
+                        <Select
+                            mode="multiple"
+                            allowClear
+                            style={{ width: '30%'}}
+                            tagRender={tagRender}
+                            placeholder="Choisissez une catégorie"
+                            defaultValue={[]}
+                            onChange={handleChange}
+                        >{children}
+                        </Select>
             </Card>
             <Card key={2} style={{marginTop: '30px',}}>
                 <div key={2}>

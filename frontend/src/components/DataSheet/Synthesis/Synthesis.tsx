@@ -3,6 +3,7 @@ import {Card, Col, Row} from "antd";
 import React from "react";
 import CatAllergenList from "./CatAllergenList";
 import CatIngredientList from "./CatIngredientList";
+import DatasheetTime from "./DatasheetTime";
 
 interface Props {
     id: number;
@@ -26,7 +27,9 @@ const Synthesis: React.FC<Props> = (props) => {
                 <Col span={8} key={2}><div>
                     <CatAllergenList id={props.id}/>
                 </div></Col>
-                <Col span={8} key={3}><h3>TO DO</h3></Col>
+                <Col span={8} key={3}><h3>
+                    <DatasheetTime id={props.id}/>
+                    TO DO</h3></Col>
             </Row>
         </Card>
     )};
