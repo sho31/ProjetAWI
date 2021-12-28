@@ -2,7 +2,8 @@ import React, {useState, useEffect, Fragment} from "react";
 import CatIngredientService from "../../services/CatIngredientService";
 import IngredientService from "../../services/IngredientService";
 import ITutorialData from '../../types/Ingredient';
-import {Space, Table, Button, Popconfirm} from "antd";
+import {Space, Table, Button, Popconfirm, InputNumber} from "antd";
+import IngredientToBeRestocked from "./IngredientToBeRestocked";
 
 interface Props {
     id: number;
@@ -11,10 +12,13 @@ interface Props {
 const IngredientsList: React.FC<Props>= (props) => {
     const [ingredients, setIngredients] = useState<Array<ITutorialData>>([]);
     const { Column } = Table;
+    const [value, setValue] = useState<number>(0);
+    const [update, setUpdate] = useState<boolean>(true);
 
     const deleteTutorial = async (id: number) => {
         await IngredientService.remove(id)
             .then((response: any) => {
+                setUpdate(false);
             })
             .catch((e: Error) => {
                 console.log(e);
@@ -31,8 +35,18 @@ const IngredientsList: React.FC<Props>= (props) => {
                     console.log(e);
                 });
         };
+
+        const changeUpdate = async (update: boolean) =>{
+            if(update){
+                setUpdate(false);
+            }
+            setUpdate(true);
+        }
+
         retrieveIngredients().then( () => "ok");
-    }, [props.id]);
+        changeUpdate(update).then(() => "ok" );
+
+    }, [props.id,update]);
 
     const confirm = async (ingredient: ITutorialData) => {
         await deleteTutorial(ingredient.idingredient)
@@ -41,16 +55,27 @@ const IngredientsList: React.FC<Props>= (props) => {
     const cancel = async () => {
     }
 
+    const addStock = async (id:number,newStock: number) => {
+            await IngredientService.addStock(id,newStock)
+                .then((response: any) => {
+                    setUpdate(false);
+                })
+                .catch((e: Error) => {
+                    console.log(e);
+                });
+    }
+
     return (
         <Fragment key={1}>
             <Table dataSource={ingredients}  pagination={false} rowKey={"idingredient"} >
-                <Column title="Nom ingrédient" dataIndex="nomingredient" key={1}  />
-                <Column title="Prix" dataIndex="prixunitaireingredient" key={2} />
-                <Column title="Quantité" dataIndex="stock" key={3} />
-                <Column title="Unité" dataIndex="nomunite" key={4} />
+                <Column title="Nom ingrédient" dataIndex="nomingredient" key={1} responsive={["xs","sm","md","lg"]} />
+                <Column title="Prix" dataIndex="prixunitaireingredient" key={2} responsive={["xs","sm","md","lg"]} />
+                <Column title="Quantité" dataIndex="stock" key={3} responsive={["xs","sm","md","lg"]}/>
+                <Column title="Unité" dataIndex="nomunite" key={4} responsive={["xs","sm","md","lg"]} />
                 <Column
-                    title="Action"
-                    key={4}
+                    title="Supprimer un ingrédient"
+                    key={5}
+                    responsive={["xs","sm","md","lg"]}
                     render={(ingredient,index) => (
                         <Space size="middle" key={ingredient.idingredient} >
                             <Popconfirm title="Etes vous sur de vouloir supprimer cet ingrédient？" onConfirm={() => confirm(ingredient)} onCancel={() => cancel()} key={ingredient.idingredient}>
@@ -61,6 +86,26 @@ const IngredientsList: React.FC<Props>= (props) => {
                                 </a>
                             </Popconfirm>
                         </Space>
+                    )}
+                />
+                <Column
+                    title="Modifier le stock"
+                    key={5}
+                    render={(ingredient,index) => (
+                        <Fragment>
+                            <Space size="middle" key={ingredient.idingredient} >
+                                <InputNumber min={0} max={10} defaultValue={0} onChange={(id:number) => {setValue(id)}}  style={{width:50}}/>
+                            </Space>
+                            <Space size="middle" key={ingredient.idingredient+1} >
+                                <Button
+                                type="primary"
+                                onClick={() => {
+                                 addStock(ingredient.idingredient,value)}}
+                                >
+                                Ajouter
+                                </Button>
+                            </Space>
+                        </Fragment>
                     )}
                 />
             </Table>

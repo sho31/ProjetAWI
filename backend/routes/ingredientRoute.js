@@ -25,6 +25,18 @@ router.get("/", async function (req, res, next) {
     }
 });
 
+router.get("/withnegativestock", async function (req, res, next) {
+    try {
+        const ingredient = await ingredientController.getAllIngredientsWithNegativeStock()
+        if (!ingredient) {
+            return res.status(204).json({message: "Aucun ingrédient"});
+        }
+        res.status(200).json(ingredient)
+    } catch (e) {
+        return res.status(500).json({error: "Impossible d'accéder à la liste des auteurs"});
+    }
+});
+
 router.post("/", async function (req, res, next) {
     try {
         await ingredientController.createIngredient(req.body)
@@ -60,12 +72,25 @@ router.put("/", async function (req, res, next) {
     }
 });
 
-router.put("/stock", async function (req, res, next) {
+router.put("/removestock", async function (req, res, next) {
     try {
         const idIngredient = req.query.id;
         const quantite = req.query.quantite;
-        console.log("quantite "+quantite)
-        const ingredient = await ingredientController.updateStockIngredient(idIngredient, quantite)
+        const ingredient = await ingredientController.removeStockFromIngredient(idIngredient, quantite)
+        if (!ingredient) {
+            return res.status(204).json({message: "Aucun ingrédient avec cet id"});
+        }
+        res.status(200).json({ message: "Modification effectuée"})
+    } catch (e) {
+        res.status(500).json({ message: "can't load data" });
+    }
+});
+
+router.put("/addstock", async function (req, res, next) {
+    try {
+        const idIngredient = req.query.id;
+        const quantite = req.query.quantite;
+        const ingredient = await ingredientController.addStockIngredient(idIngredient, quantite)
         if (!ingredient) {
             return res.status(204).json({message: "Aucun ingrédient avec cet id"});
         }
