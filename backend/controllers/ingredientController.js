@@ -23,6 +23,18 @@ async function getIngredientById(id) {
     }
 }
 
+async function getAllIngredientByAllergenCat(id) {
+    try {
+        const res = await ingredientModel.getAllIngredientByAllergenCat(id)
+        if (res !== null) {
+            return res;
+        }
+        return null;
+    } catch (e) {
+        throw e;
+    }
+}
+
 async function getAllIngredientsWithNegativeStock() {
     try {
         const res = await ingredientModel.getAllIngredientsWithNegativeStock()
@@ -124,6 +136,7 @@ async function addStockIngredient(id,stock) {
         throw e;
     }
 }
+
 module.exports = {
     createIngredient,
     updateIngredient,
@@ -133,4 +146,5 @@ module.exports = {
     removeStockFromIngredient,
     addStockIngredient,
     getAllIngredientsWithNegativeStock,
+    getAllIngredientByAllergenCat,
 };

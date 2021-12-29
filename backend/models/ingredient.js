@@ -109,6 +109,18 @@ async function getAllIngredientsWithNegativeStock() {
     }
 }
 
+async function getAllIngredientByAllergenCat(idAllergenCat) {
+    try {
+        const res = await db.query(
+            "SELECT * FROM ingredient NATURAL JOIN Unite WHERE idcategorieallergene = $1 ORDER BY nomingredient;",
+            [idAllergenCat]
+        );
+        return res.rows;
+    } catch (e) {
+        throw e;
+    }
+}
+
 module.exports = {
     createIngredient,
     updateIngredient,
@@ -119,4 +131,5 @@ module.exports = {
     updateStockIngredient,
     getIngredientStock,
     getAllIngredientsWithNegativeStock,
+    getAllIngredientByAllergenCat,
 };

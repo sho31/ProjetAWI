@@ -1,7 +1,7 @@
 import {Card, Col, Row} from "antd";
 
 import React from "react";
-import CatAllergenList from "./CatAllergenList";
+import CatAllergenByDatasheet from "./CatAllergenByDatasheet";
 import CatIngredientList from "./CatIngredientList";
 import DatasheetTime from "./DatasheetTime";
 
@@ -25,7 +25,7 @@ const Synthesis: React.FC<Props> = (props) => {
                     <CatIngredientList id={props.id} theoricalNbCouverts={props.theoricalNbCouverts} nbCouverts={props.nbCouverts} decrementStock={props.decrementStock}/>
                 </Col>
                 <Col span={8} key={2}><div>
-                    <CatAllergenList id={props.id}/>
+                    <CatAllergenByDatasheet id={props.id}/>
                 </div></Col>
                 <Col span={8} key={3}><h3>
                     <DatasheetTime id={props.id}/>

@@ -26,9 +26,9 @@ router.get("/", async function (req, res, next) {
     }
 });
 
-router.get("/:idcategorieingredient", async function (req, res, next) {
+router.get("/allingredients", async function (req, res, next) {
     try {
-        const catId = req.params.idcategorieingredient;
+        const catId = req.query.id;
         const ingredient = await ingredientCatController.getAllIngredientByCatIngredient(catId)
         if (!ingredient) {
             return res.status(204).json({message: "Aucun ingrédient"});

@@ -1,14 +1,15 @@
 import React, { useState, useEffect} from "react";
 
+import AllergenList from "./AllergenListByDatasheet";
+
 import StepIngredientJoinService from "../../../services/StepIngredientJoinService";
 import AllergenCat from "../../../types/AllergenCat";
-import AllergenList from "./AllergenList";
 
 interface Props {
     id: number;
 }
 
-const CatAllergenList: React.FC<Props> = (props) => {
+const CatAllergenByDatasheet: React.FC<Props> = (props) => {
     const [catAllergens, setCatAllergens] = useState<Array<AllergenCat>>([]);
 
     useEffect(() => {
@@ -38,5 +39,5 @@ const CatAllergenList: React.FC<Props> = (props) => {
     );
 };
 
-export default CatAllergenList;
+export default CatAllergenByDatasheet;
 

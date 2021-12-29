@@ -11,6 +11,11 @@ const getAllIngredientsWithNegativeStock = async () => {
     return tmp.data;
 };
 
+const getAllIngredientByAllergenCat = async (id: number) => {
+    const tmp = await http.get<Array<IngredientsData>>(`/ingredient/bycatallergen?id=${id}`);
+    return tmp.data;
+};
+
 const updateStock = async (id: any, quantite: number) => {
     return await http.put<any>(`/ingredient/removestock?id=${id}&quantite=${quantite}`);
 };
@@ -29,6 +34,7 @@ const remove = async (id: any) => {
 const IngredientService = {
     getAllIngredients,
     getAllIngredientsWithNegativeStock,
+    getAllIngredientByAllergenCat,
     remove,
     updateStock,
     addStock,

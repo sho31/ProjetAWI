@@ -36,7 +36,7 @@ class SiderMenu extends React.Component {
                             <Link to='/mercurial'>Mercurial</Link>
                         </Menu.Item>
                         <Menu.Item key={4} icon={<DesktopOutlined />} >
-                            <Link to='/stock'>stock</Link>
+                            <Link to='/allergenList'>Allergènes</Link>
                         </Menu.Item>
                     </Menu>
                 </Sider>
