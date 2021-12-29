@@ -7,6 +7,8 @@ import IngredientToBeRestocked from "./IngredientToBeRestocked";
 
 interface Props {
     id: number;
+    dom: any;
+    updateDom: any;
 }
 
 const IngredientsList: React.FC<Props>= (props) => {
@@ -46,7 +48,7 @@ const IngredientsList: React.FC<Props>= (props) => {
         retrieveIngredients().then( () => "ok");
         changeUpdate(update).then(() => "ok" );
 
-    }, [props.id,update]);
+    }, [props.id,update,props.dom]);
 
     const confirm = async (ingredient: ITutorialData) => {
         await deleteTutorial(ingredient.idingredient)
@@ -58,6 +60,7 @@ const IngredientsList: React.FC<Props>= (props) => {
     const addStock = async (id:number,newStock: number) => {
             await IngredientService.addStock(id,newStock)
                 .then((response: any) => {
+                    props.updateDom(props.dom+1)
                     setUpdate(false);
                 })
                 .catch((e: Error) => {

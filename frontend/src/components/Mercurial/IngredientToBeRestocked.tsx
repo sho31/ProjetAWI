@@ -5,21 +5,15 @@ import ITutorialData from '../../types/Ingredient';
 import {Space, Table, Button, Popconfirm, Badge, InputNumber} from "antd";
 
 
+interface Props {
+    dom: any;
+    updateDom: any;
+}
 
-const IngredientsList: React.FC= () => {
+const IngredientsList: React.FC<Props>= (props) => {
     const [ingredients, setIngredients] = useState<Array<ITutorialData>>([]);
     const { Column } = Table;
-    const [update, setUpdate] = useState<boolean>(true);
     const [value, setValue] = useState<number>(0);
-
-    const deleteTutorial = async (id: number) => {
-        await IngredientService.remove(id)
-            .then((response: any) => {
-            })
-            .catch((e: Error) => {
-                console.log(e);
-            });
-    };
 
     useEffect(() => {
         const retrieveIngredients = async () => {
@@ -31,22 +25,14 @@ const IngredientsList: React.FC= () => {
                     console.log(e);
                 });
         };
-        const changeUpdate = async (update: boolean) =>{
-            if(update){
-                setUpdate(false);
-            }
-            setUpdate(true);
-        }
 
         retrieveIngredients().then( () => "ok");
-        changeUpdate(update).then(() => "ok" );
-
-    }, [update]);
+    }, [props.dom]);
 
     const addStock = async (id:number,newStock: number) => {
         await IngredientService.addStock(id,newStock)
             .then((response: any) => {
-                setUpdate(false);
+                props.updateDom(props.dom+1)
             })
             .catch((e: Error) => {
                 console.log(e);

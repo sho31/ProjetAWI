@@ -4,7 +4,6 @@ import CatIngredientData from '../../types/IngredientCat';
 import IngredientList from "./IngredientList";
 import {Card, Select, Typography} from 'antd';
 import IngredientToBeRestocked from "./IngredientToBeRestocked";
-import { Collapse } from 'antd';
 const { Title } = Typography;
 
 
@@ -14,7 +13,7 @@ const MercurialPage: React.FC = () => {
     const [currentCatIngredient,setCurrentCatIngredient] = useState<Array<number>>([-1]);
     const { Option } = Select;
     const children = [];
-    const { Panel } = Collapse;
+    const [dom, updateDom] = useState(0)
 
     for(let j=0; j<catIngredients.length;j++){
         children.push(<Option value={catIngredients[j].idcategorieingredient} key={catIngredients[j].idcategorieingredient}>{catIngredients[j].nomcategorieingredient}</Option>);
@@ -48,7 +47,7 @@ const MercurialPage: React.FC = () => {
             </div>
             <Card key={3}>
                 <div key={2}>
-                    <IngredientToBeRestocked/>
+                    <IngredientToBeRestocked dom={dom} updateDom={updateDom}/>
                 </div>
             </Card>
             <br/>
@@ -87,7 +86,7 @@ const MercurialPage: React.FC = () => {
                         map((catingredient,index) => (
                             <h3 key={index}>
                                 {catingredient.nomcategorieingredient}
-                                <IngredientList id={catingredient.idcategorieingredient}/>
+                                <IngredientList id={catingredient.idcategorieingredient} dom={dom} updateDom={updateDom}/>
                             </h3>
                         ))}
                 </div>
