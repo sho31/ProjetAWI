@@ -1,7 +1,7 @@
 import {Card, Col, Row} from "antd";
 
 import React, {useEffect, useState} from "react";
-import CatAllergenList from "./../Synthesis/CatAllergenList";
+import CatAllergenByDatasheet from "../Synthesis/CatAllergenByDatasheet";
 import CatIngredientList from "./../Synthesis/CatIngredientList";
 import DatasheetData from "../../../types/Datasheet";
 import DataSheetService from "../../../services/DataSheetService";
@@ -42,7 +42,7 @@ const TakeAwayCall: React.FC<Props> = (props) => {
                     <CatIngredientList id={props.id} theoricalNbCouverts={0} nbCouverts={0} decrementStock={false}/>
                 </Col>
                 <Col span={8} key={2}><div>
-                    <CatAllergenList id={props.id}/>
+                    <CatAllergenByDatasheet id={props.id}/>
                 </div></Col>
             </Row>
         </Card>

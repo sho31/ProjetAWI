@@ -1,16 +1,14 @@
-import React from "react";
-import {useEffect, useState} from "react";
+import React, { useState, useEffect} from "react";
 
 import StepIngredientJoinService from "../../../services/StepIngredientJoinService";
 import SimpleIngredient from "../../../types/SimpleIngredient"
-
 
 interface Props {
     idDataSheet: number;
     idCatAllergen: number;
 }
 
-const MercurialPage: React.FC<Props> = (props) => {
+const AllergenListByDatasheet: React.FC<Props> = (props) => {
     const [allergens, setAllergens] = useState<Array<SimpleIngredient>>([]);
 
     useEffect(() => {
@@ -37,5 +35,5 @@ const MercurialPage: React.FC<Props> = (props) => {
     );
 };
 
-export default MercurialPage;
+export default AllergenListByDatasheet;
 

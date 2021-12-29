@@ -12,6 +12,7 @@ import MercurialPage from "./Mercurial/MercurialPage";
 import SiderMenu from "./SiderMenu";
 import HomePage from "./HomePage/HomePage";
 import DataSheetCreation from "./DataSheetCreation/DataSheetCreation";
+import CatAllergenList from "./AllergenList/CatAllergenList";
 const AppRoutes = () => {
 
     return (
@@ -21,7 +22,7 @@ const AppRoutes = () => {
                     <Route path="/" element={<SiderMenu><HomePage/></SiderMenu>} />
                     <Route path="/mercurial" element={<SiderMenu><MercurialPage /></SiderMenu>} />
                     <Route path="/creerdT" element={<SiderMenu><DataSheetCreation/></SiderMenu>} />
-                    <Route path="/stock" element={<SiderMenu></SiderMenu>} />
+                    <Route path="/allergenList" element={<SiderMenu><CatAllergenList/></SiderMenu>} />
                     <Route path="/fichetechnique/:id" element={<SiderMenu><DataSheet/></SiderMenu>} />
                 </Routes>
             </BrowserRouter>

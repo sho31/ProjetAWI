@@ -25,6 +25,16 @@ router.get("/", async function (req, res, next) {
     }
 });
 
+router.get("/bycatallergen", async function (req, res, next) {
+    try {
+        const idCatAllergen = req.query.id;
+        const ingredient = await ingredientController.getAllIngredientByAllergenCat(idCatAllergen);
+        res.status(200).json(ingredient)
+    } catch (e) {
+        res.status(500).json({ message: "can't load data" });
+    }
+});
+
 router.get("/withnegativestock", async function (req, res, next) {
     try {
         const ingredient = await ingredientController.getAllIngredientsWithNegativeStock()

@@ -110,7 +110,7 @@ const HomePage: React.FC = () => {
                                 setSearchItem(event.target.value)
                             }}
                             style={{ width: '30%' }}
-                        />
+                        ></Search>
                         <Select
                             mode="multiple"
                             allowClear

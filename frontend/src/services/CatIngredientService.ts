@@ -8,7 +8,7 @@ const getAllCatIngredients = async () => {
 };
 
 const getIngredientByCat = async (id: any) => {
-    const tmp = await http.get<Array<IngredientData>>(`/ingredientCat/${id}`);
+    const tmp = await http.get<Array<IngredientData>>(`/ingredientCat/allingredients?id=${id}`);
     return tmp.data;
 };
 
