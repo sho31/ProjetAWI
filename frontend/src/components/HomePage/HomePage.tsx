@@ -2,7 +2,7 @@ import React, {useState, useEffect, Fragment} from "react";
 import DataSheetService from "../../services/DataSheetService";
 import DatasheetData from "../../types/Datasheet";
 import "../../tailwind.css";
-import {Avatar, Card, Carousel, Col, Row, Select, Space, Tag} from 'antd';
+import {Avatar, Badge, Card, Carousel, Col, Row, Select, Space, Tag} from 'antd';
 import DataSheetCat from "../../types/DataSheetCat";
 import DataSheetCatService from "../../services/DataSheetCatService";
 import {Link} from "react-router-dom";
@@ -153,6 +153,7 @@ const HomePage: React.FC = () => {
                 }
                 ).map((dataSheet,index) => (
                             <Link to={"/fichetechnique/"+dataSheet.idfichetechnique} key={index}>
+                                <Badge count={dataSheet.nombrecouverts} style={{height:30, width:30}}color="#5B930A" offset={[-15, 20]}>
                                 <Card
                                     style={{
                                         width: 300,
@@ -178,11 +179,13 @@ const HomePage: React.FC = () => {
                                     <Meta
                                         avatar={<Avatar src={ImgFT} />}
                                         title={dataSheet.nomplat}
-                                        description={"Pour "+dataSheet.nombrecouverts+" personnes"}
+                                        description={"Par "+dataSheet.nomauteur}
                                         key={index}
                                     />
                                 </Card>
+                                </Badge>
                             </Link>
+
                 ))}
                     </Row>
                 </div>
