@@ -21,7 +21,6 @@ const DataSheetTime: React.FC<Props> = (props) => {
         const getGlobalTimeToMakeDataSheet = async (idDataSheet: number) => {
             await StepService.getGlobalTimeToMakeDataSheet(idDataSheet)
                 .then((response: any) => {
-                    console.log(response)
                     setTime1(response);
                 })
                 .catch((e: Error) => {
@@ -31,7 +30,6 @@ const DataSheetTime: React.FC<Props> = (props) => {
         const getGlobalTimeToMakeDataSheetChild = async (idDataSheet: number) => {
             await StepService.getGlobalTimeToMakeDataSheetChild(idDataSheet)
                 .then((response: any) => {
-                    console.log(response)
                     setTime2(response);
                 })
                 .catch((e: Error) => {
