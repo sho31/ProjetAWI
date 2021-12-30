@@ -11,9 +11,15 @@ const getAllDataSheetCat = async () => {
     return tmp.data;
 };
 
+const remove = async (id: any) => {
+    const tmp = await http.delete<any>(`/datasheetCat/?id=${id}`);
+    return tmp.data;
+};
+
 const IngredientService = {
     create,
     getAllDataSheetCat,
+    remove,
 };
 
 export default IngredientService;

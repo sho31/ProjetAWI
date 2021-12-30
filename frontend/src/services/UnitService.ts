@@ -11,9 +11,15 @@ const getAllUnits = async () => {
     return tmp.data;
 };
 
+const remove = async (id: any) => {
+    const tmp = await http.delete<any>(`/unit/?id=${id}`);
+    return tmp.data;
+};
+
 const UnitService = {
     create,
     getAllUnits,
+    remove,
 };
 
 export default UnitService;
