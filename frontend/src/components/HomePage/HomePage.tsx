@@ -2,7 +2,7 @@ import React, {useState, useEffect, Fragment} from "react";
 import DataSheetService from "../../services/DataSheetService";
 import DatasheetData from "../../types/Datasheet";
 import "../../tailwind.css";
-import {Avatar, Badge, Card, Carousel, Col, Row, Select, Space, Tag} from 'antd';
+import {Avatar, Badge, Card,Row, Select, Tag} from 'antd';
 import DataSheetCat from "../../types/DataSheetCat";
 import DataSheetCatService from "../../services/DataSheetCatService";
 import {Link} from "react-router-dom";
@@ -76,29 +76,6 @@ const HomePage: React.FC = () => {
     }
     return (
         <Fragment key={1}>
-
-            {/*
-             <Carousel autoplay style={{width: '50%'}}>
-                {dataSheets &&
-                dataSheets.map((dataSheet,index) => (
-                    ( index<3 &&
-                        <Fragment key={index}>
-                        <Link to={"/fichetechnique/"+dataSheet.idfichetechnique}>
-                            <div>
-                                <img
-                                alt={dataSheet.nomplat}
-                                src={dataSheet.image}
-                                style={{height: 200}}
-                                />
-                            </div>
-                        </Link>
-                        <Col span={0.5} key={index+1}/>
-                    </Fragment>
-                    )
-
-                ))}
-            </Carousel>
-            */}
                 <div key={1}>
                     <Title level={2} key={1} >Fiche techniques prêtes à être utilisées</Title>
                 </div>

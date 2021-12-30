@@ -1,4 +1,4 @@
-export default class Ingredient {
+export default class IngredientCat {
     idcategorieingredient: number;
     nomcategorieingredient: string;
 

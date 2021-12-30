@@ -15,12 +15,11 @@ const IngredientsList: React.FC<Props>= (props) => {
     const [ingredients, setIngredients] = useState<Array<ITutorialData>>([]);
     const { Column } = Table;
     const [value, setValue] = useState<number>(0);
-    const [update, setUpdate] = useState<boolean>(true);
 
     const deleteTutorial = async (id: number) => {
         await IngredientService.remove(id)
-            .then((response: any) => {
-                setUpdate(false);
+            .then(() => {
+                props.updateDom(props.dom+1);
             })
             .catch((e: Error) => {
                 console.log(e);
@@ -37,18 +36,9 @@ const IngredientsList: React.FC<Props>= (props) => {
                     console.log(e);
                 });
         };
-
-        const changeUpdate = async (update: boolean) =>{
-            if(update){
-                setUpdate(false);
-            }
-            setUpdate(true);
-        }
-
         retrieveIngredients().then( () => "ok");
-        changeUpdate(update).then(() => "ok" );
 
-    }, [props.id,update,props.dom]);
+    }, [props.id,props.dom]);
 
     const confirm = async (ingredient: ITutorialData) => {
         await deleteTutorial(ingredient.idingredient)
@@ -59,9 +49,8 @@ const IngredientsList: React.FC<Props>= (props) => {
 
     const addStock = async (id:number,newStock: number) => {
             await IngredientService.addStock(id,newStock)
-                .then((response: any) => {
-                    props.updateDom(props.dom+1)
-                    setUpdate(false);
+                .then(() => {
+                    props.updateDom(props.dom+1);
                 })
                 .catch((e: Error) => {
                     console.log(e);

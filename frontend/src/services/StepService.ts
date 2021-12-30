@@ -1,12 +1,12 @@
 import http from "../http-common";
 import StepsData from "../types/Step";
-import DatasheetsData from "../types/Datasheet";
 import Time from "../types/Time";
+
 const create = async (data: StepsData) => {
     const tmp =  await http.post<StepsData>("/step", data);
-    //console.log(tmp)
     return  tmp.data
 };
+
 const getAllDataSheets = async () => {
     const tmp = await http.get<Array<StepsData>>("/step/all");
     return tmp.data;

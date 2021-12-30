@@ -1,13 +1,15 @@
 import { Layout, Menu,} from 'antd';
 import {
-    DesktopOutlined,
-    PieChartOutlined,
+    HomeOutlined,
     FileOutlined,
+    StockOutlined,
+    ToolFilled,
 } from '@ant-design/icons';
 import React from "react";
 import {Link} from "react-router-dom";
 
 const {Content, Footer, Sider } = Layout;
+const { SubMenu } = Menu;
 
 class SiderMenu extends React.Component {
     state = {
@@ -25,19 +27,41 @@ class SiderMenu extends React.Component {
                 <Sider breakpoint="lg"
                        collapsible collapsed={collapsed} onCollapse={this.onCollapse}>
                     <div>logo</div>
-                    <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
-                        <Menu.Item key={1} icon={<PieChartOutlined />} >
+                    <Menu theme="dark" defaultSelectedKeys={['1']} defaultOpenKeys={['gerer']} mode="inline">
+                        <Menu.Item key={1} icon={<HomeOutlined />} >
                             <Link to='/'>Accueil</Link>
                         </Menu.Item>
                         <Menu.Item key={2} icon={<FileOutlined />} >
                             <Link to='/creerDT'>Nouvelle FT</Link>
                         </Menu.Item>
-                        <Menu.Item key={3} icon={<DesktopOutlined />} >
+                        <Menu.Item key={3} icon={<StockOutlined />} >
                             <Link to='/mercurial'>Mercurial</Link>
                         </Menu.Item>
-                        <Menu.Item key={4} icon={<DesktopOutlined />} >
+                        <Menu.Item key={4} icon={<StockOutlined />} >
                             <Link to='/allergenList'>Allergènes</Link>
                         </Menu.Item>
+                        <SubMenu key={"gerer"} icon={<ToolFilled />} title="Gérer" >
+                            <Menu.Item key={7}>
+                                <Link to='/gerer/unite'>
+                                    Unité
+                                </Link>
+                            </Menu.Item>
+                            <Menu.Item key={8}>
+                                <Link to='/gerer/catFT'>
+                                    Cat FT
+                                </Link>
+                            </Menu.Item>
+                            <Menu.Item key={9}>
+                                <Link to='/gerer/catIngredient'>
+                                    Cat Ingrédient
+                                </Link>
+                            </Menu.Item>
+                            <Menu.Item key={10}>
+                                <Link to='/gerer/catAllergene'>
+                                    Cat Allergène
+                                </Link>
+                            </Menu.Item>
+                        </SubMenu>
                     </Menu>
                 </Sider>
                 <Layout className="site-layout">

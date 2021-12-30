@@ -13,6 +13,11 @@ import SiderMenu from "./SiderMenu";
 import HomePage from "./HomePage/HomePage";
 import DataSheetCreation from "./DataSheetCreation/DataSheetCreation";
 import CatAllergenList from "./AllergenList/CatAllergenList";
+import AllergenCatCreation from "./Creations/AllergenCatCreation";
+import IngredientCatCreation from "./Creations/IngredientCatCreation";
+import DataSheetCatCreation from "./Creations/DataSheetCatCreation";
+import UnitCreation from "./Creations/UnitCreation";
+
 const AppRoutes = () => {
 
     return (
@@ -24,6 +29,10 @@ const AppRoutes = () => {
                     <Route path="/creerdT" element={<SiderMenu><DataSheetCreation/></SiderMenu>} />
                     <Route path="/allergenList" element={<SiderMenu><CatAllergenList/></SiderMenu>} />
                     <Route path="/fichetechnique/:id" element={<SiderMenu><DataSheet/></SiderMenu>} />
+                    <Route path="/gerer/unite" element={<SiderMenu><UnitCreation/></SiderMenu>} />
+                    <Route path="/gerer/catFT" element={<SiderMenu><DataSheetCatCreation/></SiderMenu>} />
+                    <Route path="/gerer/catIngredient" element={<SiderMenu><IngredientCatCreation/></SiderMenu>} />
+                    <Route path="/gerer/catAllergene" element={<SiderMenu><AllergenCatCreation/></SiderMenu>} />
                 </Routes>
             </BrowserRouter>
         </Fragment>
