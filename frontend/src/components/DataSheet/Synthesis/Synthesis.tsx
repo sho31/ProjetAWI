@@ -4,6 +4,7 @@ import React from "react";
 import CatAllergenByDatasheet from "./CatAllergenByDatasheet";
 import CatIngredientList from "./CatIngredientList";
 import DatasheetTime from "./DatasheetTime";
+import Cost from "../Cost"
 
 interface Props {
     id: number;
@@ -27,9 +28,12 @@ const Synthesis: React.FC<Props> = (props) => {
                 <Col span={8} key={2}><div>
                     <CatAllergenByDatasheet id={props.id}/>
                 </div></Col>
-                <Col span={8} key={3}><h3>
-                    <DatasheetTime id={props.id}/>
-                    TO DO</h3></Col>
+                <Col span={8} key={3}>
+                    <div key={1}>
+                        <DatasheetTime id={props.id}/>
+                        <Cost DatasheetId={props.id} nbCouverts={props.nbCouverts}/>
+                    </div>
+                </Col>
             </Row>
         </Card>
     )};
