@@ -36,7 +36,7 @@ const StepCreation: React.FC<DatasheetProps> = ({onChange, fields, onFinish}) =>
             .catch((e: Error) => {
                 console.log(e);
             });
-    });
+    }, []);
     return(
         <>
             <h2>Création de la progression</h2>
@@ -142,7 +142,7 @@ const StepCreation: React.FC<DatasheetProps> = ({onChange, fields, onFinish}) =>
                                                                             }
 
                                                                             }>
-                                                                        {ingredients.map((item :SimpleIngredient) => <Select.Option value={item.idingredient}>{item.nomingredient}</Select.Option>)}
+                                                                        {ingredients.map((item :SimpleIngredient) => <Select.Option key={item.idingredient} value={item.idingredient}>{item.nomingredient}</Select.Option>)}
                                                                     </Select>
                                                                 </Form.Item>
                                                                 <Form.Item
@@ -194,7 +194,6 @@ const StepCreation: React.FC<DatasheetProps> = ({onChange, fields, onFinish}) =>
                                 <Space key={key} size={"large"}  >
                                 <Card extra={ <MinusCircleOutlined onClick={() => {
                                     remove(name)
-                                    //console.log("test",fieldss)
                                     onChange(fieldss);
                                 }}/>}
                                       style={{width:'19vw',margin:8}}
@@ -218,7 +217,7 @@ const StepCreation: React.FC<DatasheetProps> = ({onChange, fields, onFinish}) =>
                                                 }
 
                                                 }>
-                                            {datasheets.map((item :Datasheet) => <Select.Option value={item.idfichetechnique}>{item.nomplat}</Select.Option>)}
+                                            {datasheets.map((item :Datasheet) => <Select.Option key = {item.idfichetechnique} value={item.idfichetechnique}>{item.nomplat}</Select.Option>)}
                                         </Select>
                                     </Form.Item>
                                     <Form.Item

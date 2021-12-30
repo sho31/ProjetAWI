@@ -8,6 +8,9 @@ import StepT from "../../types/Step"
 import DataSheetService from "../../services/DataSheetService";
 import StepService from "../../services/StepService";
 import StepIngredientJoinService from "../../services/StepIngredientJoinService";
+import CostService from "../../services/CostService";
+import Cost from "../../types/Cost";
+import CostData from "../../types/Cost";
 const { Step } = Steps;
 //TODO enlever bouton suivant factice
 //TODO ENLEVER CONSOLES LOG
@@ -57,7 +60,7 @@ let stepForm : StepForm;
 let costForm : CostForm;
 
 const submit= async () => {
-    message.success('Processing complete!')
+    message.loading("Création de la fiche technique...")
     //Datasheet object
     let datasheet: Datasheet = {
         idfichetechnique: -1,
@@ -68,26 +71,26 @@ const submit= async () => {
         image: '',
         nomauteur: "michel"
     }
-    //console.log(datasheet)
-    let idDatasheet;
-    idDatasheet = await DataSheetService.create(datasheet).then((value => { // @ts-ignore
-        //console.log("val", value.result.rows[0].idfichetechnique)
-        // @ts-ignore
-        return value.result.rows[0].idfichetechnique
+
+
+    let idDatasheetPromise;
+    idDatasheetPromise = await DataSheetService.create(datasheet).then((value => { // @ts-ignore
+
+       return value.result.rows[0].idfichetechnique
     })).catch(e => console.log(e))
-    console.log("id", idDatasheet)
+    console.log("j'ai l'id datasheet",idDatasheetPromise)
     let stepsBD : Array<StepT> = []
     let stepsID : Array<number> = []
     let currentStep : StepsFromForm;
-
+    let ingredients : [{idingredient : number, quantite : number}] = [{idingredient : -1, quantite : -1}];
     //STEPS
-    console.log(stepForm)
+    //console.log(stepForm)
     for (let i = 0 ; i < stepForm.etapes.length; i++) {
         currentStep = stepForm.etapes[i];
         console.log("current step " + i, currentStep)
         stepsBD[i] = {
             idetape: -1,
-            idfichetechnique: idDatasheet ,
+            idfichetechnique: await idDatasheetPromise ,
             titreetape: currentStep.titreetape,
             descriptionetape: currentStep.descriptionetape,
             tempsetape: currentStep.tempsetape,
@@ -99,24 +102,28 @@ const submit= async () => {
             return value.result.rows[0].idetape
         })).catch(e => console.log(e));
         //ingredients
+        console.log("j'ai attendu etape", stepsID[i])
         for (let j = 0 ; j < stepForm.etapes[i].ingredients.length; j++) {
             try {
-                let currentIngredient = stepForm.etapes[i].ingredients[i]
-                let res = await StepIngredientJoinService.create({idfichetechnique : idDatasheet,idetape : stepsID[i], idingredient : currentIngredient.idingredient, quantite : currentIngredient.quantite})
+                let currentIngredient = stepForm.etapes[i].ingredients[j]
+                ingredients[j] = {idingredient : currentIngredient.idingredient, quantite : currentIngredient.quantite}
+                let res = await StepIngredientJoinService.create({idfichetechnique : idDatasheetPromise,idetape : stepsID[i], idingredient : currentIngredient.idingredient, quantite : currentIngredient.quantite})
                     .then(value => console.log("ing",value)).catch(e => console.log(e))
             }catch (e) {
                 console.log(e)
-                console.log("join",stepForm.etapes[i].ingredients[i])
+                console.log("join",stepForm.etapes[i].ingredients[j])
             }
 
         }
     }
     //datasheet join
+    let includedDatasheetsIds : [number] = [0];//Used to compute cost
     for (let k = 0 ; k < stepForm.etapes.length; k++) {
         try {
             console.log("joinn",stepForm.fichetechniquejointure[k])
             let currentDatasheetJoin : {fichetechnique : number, stepnumber : number} = stepForm.fichetechniquejointure[k];
-            let res = await DataSheetService.createJoin({idfichetechniquefille : currentDatasheetJoin.fichetechnique, idfichetechniqueparent : idDatasheet, numetape : currentDatasheetJoin.stepnumber})
+            includedDatasheetsIds[k] = currentDatasheetJoin.fichetechnique
+            let res = await DataSheetService.createJoin({idfichetechniquefille : currentDatasheetJoin.fichetechnique, idfichetechniqueparent : idDatasheetPromise, numetape : currentDatasheetJoin.stepnumber})
                 .then(value => console.log("join",value))
         }catch (e) {
             console.log(e)
@@ -125,7 +132,31 @@ const submit= async () => {
 
 
     }
+    console.log("ON PASSSE AU COUT")
+    //COST
+    let totalMinutes : number = await StepService.getGlobalTimeToMakeDataSheet(idDatasheetPromise).then((value => parseInt(value.tempsetape)))
+    let chargesCost : number = await CostService.getChargesCost(costForm.salarycost, costForm.fluidcost, totalMinutes);
+    let ingredientCost : number = await CostService.getIngredientsCost(ingredients);
+    let materialCost : number = await CostService.getMaterialsCost(ingredientCost, costForm.seasoning)
+    let includedDatasheetsCost: Array<CostData> = await CostService.getCostForSeveralDataSheet(includedDatasheetsIds);
+    console.log("cost incl" ,includedDatasheetsCost)
+    let cost : Cost = {
+        idCost: 0,
+        idfichetechnique: idDatasheetPromise,
+        chargescalculated: costForm.chargescalculated,
+        chargescost: chargesCost,
+        materialscost: materialCost,
+        coefwithcharges: costForm.coefwithcharges,
+        coefwithoutcharges: costForm.coefwithoutcharges,
+        includedDatasheetsCost: 0
+    }
 
+    // @ts-ignore
+    const costCreated : any= await CostService.createWithOtherDatasheetsCosts(cost,includedDatasheetsCost)
+        .then(value => console.log("cost",value))
+        .catch((e) => {console.log("cost",e)})
+    console.log("donee")
+    message.success('Fiche technique créée!')
 }
 
 

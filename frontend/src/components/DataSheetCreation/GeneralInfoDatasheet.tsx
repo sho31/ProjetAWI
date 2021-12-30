@@ -31,7 +31,7 @@ const GeneralInfoDatasheet: React.FC<DatasheetProps> = ({ onChange, fields, onFi
             .catch((e: Error) => {
                 console.log(e);
             });
-    });
+    }, []);
 
 
     return (
@@ -69,7 +69,7 @@ const GeneralInfoDatasheet: React.FC<DatasheetProps> = ({ onChange, fields, onFi
                     rules={[{ required: true, message: 'Il faut sélectionner une catégorie de fiche technique' }]}
                 >
                     <Select placeholder="Catégorie de fiche technique">
-                        {categoriefichetechnique.map((item :DataSheetCat) => <Select.Option value={item.idcategoriefichetechnique}>{item.nomcategoriefichetechnique}</Select.Option>)}
+                        {categoriefichetechnique.map((item :DataSheetCat) => <Select.Option key={item.idcategoriefichetechnique} value={item.idcategoriefichetechnique}>{item.nomcategoriefichetechnique}</Select.Option>)}
                     </Select>
                 </Form.Item>
                 <Form.Item label="Nombre de couverts">

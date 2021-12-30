@@ -17,6 +17,7 @@ const datasheetCatRoute = require("./routes/datasheetCatRoute")
 const datasheetRoute = require("./routes/datasheetRoute");
 const datasheetJoinRoute = require("./routes/datasheetJoinRoute");
 const ingredientStepRoute = require("./routes/ingredientStepJoinRoute")
+const costRoute = require("./routes/costRoute");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -26,6 +27,7 @@ app.use("/allergenCat", allergenCatRoute);
 app.use("/unit", unitRoute);
 app.use("/ingredient", ingredientRoute);
 app.use("/step", stepRoute);
+app.use("/cost", costRoute);
 app.use("/datasheetCat", datasheetCatRoute);
 app.use("/datasheet", datasheetRoute);
 app.use("/datasheetJoin", datasheetJoinRoute);
