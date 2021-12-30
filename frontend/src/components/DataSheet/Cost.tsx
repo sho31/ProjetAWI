@@ -5,7 +5,7 @@ import DatasheetService from "../../services/DataSheetService"
 import CostT from "../../types/Cost"
 interface Props {
     DatasheetId: number;
-
+    nbCouverts : number;
 }
 interface State {
     cost : CostT
@@ -48,7 +48,7 @@ class Cost extends React.Component<Props, State> {
         coefwithoutcharges :0
     };
     async componentDidMount() {
-        let datasheetNbCouverts : number
+
         let cost : CostT = {
             chargescalculated: false,
             chargescost: 0,
@@ -67,16 +67,16 @@ class Cost extends React.Component<Props, State> {
         let BenefitPerPortion : number = 0
         let profitabilityTreshold : number = 0;
 
-        datasheetNbCouverts = await DatasheetService.getDataSheetByID(this.props.DatasheetId).then(value => value.nombrecouverts)
+
         cost = await CostService.getCostByDataSheet(this.props.DatasheetId)
         console.log("cost",cost)
         totalProductionCost = CostService.getTotalCost(cost)
-        productionCostPerPortion =  CostService.getTotalCostPerPortion(cost,datasheetNbCouverts)
+        productionCostPerPortion =  CostService.getTotalCostPerPortion(cost,this.props.nbCouverts)
         totalSellingPrice =  CostService.getSellingPrice(cost)
-        SellingPricePerPortion  =  CostService.getSellingPricePerPortion(cost, datasheetNbCouverts)
+        SellingPricePerPortion  =  CostService.getSellingPricePerPortion(cost, this.props.nbCouverts)
         totalBenefit =  CostService.getTotalBenefit(cost)
-        BenefitPerPortion = CostService.getTotalBenefitPerPortion(cost, datasheetNbCouverts)
-        profitabilityTreshold = CostService.getProfitabilityTreshold(cost,datasheetNbCouverts)
+        BenefitPerPortion = CostService.getTotalBenefitPerPortion(cost, this.props.nbCouverts)
+        profitabilityTreshold = CostService.getProfitabilityTreshold(cost, this.props.nbCouverts)
         this.setState({
             cost:  cost,
             totalProductionCost : totalProductionCost,
@@ -157,105 +157,5 @@ class Cost extends React.Component<Props, State> {
     }
 }
 
-const Coste: React.FC<Props> = (props) => {
-    let datasheetNbCouverts : number
-    let cost : CostT = {
-        chargescalculated: false,
-        chargescost: 0,
-        idCost: 0,
-        idfichetechnique: 0,
-        includedDatasheetsCost: 0,
-        materialscost: 0,
-        coefwithcharges : 0,
-        coefwithoutcharges : 0
-    }
-    let totalProductionCost : number = 0
-    let productionCostPerPortion : number = 0
-    let totalSellingPrice : number = 0
-    let SellingPricePerPortion : number = 0
-    let totalBenefit : number = 0
-    let BenefitPerPortion : number = 0
-    let profitabilityTreshold : number = 0;
-
-    useEffect(() => {
-
-        async function fetchData() {
-
-            console.log("id", props.DatasheetId)
-            datasheetNbCouverts = await DatasheetService.getDataSheetByID(props.DatasheetId).then(value => value.nombrecouverts)
-            cost = await CostService.getCostByDataSheet(props.DatasheetId)
-            console.log("cost",cost)
-            totalProductionCost = CostService.getTotalCost(cost)
-            productionCostPerPortion =  CostService.getTotalCostPerPortion(cost,datasheetNbCouverts)
-            totalSellingPrice =  CostService.getSellingPrice(cost)
-            SellingPricePerPortion  =  CostService.getSellingPricePerPortion(cost, datasheetNbCouverts)
-            totalBenefit =  CostService.getTotalBenefit(cost)
-            BenefitPerPortion = CostService.getTotalBenefitPerPortion(cost, datasheetNbCouverts)
-            profitabilityTreshold = CostService.getProfitabilityTreshold(cost,datasheetNbCouverts)
-            console.log("totalprod", totalProductionCost)
-        }
-        fetchData();
-    }, [])
-
-    return(
-        <div>
-        <Card title = "Coûts">
-            <Row gutter={16}>
-                <Col span={6}>
-                    <Statistic title="Coût matière" suffix = " €"  value={cost.materialscost} precision={2} />
-                </Col>
-                <Col span={6}>
-                    {cost.chargescalculated ?  <Statistic title="Coût des charges" suffix = " €"  value={cost.chargescost} precision={2}  />
-                    :  <Statistic title="Coût des charges" suffix = " €"  value={"Charges non calculées"} precision={2}  />}
-
-                </Col>
-            </Row>
-            <Row gutter={16}>
-                <Col span={6}>
-                    <Statistic title="Coût de production total" suffix = " €"  value={totalProductionCost} precision={2} />
-                </Col>
-                <Col span={6}>
-                    <Statistic title="Coût de production par portion" suffix = " €"  value={productionCostPerPortion} precision={2} />
-                </Col>
-
-            </Row>
-            <Divider></Divider>
-            <Row>
-                <Col span={12}>
-                    {cost.chargescalculated ?<Statistic title="Coefficient de calcul du prix de vente (en comptant les charges)" value={cost.coefwithcharges} precision={2} />
-                    : <Statistic title="Coefficient de calcul du prix de vente (sans compter les charges)" value={cost.coefwithoutcharges} precision={2} />}
-
-                </Col>
-
-            </Row>
-            <Row>
-                <Col span={12}>
-                    <Statistic title="Prix de vente total" value={totalSellingPrice} suffix = " €" precision={2} />
-                </Col>
-                <Col span={12}>
-                    <Statistic title="Prix de vente par portion" value={SellingPricePerPortion} suffix = " €"  precision={2} />
-                </Col>
-            </Row>
-            <Divider></Divider>
-            <Row>
-                <Col span={12}>
-                    <Statistic title="Bénéfice total" suffix = " €"  value={totalBenefit} precision={2} />
-                </Col>
-                <Col span={12}>
-                    <Statistic title="Bénéfice par portion" suffix = " €"  value={BenefitPerPortion} precision={2} />
-                </Col>
-            </Row>
-            <Divider></Divider>
-            <Row>
-                <Col span={12}>
-
-                    <Statistic title="Seuil de rentabilité" suffix = " couverts"  value={profitabilityTreshold} precision={2} />
-                </Col>
-            </Row>
-        </Card>
-
-    </div>
-    );
-};
 
 export default Cost;

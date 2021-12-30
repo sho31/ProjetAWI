@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
 
-import {Card, Col, Row} from "antd";
+import {Card, Col, Row, Divider} from "antd";
 
 import StepService from "../../../services/StepService";
 import Step from "../../../types/Step";
@@ -102,6 +102,7 @@ const RecursiveRealization: React.FC<Props> = (props) => {
             <div>
                 {steps &&
                 steps.map((step, index) => (
+                    <div>
                     <Row key={index}>
                         <Col span={12} key={index}>
                             <IngEtape id={step.idetape} nbCouverts={props.nbCouverts} key={index} theoricalNbCouverts={props.theoricalNbCouverts}></IngEtape>
@@ -116,6 +117,8 @@ const RecursiveRealization: React.FC<Props> = (props) => {
                             <br></br>
                         </Col>
                     </Row>
+                    <Divider></Divider>
+                    </div>
                 ))}
             </div>
         );
