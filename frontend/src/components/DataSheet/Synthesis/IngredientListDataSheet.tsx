@@ -21,7 +21,6 @@ const IngredientListDataSheet: React.FC<Props> = (props) => {
         const getIngredientList = async (idDataSheet: number,idCatIngredient: number) => {
             await StepIngredientJoinService.getIngredientListByCatAndDataSheet(idDataSheet,idCatIngredient)
                 .then((response: any) => {
-                    console.log(response)
                     setIngredients(response);
                 })
                 .catch((e: Error) => {

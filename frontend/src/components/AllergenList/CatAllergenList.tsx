@@ -44,7 +44,6 @@ const MercurialPage: React.FC = () => {
             <div key={1}>
                 <Title level={2} key={1} >Liste des allergènes</Title>
             </div>
-            <br/>
             <Card key={4}>
                 <div key={2}>
                     <h3 key={3}>

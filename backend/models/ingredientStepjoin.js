@@ -1,4 +1,5 @@
 const db = require("../dataBase/index");
+const Console = require("console");
 
 /* CRUD */
 
@@ -64,9 +65,9 @@ async function getIngredientStepJoinByDataSheetID(idDataSheet,idIngredientCat) {
         let resB =null;
         if(nbdefichetechniquefille > 0){ // on récupère les éléments des fiches techniques filles
             resB = await db.query(
-                "SELECT idingredient,nomingredient,prixunitaireingredient,ROUND(sum((quantite/$2))) as sumquantite FROM fichetechnique f INNER JOIN fichetechniquejointure fj ON f.idfichetechnique=fj.idfichetechniqueparent NATURAL JOIN ingredientetapejointure NATURAL JOIN ingredient WHERE idfichetechnique = $1 AND idcategorieingredient = $3 GROUP by idingredient,nomingredient,prixunitaireingredient;",
-                [idDataSheet,nbdefichetechniquefille,idIngredientCat]
-            );
+                  "SELECT idingredient,nomingredient,sum(newquantite) as sumquantite,prixunitaireingredient FROM (SELECT nomingredient,sum(quantite) as newquantite,idingredient,prixunitaireingredient FROM fichetechniquejointure fj INNER JOIN fichetechnique f on f.idfichetechnique = fj.idfichetechniqueparent inner JOIN etape e ON e.idfichetechnique = fj.idfichetechniquefille natural join ingredientetapejointure natural join ingredient WHERE fj.idfichetechniqueparent = $1 AND f.idfichetechnique = $1 AND idcategorieingredient= $2 GROUP BY nomingredient,idingredient,prixunitaireingredient union SELECT nomingredient,sum(quantite) as newquantite,idingredient,prixunitaireingredient FROM ingredientetapejointure natural join etape natural join ingredient where idfichetechnique = $1 AND idcategorieingredient=$2 GROUP BY nomingredient,idcategorieingredient,idingredient,prixunitaireingredient) as tmp GROUP BY nomingredient,idingredient,prixunitaireingredient;",
+                [idDataSheet,idIngredientCat]
+                );
             return resB;
         }
         else{// aucune fiche technique fille
@@ -92,9 +93,25 @@ async function getAllergenCatListStepId(idFicheTechnique) {
 
 async function getIngredientCatListStepId(idFicheTechnique) {
     try {
-        const res = await db.query("SELECT DISTINCT idcategorieingredient,nomcategorieingredient FROM ingredientetapejointure NATURAL Join etape NATURAL Join ingredient NATURAL Join categorieingredient where idfichetechnique = $1 ORDER BY nomcategorieingredient;",
-            [idFicheTechnique]);
-        return res;
+        const resA = await db.query(
+            "SELECT idfichetechniquefille as nbfichetechnique FROM fichetechniquejointure WHERE idfichetechniqueparent=$1;",
+            [idFicheTechnique]
+        );
+        const nbdefichetechniquefille = resA.rowCount;
+        let resB =null;
+        if(nbdefichetechniquefille > 0){ // on récupère les éléments des fiches techniques filles
+            resB = await db.query(
+                "SELECT * FROM (SELECT idcategorieingredient,nomcategorieingredient FROM fichetechniquejointure fj INNER JOIN fichetechnique f on f.idfichetechnique = fj.idfichetechniqueparent inner JOIN etape e ON e.idfichetechnique = fj.idfichetechniquefille natural join ingredientetapejointure natural join ingredient natural join categorieingredient WHERE fj.idfichetechniqueparent = $1 AND f.idfichetechnique = $1 GROUP BY idcategorieingredient,nomcategorieingredient UNION SELECT idcategorieingredient,nomcategorieingredient FROM ingredientetapejointure NATURAL Join etape NATURAL Join ingredient NATURAL Join categorieingredient where idfichetechnique = $1 GROUP BY idcategorieingredient,nomcategorieingredient ORDER BY nomcategorieingredient) as tmp GROUP BY idcategorieingredient,nomcategorieingredient;",
+                [idFicheTechnique]
+            );
+            Console.log("dedans");
+            return resB;
+        }
+        else{
+            const res = await db.query("SELECT idcategorieingredient,nomcategorieingredient FROM ingredientetapejointure NATURAL Join etape NATURAL Join ingredient NATURAL Join categorieingredient where idfichetechnique = $1 GROUP BY idcategorieingredient,nomcategorieingredient ORDER BY nomcategorieingredient;",
+                [idFicheTechnique]);
+            return res;
+        }
     } catch (e) {
         throw e;
     }
