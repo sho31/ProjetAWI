@@ -1,9 +1,14 @@
 import http from "../http-common";
 import IngredientsData from "../types/Ingredient";
+import DatasheetsData from "../types/Datasheet";
 
 const getAllIngredients = async () => {
     const tmp = await http.get<Array<IngredientsData>>("/ingredient/all");
     return tmp.data;
+};
+const getIngredientByID = async (id: any) => {
+    const tmp = await http.get<Array<IngredientsData>>(`/ingredient?id=${id}`);
+    return tmp.data[0];
 };
 
 const getAllIngredientsWithNegativeStock = async () => {
@@ -32,6 +37,7 @@ const IngredientService = {
     remove,
     updateStock,
     addStock,
+    getIngredientByID
 };
 
 export default IngredientService;

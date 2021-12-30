@@ -1,0 +1,154 @@
+import http from "../http-common";
+import CostData from "../types/Cost";
+import IngredientService from "../services/IngredientService";
+
+const create = async (data:CostData) => {
+    const tmp =  await http.post<CostData>("/cost", data);
+    //console.log(tmp)
+    return  tmp.data
+};
+const createWithOtherDatasheetsCosts = async (primarySheetCost: CostData, otherSheetsCosts : Array<CostData> ) => {
+    console.log("other", otherSheetsCosts)
+    let newCost : CostData = primarySheetCost;
+    newCost.includedDatasheetsCost =0;
+    for (const cost of otherSheetsCosts) {
+        console.log(cost)
+        if(cost.chargescost !== undefined) {
+            newCost.includedDatasheetsCost = +newCost.includedDatasheetsCost + +cost.materialscost + +cost.chargescost
+        } else {
+            newCost.includedDatasheetsCost = +newCost.includedDatasheetsCost + +cost.materialscost
+        }
+
+    }
+    console.log(newCost.includedDatasheetsCost, "newcost")
+    await create(newCost)
+};
+const getIngredientsCost = async (ingredients : [{idingredient : number, quantite : number}]) => {
+    let materialscost : number = 0
+    let unitCost : number;
+    try{
+        for (const ing of ingredients) {
+            unitCost = await IngredientService.getIngredientByID(ing.idingredient).then(value => value.prixunitaireingredient)
+            materialscost = +materialscost + unitCost * ing.quantite
+        }
+    }catch(e) {
+        console.log(e)
+    }
+
+    return materialscost;
+
+}
+const getMaterialsCost = async (ingredientsCost : number, seasoning : number) => {
+    let materialscost : number = 0
+    if (seasoning === -1){
+        materialscost = +ingredientsCost + ingredientsCost*0.05
+    }else {
+        materialscost = +ingredientsCost + +seasoning
+    }
+    return materialscost;
+
+}
+const getChargesCost = async (salaryCost : number,fluidCost : number, totalMinutes : number) =>{
+    const totalHours : number = totalMinutes/60.0
+    console.log(totalHours, "hours")
+    console.log("salary" , salaryCost)
+    console.log(fluidCost, "fluid")
+    console.log(salaryCost * totalHours + fluidCost*totalHours)
+    return salaryCost * totalHours + fluidCost*totalHours
+
+}
+
+const getCostByDataSheet = async (id: any) => {
+    const tmp = await http.get<CostData>(`/cost/bydatasheet?id=${id}`);
+    console.log("tpm", tmp)
+    return tmp.data;
+};
+const getCostForSeveralDataSheet = async (ids: [any]) => {
+    let costs : Array<CostData>;
+    costs = [];
+    for (let i = 0; i< ids.length; i++) {
+        costs[i] = await getCostByDataSheet(ids[i]).then((response: any) => {
+            console.log(response, "resp")
+            return response})
+    }
+    console.log("end sever", costs)
+    return costs
+};
+const getTotalCost = (cost : CostData) => {
+    if (cost.chargescost === undefined) {
+        return cost.materialscost
+    }else {
+        return +cost.chargescost + +cost.materialscost
+    }
+
+}
+const getTotalCostPerPortion = (cost : CostData, nbCouvertsTotal : number, nbPortion : number = 1) => {
+    if (cost.chargescost === undefined) {
+        return cost.materialscost * (nbPortion/nbCouvertsTotal)
+    }else {
+        return +cost.chargescost + cost.materialscost * (nbPortion/nbCouvertsTotal)
+    }
+}
+
+const getTotalBenefit  = (cost : CostData) : number =>  {
+    return getSellingPrice(cost) * 0.9 - getTotalCost(cost)
+}
+const getTotalBenefitPerPortion = (cost : CostData, nbCouvertsTotal : number, nbPortion : number = 1) : number => {
+    return getSellingPricePerPortion(cost, nbCouvertsTotal, nbPortion) * 0.9 - getTotalCostPerPortion(cost, nbCouvertsTotal, nbPortion)
+}
+//Returns the selling price depending on if charges are calculated or not
+const getSellingPrice = (cost : CostData) => {
+    if (cost.chargescalculated && cost.coefwithcharges !== undefined) {
+        return (getTotalCost(cost) * cost.coefwithcharges)* 1.1
+    } else if (cost.coefwithoutcharges !== undefined){
+        return (getTotalCost(cost) * cost.coefwithoutcharges)* 1.1
+    } else {
+        return (getTotalCost(cost))* 1.1
+    }
+}
+const getSellingPricePerPortion = (cost : CostData, nbCouvertsTotal : number, nbPortion : number = 1) => {
+    if (cost.chargescalculated && cost.coefwithcharges !== undefined) {
+        return (getTotalCostPerPortion(cost, nbCouvertsTotal, nbPortion) * cost.coefwithcharges)* 1.1
+    } else if (cost.coefwithoutcharges !== undefined){
+        return (getTotalCostPerPortion(cost, nbCouvertsTotal, nbPortion) * cost.coefwithoutcharges)* 1.1
+    } else {
+        return (getTotalCostPerPortion(cost, nbCouvertsTotal, nbPortion) )* 1.1
+    }
+}
+//returns the minimal nbPortion below nbCouvertsTotal where the benefit is positive. Returns -1 if there is no possible profitability below or equal the planned nbCouvertsTotal of the datasheet
+const getProfitabilityTreshold = (cost : CostData, nbCouvertsTotal : number) => {
+    for (let i : number = 1; i++; i <= nbCouvertsTotal) {
+        if (i == nbCouvertsTotal) {
+            if (getTotalBenefit(cost) > 0) {
+                return i
+            }
+        }
+        if (getTotalBenefitPerPortion(cost,nbCouvertsTotal,i) > 0) {
+            return i
+        }
+    }
+    return -1
+}
+
+
+
+const CostService = {
+    create,
+    createWithOtherDatasheetsCosts,
+    getCostByDataSheet,
+    getCostForSeveralDataSheet,
+    getChargesCost,
+    getTotalBenefitPerPortion,
+    getProfitabilityTreshold,
+    getMaterialsCost,
+    getIngredientsCost,
+    getTotalCost,
+    getTotalCostPerPortion,
+    getSellingPricePerPortion,
+    getSellingPrice,
+    getTotalBenefit
+
+
+};
+
+export default CostService;

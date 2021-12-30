@@ -27,7 +27,7 @@ const getGlobalTimeToMakeDataSheetChild = async (id: number) => {
     return tmp.data;
 };
 
-const IngredientService = {
+const StepService = {
     getAllDataSheets,
     getStepsByDataSheet,
     create,
@@ -35,4 +35,4 @@ const IngredientService = {
     getGlobalTimeToMakeDataSheetChild,
 };
 
-export default IngredientService;
+export default StepService;

@@ -7,15 +7,13 @@ import { Form, InputNumber, Button, Divider,Space, Radio } from 'antd';
 // @ts-ignore
 const CostManagement: React.FC<DatasheetProps> = ({ onChange, fields, onFinish}) =>  {
     const [form] = Form.useForm()
-    const [radioVal, setRadioVal] = useState(0.05);
+    const [radioVal, setRadioVal] = useState(-1);
     const [radioVal2, setRadioVal2] = useState(0);
     const [radioValCost, setRadioValCost] = useState("a");
     const onRadioChange = (e : any)  => {
-        console.log('radio checked', e.target.value);
         setRadioVal(e.target.value);
     };
     const onRadioChangeCost = (e : any)  => {
-        console.log('radio checked', e.target.value);
         setRadioValCost(e.target.value);
     };
 
@@ -30,28 +28,29 @@ const CostManagement: React.FC<DatasheetProps> = ({ onChange, fields, onFinish})
                 size = "large"
                 fields={fields}
                 onFieldsChange={(_, allFields) => {
-                    console.log(allFields)
                     onChange(allFields);
                 }}
                 onFinish={(values) => {
                     onFinish(values);
                 }}
+                initialValues={ {coefwithcharges : 1, coefwithoutcharges : 1, salarycost : 0, fluidcost : 0}}
 
             >
                 <h3>Matière</h3>
                 <Form.Item name="seasoning" label="Coût de l’assaisonnement" rules={[{ required: true, message: "Il faut entrer le coût de l'assaisonnement" }]}>
                     <Radio.Group onChange={onRadioChange} >
                         <Space direction="vertical" >
-                            <Radio value={0.05}>5% du coût de la matière</Radio>
+                            <Radio value={-1}>5% du coût de la matière</Radio>
                             <Radio value={radioVal2}>
                                 Montant fixe (en euros)
-                                {(radioVal !== 0.05)  ? <InputNumber required={true} name={"seasoningFixe"} style={{ width: 100, marginLeft: 10 }} onChange={((value : number) => {setRadioVal2(value)})} />  : null}
+                                {(radioVal !== -1)  ? <InputNumber required={true} name={"seasoningFixe"} min={0}
+                                                                   max={10000} style={{ width: 100, marginLeft: 10 }} onChange={((value : number) => {setRadioVal2(value)})} />  : null}
                             </Radio>
                         </Space>
                     </Radio.Group>
                 </Form.Item>
                 <Divider />
-                <Form.Item name="chargesCalculated" rules={[{ required: true, message: "Il faut choisir la méthode de calcul des coûts" }]}>
+                <Form.Item name="chargescalculated" rules={[{ required: true, message: "Il faut choisir la méthode de calcul des coûts" }]}>
                 <Radio.Group size="large" onChange={onRadioChangeCost}>
                     <Radio.Button value="true">Calculer le coût des fluides et de personnel</Radio.Button>
                     <Radio.Button value="false">Uniquement calculer le coût matière</Radio.Button>
@@ -81,7 +80,6 @@ const CostManagement: React.FC<DatasheetProps> = ({ onChange, fields, onFinish})
                                 min={0}
                                 max={50}
                                 step={0.05}
-                                defaultValue={1}
                                 controls={true}/>
                         </Form.Item></>
                     : radioValCost === "false"?
@@ -91,7 +89,6 @@ const CostManagement: React.FC<DatasheetProps> = ({ onChange, fields, onFinish})
                             <InputNumber
                                 min={0}
                                 max={50}
-                                defaultValue={1}
                                 step={0.05}
                                 controls={true}
                             />
