@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, Fragment} from "react";
 
 import {Card, Col, Row, Divider} from "antd";
 
@@ -13,6 +13,7 @@ interface Props {
     id: number;
     nbCouverts: number;
     theoricalNbCouverts: number;
+    numstep: number;
 }
 
 const RecursiveRealization: React.FC<Props> = (props) => {
@@ -55,7 +56,7 @@ const RecursiveRealization: React.FC<Props> = (props) => {
 
     if (dataSheetJoin[current]!==undefined){ //Si on a une fiche technique fille
         return (
-            <div>
+            <div key={1}>
                 {steps &&
                 steps.map((step, index) => (
                     <div key={index}>
@@ -77,20 +78,21 @@ const RecursiveRealization: React.FC<Props> = (props) => {
 
                         <React.Fragment key={index}>
                             <Card key={index}>
-                            <Row>
-                                <Col span={12} key={index}><h1>Utilisation d'une nouvelle fiche technique</h1></Col>
-                                <Col span={2} key={index+1}>{dataSheetJoin[current].numetape}</Col>
-                                <Col span={10} key={index+2}>
-                                    <NameDataSheet id={dataSheetJoin[current].idfichetechniquefille} theoricalNbCouverts={props.theoricalNbCouverts} nbCouvertsParents={props.nbCouverts}></NameDataSheet>
-                                </Col>
-                            </Row>
-                            <RecursiveRealization id={dataSheetJoin[current].idfichetechniquefille} nbCouverts={props.nbCouverts} theoricalNbCouverts={props.theoricalNbCouverts}/>
-                            {current < dataSheetJoin.length && <div style={{visibility: 'hidden'}}>{current++}</div>
-                            }
+                                <Row>
+                                    <Col span={12} key={index}><h1>Utilisation d'une nouvelle fiche technique</h1></Col>
+                                    <Col span={2} key={index+1}>{dataSheetJoin[current].numetape}</Col>
+                                    <Col span={10} key={index+2}>
+                                        <NameDataSheet id={dataSheetJoin[current].idfichetechniquefille} theoricalNbCouverts={props.theoricalNbCouverts} nbCouvertsParents={props.nbCouverts}></NameDataSheet>
+                                    </Col>
+                                </Row>
+                                <RecursiveRealization id={dataSheetJoin[current].idfichetechniquefille} nbCouverts={props.nbCouverts} theoricalNbCouverts={props.theoricalNbCouverts} numstep={step.numetape}/>
+                                {current < dataSheetJoin.length && <div style={{visibility: 'hidden'}}>{current++}</div>
+                                }
                             </Card>
                         </React.Fragment>
 
                         }
+                        <Divider key={index+3}></Divider>
                     </div>
 
                 ))}
@@ -98,16 +100,19 @@ const RecursiveRealization: React.FC<Props> = (props) => {
         );
     }
     else {
+
         return (// FICHE Technique fille
             <div>
                 {steps &&
                 steps.map((step, index) => (
-                    <div>
+                    <Fragment key={index}>
                     <Row key={index}>
                         <Col span={12} key={index}>
                             <IngEtape id={step.idetape} nbCouverts={props.nbCouverts} key={index} theoricalNbCouverts={props.theoricalNbCouverts}></IngEtape>
                         </Col>
-                        <Col span={2} key={index+1}>{step.numetape}</Col>
+                        {props.numstep !== 0 ? (<Col span={2} key={index+3}>{props.numstep+1}.{step.numetape}</Col>) : (
+                            <Col span={2} key={index+3}>{step.numetape}</Col>
+                        )}
                         <Col span={10} key={index+2}>
                             <h3>{step.titreetape}
                                 <br></br>
@@ -117,8 +122,8 @@ const RecursiveRealization: React.FC<Props> = (props) => {
                             <br></br>
                         </Col>
                     </Row>
-                    <Divider></Divider>
-                    </div>
+                    <Divider key={index+3}></Divider>
+                    </Fragment>
                 ))}
             </div>
         );
