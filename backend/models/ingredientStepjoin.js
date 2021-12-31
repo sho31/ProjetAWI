@@ -54,6 +54,31 @@ async function getIngredientStepJoinByStepId(idEtape) {
         throw e;
     }
 }
+async function getIngredientCatListStepId(idFicheTechnique) {
+    try {
+        const resA = await db.query(
+            "SELECT idfichetechniquefille as nbfichetechnique FROM fichetechniquejointure WHERE idfichetechniqueparent=$1;",
+            [idFicheTechnique]
+        );
+        const nbdefichetechniquefille = resA.rowCount;
+        let resB =null;
+        if(nbdefichetechniquefille > 0){ // on récupère les éléments des fiches techniques filles
+            resB = await db.query(
+                "SELECT * FROM (SELECT idcategorieingredient,nomcategorieingredient FROM fichetechniquejointure fj INNER JOIN fichetechnique f on f.idfichetechnique = fj.idfichetechniqueparent inner JOIN etape e ON e.idfichetechnique = fj.idfichetechniquefille natural join ingredientetapejointure natural join ingredient natural join categorieingredient WHERE fj.idfichetechniqueparent = $1 AND f.idfichetechnique = $1 GROUP BY idcategorieingredient,nomcategorieingredient UNION SELECT idcategorieingredient,nomcategorieingredient FROM ingredientetapejointure NATURAL Join etape NATURAL Join ingredient NATURAL Join categorieingredient where idfichetechnique = $1 GROUP BY idcategorieingredient,nomcategorieingredient ORDER BY nomcategorieingredient) as tmp GROUP BY idcategorieingredient,nomcategorieingredient;",
+                [idFicheTechnique]
+            );
+            Console.log("dedans");
+            return resB;
+        }
+        else{
+            const res = await db.query("SELECT idcategorieingredient,nomcategorieingredient FROM ingredientetapejointure NATURAL Join etape NATURAL Join ingredient NATURAL Join categorieingredient where idfichetechnique = $1 GROUP BY idcategorieingredient,nomcategorieingredient ORDER BY nomcategorieingredient;",
+                [idFicheTechnique]);
+            return res;
+        }
+    } catch (e) {
+        throw e;
+    }
+}
 
 async function getIngredientStepJoinByDataSheetID(idDataSheet,idIngredientCat) {
     try {
@@ -83,32 +108,22 @@ async function getIngredientStepJoinByDataSheetID(idDataSheet,idIngredientCat) {
 
 async function getAllergenCatListStepId(idFicheTechnique) {
     try {
-        const res = await db.query("SELECT DISTINCT idcategorieallergene,categorieallergene FROM ingredientetapejointure NATURAL Join etape NATURAL Join ingredient NATURAL Join categorieallergene where idfichetechnique = $1 ORDER BY categorieallergene;",
-            [idFicheTechnique]);
-        return res;
-    } catch (e) {
-        throw e;
-    }
-}
-
-async function getIngredientCatListStepId(idFicheTechnique) {
-    try {
         const resA = await db.query(
             "SELECT idfichetechniquefille as nbfichetechnique FROM fichetechniquejointure WHERE idfichetechniqueparent=$1;",
             [idFicheTechnique]
         );
         const nbdefichetechniquefille = resA.rowCount;
+
         let resB =null;
         if(nbdefichetechniquefille > 0){ // on récupère les éléments des fiches techniques filles
             resB = await db.query(
-                "SELECT * FROM (SELECT idcategorieingredient,nomcategorieingredient FROM fichetechniquejointure fj INNER JOIN fichetechnique f on f.idfichetechnique = fj.idfichetechniqueparent inner JOIN etape e ON e.idfichetechnique = fj.idfichetechniquefille natural join ingredientetapejointure natural join ingredient natural join categorieingredient WHERE fj.idfichetechniqueparent = $1 AND f.idfichetechnique = $1 GROUP BY idcategorieingredient,nomcategorieingredient UNION SELECT idcategorieingredient,nomcategorieingredient FROM ingredientetapejointure NATURAL Join etape NATURAL Join ingredient NATURAL Join categorieingredient where idfichetechnique = $1 GROUP BY idcategorieingredient,nomcategorieingredient ORDER BY nomcategorieingredient) as tmp GROUP BY idcategorieingredient,nomcategorieingredient;",
+                "SELECT * FROM (SELECT c.idcategorieallergene,c.categorieallergene FROM fichetechniquejointure fj INNER JOIN fichetechnique f on f.idfichetechnique = fj.idfichetechniqueparent inner JOIN etape e ON e.idfichetechnique = fj.idfichetechniquefille natural join ingredientetapejointure natural join ingredient natural join categorieallergene c WHERE fj.idfichetechniqueparent = $1 AND f.idfichetechnique = $1 GROUP BY c.idcategorieallergene,c.categorieallergene UNION SELECT c.idcategorieallergene,c.categorieallergene FROM ingredientetapejointure NATURAL Join etape NATURAL Join ingredient NATURAL Join categorieallergene c where idfichetechnique = $1 GROUP BY c.idcategorieallergene,c.categorieallergene ORDER BY categorieallergene) as tmp GROUP BY idcategorieallergene,categorieallergene;",
                 [idFicheTechnique]
             );
-            Console.log("dedans");
             return resB;
         }
         else{
-            const res = await db.query("SELECT idcategorieingredient,nomcategorieingredient FROM ingredientetapejointure NATURAL Join etape NATURAL Join ingredient NATURAL Join categorieingredient where idfichetechnique = $1 GROUP BY idcategorieingredient,nomcategorieingredient ORDER BY nomcategorieingredient;",
+            const res = await db.query("SELECT c.idcategorieallergene,c.categorieallergene FROM ingredientetapejointure NATURAL Join etape NATURAL Join ingredient NATURAL Join categorieallergene c where idfichetechnique = $1  GROUP BY  c.idcategorieallergene,c.categorieallergene ORDER BY c.categorieallergene;",
                 [idFicheTechnique]);
             return res;
         }
@@ -117,11 +132,29 @@ async function getIngredientCatListStepId(idFicheTechnique) {
     }
 }
 
-async function getAllergenListByCatAndStepId(idFicheTechnique,idCatAllergene) {
+async function getAllergenListByCatAndStepId(idDataSheet,idCatAllergene) {
     try {
-        const res = await db.query("SELECT DISTINCT nomingredient,idingredient FROM ingredientetapejointure NATURAL JOIN etape NATURAL JOIN ingredient NATURAL JOIN categorieallergene where idfichetechnique = $1 AND idcategorieallergene=$2 ORDER BY nomingredient;",
-            [idFicheTechnique,idCatAllergene]);
-        return res;
+        const resA = await db.query(
+            "SELECT idfichetechniquefille as nbfichetechnique FROM fichetechniquejointure WHERE idfichetechniqueparent=$1;",
+            [idDataSheet]
+        );
+        const nbdefichetechniquefille = resA.rowCount;
+        let resB =null;
+        if(nbdefichetechniquefille > 0){ // on récupère les éléments des fiches techniques filles
+            console.log("a")
+            resB = await db.query(
+                "SELECT idingredient,nomingredient FROM (SELECT nomingredient,idingredient FROM fichetechniquejointure fj INNER JOIN fichetechnique f on f.idfichetechnique = fj.idfichetechniqueparent inner JOIN etape e ON e.idfichetechnique = fj.idfichetechniquefille natural join ingredientetapejointure natural join ingredient WHERE fj.idfichetechniqueparent = $1 AND f.idfichetechnique = $1 AND idcategorieallergene= $2 GROUP BY nomingredient,idingredient union SELECT nomingredient,idingredient FROM ingredientetapejointure NATURAL JOIN etape NATURAL JOIN ingredient NATURAL JOIN categorieallergene where idfichetechnique = $1 AND idcategorieallergene=$2 GROUP BY nomingredient,idingredient ORDER BY nomingredient) as tmp GROUP BY nomingredient,idingredient;",
+                [idDataSheet,idCatAllergene]
+            );
+
+            return resB;
+        }
+        else{// aucune fiche technique fille
+            resB = await db.query("SELECT nomingredient,idingredient FROM ingredientetapejointure NATURAL JOIN etape NATURAL JOIN ingredient NATURAL JOIN categorieallergene where idfichetechnique = $1 AND idcategorieallergene=$2 GROUP BY nomingredient,idingredient ORDER BY nomingredient;",
+                [idDataSheet,idCatAllergene]);
+            return resB;
+        }
+
     } catch (e) {
         throw e;
     }
