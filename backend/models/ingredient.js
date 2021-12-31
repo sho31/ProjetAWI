@@ -4,11 +4,20 @@ const db = require("../dataBase");
 
 async function createIngredient(idCategorieIngredient,idCategorieAllergene,idUnite,nomIngredient,prixUnitaireIngredient,stock) {
     try {
-        const res = await db.query(
-            "INSERT INTO ingredient (idCategorieIngredient,idCategorieAllergene,idUnite,nomIngredient,prixUnitaireIngredient,stock) VALUES($1,$2,$3,$4,$5,$6) RETURNING idingredient;",
-            [idCategorieIngredient,idCategorieAllergene,idUnite,nomIngredient,prixUnitaireIngredient,stock]
-        );
-        return res;
+        if (isNaN(idCategorieAllergene)) {
+            const res = await db.query(
+                "INSERT INTO ingredient (idCategorieIngredient,idCategorieAllergene,idUnite,nomIngredient,prixUnitaireIngredient,stock) VALUES($1,NULL,$2,$3,$4,$5) RETURNING idingredient;",
+                [idCategorieIngredient,idUnite,nomIngredient,prixUnitaireIngredient,stock]
+            );
+            return res;
+        }else {
+            const res = await db.query(
+                "INSERT INTO ingredient (idCategorieIngredient,idCategorieAllergene,idUnite,nomIngredient,prixUnitaireIngredient,stock) VALUES($1,$2,$3,$4,$5,$6) RETURNING idingredient;",
+                [idCategorieIngredient,idCategorieAllergene,idUnite,nomIngredient,prixUnitaireIngredient,stock]
+            );
+            return res;
+        }
+
     } catch (e) {
         throw e;
     }

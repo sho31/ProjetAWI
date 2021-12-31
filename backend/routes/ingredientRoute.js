@@ -53,6 +53,7 @@ router.post("/", async function (req, res, next) {
         res.status(200).json({ message:  "Ajout effectué"})
     } catch (e) {
         res.status(500).json({ message: "can't load data" });
+        console.log(e)
     }
 });
 

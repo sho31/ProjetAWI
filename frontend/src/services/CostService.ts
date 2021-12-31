@@ -38,7 +38,7 @@ const getIngredientsCost = async (ingredients : [{idingredient : number, quantit
     return materialscost;
 
 }
-const getMaterialsCost = async (ingredientsCost : number, seasoning : number) => {
+const getMaterialsCost = (ingredientsCost : number, seasoning : number) => {
     let materialscost : number = 0
     if (seasoning === -1){
         materialscost = +ingredientsCost + ingredientsCost*0.05
@@ -48,6 +48,10 @@ const getMaterialsCost = async (ingredientsCost : number, seasoning : number) =>
     return materialscost;
 
 }
+const getMaterialsCostPerNbCouverts = (cost : CostData, nbCouvertsTotal : number ,nbPortion : number) => {
+    return cost.materialscost *(nbPortion/nbCouvertsTotal)
+}
+
 const getChargesCost = async (salaryCost : number,fluidCost : number, totalMinutes : number) =>{
     const totalHours : number = totalMinutes/60.0
     console.log(totalHours, "hours")
@@ -82,19 +86,25 @@ const getTotalCost = (cost : CostData) => {
     }
 
 }
-const getTotalCostPerPortion = (cost : CostData, nbCouvertsTotal : number, nbPortion : number = 1) => {
+const getTotalCostPerNbCouverts = (cost : CostData, nbCouvertsTotal : number, nbPortion : number = 1) => {
     if (cost.chargescost === undefined) {
         return cost.materialscost * (nbPortion/nbCouvertsTotal)
     }else {
         return +cost.chargescost + cost.materialscost * (nbPortion/nbCouvertsTotal)
     }
 }
+const getTotalCostPerPortion = (cost : CostData, nbCouvertsTotal : number, nbPortion : number = 1) => {
+    return getTotalCostPerNbCouverts(cost, nbCouvertsTotal, nbPortion)/nbPortion
+}
 
 const getTotalBenefit  = (cost : CostData) : number =>  {
     return getSellingPrice(cost) * 0.9 - getTotalCost(cost)
 }
+const getTotalBenefitPerNbCouverts = (cost : CostData, nbCouvertsTotal : number, nbPortion : number = 1) : number => {
+    return getSellingPricePerNbCouverts(cost, nbCouvertsTotal, nbPortion) * 0.9 - getTotalCostPerNbCouverts(cost, nbCouvertsTotal, nbPortion)
+}
 const getTotalBenefitPerPortion = (cost : CostData, nbCouvertsTotal : number, nbPortion : number = 1) : number => {
-    return getSellingPricePerPortion(cost, nbCouvertsTotal, nbPortion) * 0.9 - getTotalCostPerPortion(cost, nbCouvertsTotal, nbPortion)
+    return getTotalBenefitPerNbCouverts(cost,nbCouvertsTotal,nbPortion) /nbPortion
 }
 //Returns the selling price depending on if charges are calculated or not
 const getSellingPrice = (cost : CostData) => {
@@ -106,14 +116,17 @@ const getSellingPrice = (cost : CostData) => {
         return (getTotalCost(cost))* 1.1
     }
 }
-const getSellingPricePerPortion = (cost : CostData, nbCouvertsTotal : number, nbPortion : number = 1) => {
+const getSellingPricePerNbCouverts = (cost : CostData, nbCouvertsTotal : number, nbPortion : number = 1) => {
     if (cost.chargescalculated && cost.coefwithcharges !== undefined) {
-        return (getTotalCostPerPortion(cost, nbCouvertsTotal, nbPortion) * cost.coefwithcharges)* 1.1
+        return (getTotalCostPerNbCouverts(cost, nbCouvertsTotal, nbPortion) * cost.coefwithcharges)* 1.1
     } else if (cost.coefwithoutcharges !== undefined){
-        return (getTotalCostPerPortion(cost, nbCouvertsTotal, nbPortion) * cost.coefwithoutcharges)* 1.1
+        return (getTotalCostPerNbCouverts(cost, nbCouvertsTotal, nbPortion) * cost.coefwithoutcharges)* 1.1
     } else {
-        return (getTotalCostPerPortion(cost, nbCouvertsTotal, nbPortion) )* 1.1
+        return (getTotalCostPerNbCouverts(cost, nbCouvertsTotal, nbPortion) )* 1.1
     }
+}
+const getSellingPricePerPortion = (cost : CostData, nbCouvertsTotal : number, nbPortion : number = 1) : number => {
+    return getSellingPricePerNbCouverts(cost,nbCouvertsTotal,nbPortion) /nbPortion
 }
 //returns the minimal nbPortion below nbCouvertsTotal where the benefit is positive. Returns -1 if there is no possible profitability below or equal the planned nbCouvertsTotal of the datasheet
 const getProfitabilityTreshold = (cost : CostData, nbCouvertsTotal : number) => {
@@ -138,15 +151,19 @@ const CostService = {
     getCostByDataSheet,
     getCostForSeveralDataSheet,
     getChargesCost,
-    getTotalBenefitPerPortion,
+    getTotalBenefitPerNbCouverts,
     getProfitabilityTreshold,
     getMaterialsCost,
     getIngredientsCost,
     getTotalCost,
-    getTotalCostPerPortion,
-    getSellingPricePerPortion,
+    getTotalCostPerNbCouverts,
+    getSellingPricePerNbCouverts,
     getSellingPrice,
-    getTotalBenefit
+    getTotalBenefit,
+    getTotalBenefitPerPortion,
+    getTotalCostPerPortion,
+    getMaterialsCostPerNbCouverts,
+    getSellingPricePerPortion
 
 
 };

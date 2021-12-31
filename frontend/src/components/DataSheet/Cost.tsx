@@ -48,7 +48,7 @@ class Cost extends React.Component<Props, State> {
         coefwithoutcharges :0
     };
     async componentDidMount() {
-
+        let datasheetNbCouverts : number
         let cost : CostT = {
             chargescalculated: false,
             chargescost: 0,
@@ -67,16 +67,16 @@ class Cost extends React.Component<Props, State> {
         let BenefitPerPortion : number = 0
         let profitabilityTreshold : number = 0;
 
-
+        datasheetNbCouverts = await DatasheetService.getDataSheetByID(this.props.DatasheetId).then(value => value.nombrecouverts)
         cost = await CostService.getCostByDataSheet(this.props.DatasheetId)
         console.log("cost",cost)
-        totalProductionCost = CostService.getTotalCost(cost)
-        productionCostPerPortion =  CostService.getTotalCostPerPortion(cost,this.props.nbCouverts)
-        totalSellingPrice =  CostService.getSellingPrice(cost)
-        SellingPricePerPortion  =  CostService.getSellingPricePerPortion(cost, this.props.nbCouverts)
-        totalBenefit =  CostService.getTotalBenefit(cost)
-        BenefitPerPortion = CostService.getTotalBenefitPerPortion(cost, this.props.nbCouverts)
-        profitabilityTreshold = CostService.getProfitabilityTreshold(cost, this.props.nbCouverts)
+        totalProductionCost = CostService.getTotalCostPerNbCouverts(cost,datasheetNbCouverts,this.props.nbCouverts)
+        productionCostPerPortion =  CostService.getTotalCostPerPortion(cost, datasheetNbCouverts,this.props.nbCouverts)
+        totalSellingPrice =  CostService.getSellingPricePerNbCouverts(cost,datasheetNbCouverts, this.props.nbCouverts)
+        SellingPricePerPortion  =  CostService.getSellingPricePerPortion(cost, datasheetNbCouverts, this.props.nbCouverts)
+        totalBenefit =  CostService.getTotalBenefitPerNbCouverts(cost,datasheetNbCouverts, this.props.nbCouverts)
+        BenefitPerPortion = CostService.getTotalBenefitPerPortion(cost, datasheetNbCouverts,this.props.nbCouverts)
+        profitabilityTreshold = CostService.getProfitabilityTreshold(cost, datasheetNbCouverts)
         this.setState({
             cost:  cost,
             totalProductionCost : totalProductionCost,
@@ -87,7 +87,7 @@ class Cost extends React.Component<Props, State> {
             BenefitPerPortion : BenefitPerPortion,
             profitabilityTreshold : profitabilityTreshold,
             chargescost : cost.chargescost,
-            materialscost :cost.materialscost,
+            materialscost : CostService.getMaterialsCostPerNbCouverts(cost, datasheetNbCouverts, this.props.nbCouverts),
             chargescalculated : cost.chargescalculated,
             coefwithcharges : cost.coefwithcharges,
             coefwithoutcharges : cost.coefwithoutcharges
@@ -99,7 +99,7 @@ class Cost extends React.Component<Props, State> {
                 <Card title = "Coûts">
                     <Row gutter={16}>
                         <Col span={6}>
-                            <Statistic title="Coût matière" suffix = " €"  value={this.state.materialscost} precision={2} />
+                            <Statistic title={"Coût matière pour " + this.props.nbCouverts + " couverts" } suffix = " €"  value={this.state.materialscost} precision={2} />
                         </Col>
                         <Col span={6}>
                             {this.state.chargescalculated ?  <Statistic title="Coût des charges" suffix = " €"  value={this.state.chargescost} precision={2}  />
@@ -109,7 +109,7 @@ class Cost extends React.Component<Props, State> {
                     </Row>
                     <Row gutter={16}>
                         <Col span={6}>
-                            <Statistic title="Coût de production total" suffix = " €"  value={this.state.totalProductionCost} precision={2} />
+                            <Statistic title={"Coût de production total pour " + this.props.nbCouverts + " couverts" } suffix = " €"  value={this.state.totalProductionCost} precision={2} />
                         </Col>
                         <Col span={6}>
                             <Statistic title="Coût de production par portion" suffix = " €"  value={this.state.productionCostPerPortion} precision={2} />
@@ -127,7 +127,7 @@ class Cost extends React.Component<Props, State> {
                     </Row>
                     <Row>
                         <Col span={12}>
-                            <Statistic title="Prix de vente total" value={this.state.totalSellingPrice} suffix = " €" precision={2} />
+                            <Statistic title={"Prix de vente total pour " + this.props.nbCouverts + " couverts" } value={this.state.totalSellingPrice} suffix = " €" precision={2} />
                         </Col>
                         <Col span={12}>
                             <Statistic title="Prix de vente par portion" value={this.state.SellingPricePerPortion} suffix = " €"  precision={2} />
@@ -136,7 +136,7 @@ class Cost extends React.Component<Props, State> {
                     <Divider></Divider>
                     <Row>
                         <Col span={12}>
-                            <Statistic title="Bénéfice total" suffix = " €"  value={this.state.totalBenefit} precision={2} />
+                            <Statistic title={"Bénéfice total pour " + this.props.nbCouverts + " couverts" } suffix = " €"  value={this.state.totalBenefit} precision={2} />
                         </Col>
                         <Col span={12}>
                             <Statistic title="Bénéfice par portion" suffix = " €"  value={this.state.BenefitPerPortion} precision={2} />
@@ -145,8 +145,8 @@ class Cost extends React.Component<Props, State> {
                     <Divider></Divider>
                     <Row>
                         <Col span={12}>
-                            {this.state.profitabilityTreshold == -1 ?<Statistic title="Seuil de rentabilité" value={"Cette recette n'est pas rentable jusqu'au nombre de couverts prévu initialement"} precision={2} />
-                            : <Statistic title="Seuil de rentabilité" suffix = " couverts"  value={this.state.profitabilityTreshold} />}
+                            {this.state.profitabilityTreshold == -1 ?<Statistic title={"Seuil de rentabilité" } value={"Cette recette n'est pas rentable jusqu'au nombre de couverts prévu initialement"} precision={2} />
+                            : <Statistic title={"Seuil de rentabilité"} suffix = " couverts"  value={this.state.profitabilityTreshold} />}
 
                         </Col>
                     </Row>

@@ -5,12 +5,10 @@ import DataSheetJoin from "../types/DataSheetJoin";
 
 const create = async (data: DatasheetsData) => {
     const tmp =  await http.post<DatasheetsData>("/datasheet", data);
-    console.log(tmp)
     return  tmp.data
 };
 const createJoin = async (data: DataSheetJoin) => {
     const tmp =  await http.post<DataSheetJoin>("/datasheetJoin", data);
-    console.log(tmp)
     return  tmp.data
 };
 const getAllDataSheets = async () => {

@@ -5,6 +5,8 @@ import { UploadOutlined} from '@ant-design/icons';
 import axios from 'axios';
 import datasheetCatService from '../../services/DataSheetCatService'
 import DataSheetCat from "../../types/DataSheetCat";
+import AuthorService from "../../services/AuthorService";
+import Author from "../../types/Author";
 const Option = Select.Option;
 
 
@@ -22,11 +24,18 @@ const normFile = (e: any) => {
 // @ts-ignore
 const GeneralInfoDatasheet: React.FC<DatasheetProps> = ({ onChange, fields, onFinish}) => {
     const [categoriefichetechnique, setDatasheetCat] = useState<Array<DataSheetCat>>([]);
-
+    const [author, setAuthors] = useState<Array<Author>>([]);
     useEffect( () => {
         datasheetCatService.getAllDataSheetCat()
             .then((response: any) => {
                 setDatasheetCat(response);
+            })
+            .catch((e: Error) => {
+                console.log(e);
+            });
+        AuthorService.getAllAuthors()
+            .then((response: any) => {
+                setAuthors(response);
             })
             .catch((e: Error) => {
                 console.log(e);
@@ -57,11 +66,14 @@ const GeneralInfoDatasheet: React.FC<DatasheetProps> = ({ onChange, fields, onFi
                     <Input />
                 </Form.Item>
                 <Form.Item
-                    name="nomauteur"
+                    name="idauteur"
                     label="Nom de l'auteur"
-                    rules={[{ required: true, message: 'Ce champs est requis!' }]}
+                    rules={[{ required: true, message: "Il faut sélectionner l'auteur" }]}
                 >
-                    <Input />
+                    <Select placeholder="Auteur">
+                        {author.map((item :Author) => <Select.Option key={item.idauteur} value={item.idauteur}>{item.nomauteur}</Select.Option>)}
+                    </Select>
+
                 </Form.Item>
                 <Form.Item
                     name="idcategoriefichetechnique"

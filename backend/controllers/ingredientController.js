@@ -56,7 +56,7 @@ async function createIngredient(body) {
         const nomIngredient  = body.nomingredient;
         const prixUnitaireIngredient  = body.prixunitaireingredient;
         const stock  = parseInt(body.stock);
-
+        console.log(body)
         const res = await ingredientModel.createIngredient(idCategorieIngredient,idCategorieAllergene,idUnite,nomIngredient,prixUnitaireIngredient,stock);
         return res;
     } catch (e) {

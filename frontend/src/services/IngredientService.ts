@@ -1,7 +1,10 @@
 import http from "../http-common";
 import IngredientsData from "../types/Ingredient";
-import DatasheetsData from "../types/Datasheet";
 
+const create = async (data: IngredientsData) => {
+    const tmp =  await http.post<IngredientsData>("/ingredient", data);
+    return  tmp.data
+};
 const getAllIngredients = async () => {
     const tmp = await http.get<Array<IngredientsData>>("/ingredient/all");
     return tmp.data;
@@ -43,7 +46,8 @@ const IngredientService = {
     remove,
     updateStock,
     addStock,
-    getIngredientByID
+    getIngredientByID,
+    create
 };
 
 export default IngredientService;

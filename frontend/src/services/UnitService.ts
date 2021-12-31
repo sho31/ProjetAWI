@@ -16,10 +16,12 @@ const remove = async (id: any) => {
     return tmp.data;
 };
 
+
 const UnitService = {
     create,
     getAllUnits,
     remove,
+
 };
 
 export default UnitService;

@@ -31,7 +31,7 @@ interface DatasheetProps {
 interface GeneralInfo {
     idcategoriefichetechnique: number
     nombrecouverts : number
-    nomauteur: string
+    idauteur: number
     nomplat: string
     upload: any //TODO enlever any
 }
@@ -65,11 +65,11 @@ const submit= async () => {
     let datasheet: Datasheet = {
         idfichetechnique: -1,
         idcategoriefichetechnique: generalInfo.idcategoriefichetechnique,
-        idauteur: 1,
+        idauteur: generalInfo.idauteur,
         nomplat: generalInfo.nomplat,
         nombrecouverts: generalInfo.nombrecouverts,
         image: '',
-        nomauteur: "michel"
+        nomauteur: ""
     }
 
 
@@ -111,7 +111,6 @@ const submit= async () => {
                     .then(value => console.log("ing",value)).catch(e => console.log(e))
             }catch (e) {
                 console.log(e)
-                console.log("join",stepForm.etapes[i].ingredients[j])
             }
 
         }
@@ -127,7 +126,6 @@ const submit= async () => {
                 .then(value => console.log("join",value))
         }catch (e) {
             console.log(e)
-            console.log("join",stepForm.fichetechniquejointure[k])
         }
 
 

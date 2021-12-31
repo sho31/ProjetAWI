@@ -4,10 +4,26 @@ import CatIngredientData from '../../types/IngredientCat';
 import IngredientList from "./IngredientList";
 import {Card, Select, Typography} from 'antd';
 import IngredientToBeRestocked from "./IngredientToBeRestocked";
+import IngredientCreationForm from "./IngredientCreationForm"
+import IngredientService from "../../services/IngredientService"
+import Ingredient from "../../types/Ingredient"
 const { Title } = Typography;
 
+const onCreateForm = async (values: any) => {
+    console.log(values)
+    const ing: Ingredient = {
+        idingredient: -1,
+        idcategorieingredient: values.idcategorieingredient,
+        idcategorieallergene: values.idcategorieallergene,
+        idunite: values.idunite,
+        nomunite: -1,
+        nomingredient: values.nomingredient,
+        prixunitaireingredient: values.prixunitaireingredient,
+        stock: values.stock
+    }
+    await IngredientService.create(ing)
 
-
+};
 const MercurialPage: React.FC = () => {
     const [catIngredients, setCatIngredients] = useState<Array<CatIngredientData>>([]);
     const [currentCatIngredient,setCurrentCatIngredient] = useState<Array<number>>([-1]);
@@ -43,7 +59,7 @@ const MercurialPage: React.FC = () => {
     return (
         <Fragment key={1}>
             <div key={1}>
-                <Title level={2} key={1} >Mercurial des ingrédients</Title>
+                <Title level={2} key={1} >Mercuriale des ingrédients</Title>
             </div>
             <Card key={3}>
                 <div key={2}>
@@ -67,6 +83,11 @@ const MercurialPage: React.FC = () => {
                     </Select>
                 </div>
             </Card>
+            <br/>
+            <IngredientCreationForm onCreateForm={async (values: any) => {
+                await onCreateForm(values)
+                updateDom(dom+1)
+            }}/>
             <br/>
             <Card key={2}>
                 <div key={3}>

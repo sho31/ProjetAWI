@@ -83,7 +83,9 @@ const StepCreation: React.FC<DatasheetProps> = ({onChange, fields, onFinish}) =>
                                                 label="Numéro de l'étape"
 
                                             >
-                                                <InputNumber/>
+                                                <InputNumber
+                                                    min={1}
+                                                    max={100}/>
                                             </Form.Item>
                                             <Form.Item
                                                 name={[name, 'titreetape']}
@@ -141,9 +143,11 @@ const StepCreation: React.FC<DatasheetProps> = ({onChange, fields, onFinish}) =>
 
                                                                             }
 
-                                                                            }>
+                                                                            }
+                                                                    onChange={(value) => console.log(key)}>
                                                                         {ingredients.map((item :SimpleIngredient) => <Select.Option key={item.idingredient} value={item.idingredient}>{item.nomingredient}</Select.Option>)}
                                                                     </Select>
+                                                                    <p>La quantité est state.value</p>
                                                                 </Form.Item>
                                                                 <Form.Item
                                                                     name={[name, 'quantite']}
@@ -153,7 +157,6 @@ const StepCreation: React.FC<DatasheetProps> = ({onChange, fields, onFinish}) =>
                                                                     <InputNumber
                                                                         min={0}
                                                                         max={100}
-                                                                        addonAfter="kg"
                                                                     />
                                                                 </Form.Item>
                                                                 <MinusCircleOutlined onClick={() => {
@@ -228,7 +231,7 @@ const StepCreation: React.FC<DatasheetProps> = ({onChange, fields, onFinish}) =>
                                     >
                                         <InputNumber
                                             min={1}
-                                            max={25}
+                                            max={100}
 
                                         />
                                     </Form.Item>

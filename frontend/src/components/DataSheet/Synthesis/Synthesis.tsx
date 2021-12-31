@@ -31,9 +31,9 @@ const Synthesis: React.FC<Props> = (props) => {
                 <Col span={8} key={3}>
                     <div key={1}>
                         <DatasheetTime id={props.id}/>
-                        {/*
+
                             <Cost DatasheetId={props.id} nbCouverts={props.nbCouverts}/>
-                        */}
+
                     </div>
                 </Col>
             </Row>
