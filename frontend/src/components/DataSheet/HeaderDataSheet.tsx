@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useRef, Fragment} from "react";
 import DataSheetService from "../../services/DataSheetService";
 import DatasheetData from "../../types/Datasheet";
-import {Button, Card, Image, Popconfirm,message} from "antd";
+import {Button, Card, Image, Popconfirm, message, Col, Row} from "antd";
 import RealizationCall from "./Realization/RealizationCall";
 import Synthesis from "./Synthesis/Synthesis";
 import ReactToPrint from "react-to-print";
@@ -10,6 +10,9 @@ import "../../tailwind.css";
 import { MinusOutlined, PlusOutlined} from '@ant-design/icons';
 import { useParams } from "react-router-dom";
 import TakeAwayCall from "./TakeAwayLabel/TakeAwayCall";
+import CatIngredientList from "./Synthesis/CatIngredientList";
+import CatAllergenByDatasheet from "./Synthesis/CatAllergenByDatasheet";
+import DatasheetTime from "./Synthesis/DatasheetTime";
 
 
 
@@ -109,27 +112,34 @@ const HeaderDataSheet: React.FC = () => {
                         <Synthesis id={dataSheet.idfichetechnique} nbCouverts={dataSheet.nombrecouverts} theoricalNbCouverts={theoricalNbCouverts} decrementStock={decrementStock}></Synthesis>
                         <br></br>
                     </div>
-                    <div key={2}>
-                        <ReactToPrint
-                            trigger={() => <Button color="primary">Imprimer la fiche technique</Button>}
-                            content={() => dataSheetRef.current}
-                        />
-                        <ReactToPrint
-                            trigger={() => <Button color="primary">Imprimer l'étiquette à emporter</Button>}
-                            content={() => takeAwayLabel.current}
-                        />
-                        <Popconfirm
-                            title="Title"
-                            visible={visible}
-                            onConfirm={handleOk}
-                            okButtonProps={{ loading: confirmLoading }}
-                            onCancel={handleCancel}
-                        >
-                            <Button type="primary" onClick={ () => openMessage(theoricalNbCouverts)}>
-                                Valider les ventes pour {theoricalNbCouverts} couverts
-                            </Button>
-                        </Popconfirm>
-                    </div>
+                    <Row key={2}>
+                        <Col span={8} key={1}>
+                            <ReactToPrint
+                                trigger={() => <Button color="primary">Imprimer la fiche technique</Button>}
+                                content={() => dataSheetRef.current}
+                            /></Col>
+                        <Col span={8} key={2}><div>
+                            <ReactToPrint
+                                trigger={() => <Button color="primary">Imprimer l'étiquette à emporter</Button>}
+                                content={() => takeAwayLabel.current}
+                            />
+                        </div></Col>
+                        <Col span={8} key={3}>
+                            <div key={1}>
+                                <Popconfirm
+                                    title="Title"
+                                    visible={visible}
+                                    onConfirm={handleOk}
+                                    okButtonProps={{ loading: confirmLoading }}
+                                    onCancel={handleCancel}
+                                >
+                                    <Button type="primary" onClick={ () => openMessage(theoricalNbCouverts)}>
+                                        Vendre {theoricalNbCouverts} couverts
+                                    </Button>
+                                </Popconfirm>
+                            </div>
+                        </Col>
+                    </Row>
                     <div key={3} hidden>
                         <div key={4} ref={takeAwayLabel}>
                             <TakeAwayCall id={dataSheet.idfichetechnique}/>

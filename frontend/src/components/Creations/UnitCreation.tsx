@@ -73,7 +73,7 @@ const UnitCreation = () => {
                     setVisible(true);
                 }}
             >
-                Nouvelle unité
+                Ajouter
             </Button>
             <CollectionCreateForm
                 visible={visible}
@@ -84,7 +84,7 @@ const UnitCreation = () => {
                 nameCollection={"unité"}/>
             </Card>
             <br/>
-            <Card key={2} title={"Liste des catégorie d'allergène"}>
+            <Card key={2} title={"Liste des catégorie d'unité"}>
                 <Table dataSource={units}  pagination={false} rowKey={"idunite"} >
                     <Column title="Nom" dataIndex="nomunite" key={1} responsive={["xs","sm","md","lg"]} />
                     <Column
