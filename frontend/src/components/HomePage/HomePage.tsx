@@ -2,7 +2,7 @@ import React, {useState, useEffect, Fragment} from "react";
 import DataSheetService from "../../services/DataSheetService";
 import DatasheetData from "../../types/Datasheet";
 import "../../tailwind.css";
-import {Avatar, Badge, Card,Row, Select, Tag} from 'antd';
+import {Avatar, Badge, Card, Col, Row, Select, Tag} from 'antd';
 import DataSheetCat from "../../types/DataSheetCat";
 import DataSheetCatService from "../../services/DataSheetCatService";
 import {Link} from "react-router-dom";
@@ -10,6 +10,7 @@ import Meta from "antd/es/card/Meta";
 import Search from "antd/es/input/Search";
 import ImgFT from "../../images/logo_ft.png"
 import Title from "antd/es/typography/Title";
+import AddFT from "../../images/add.png";
 
 const HomePage: React.FC = () => {
 
@@ -80,24 +81,30 @@ const HomePage: React.FC = () => {
                     <Title level={2} key={1} >Fiche techniques prêtes à être utilisées</Title>
                 </div>
             <Card key={4}>
+                <Row>
+                    <Col span={12}>
                         <Search
                             placeholder="Quel plat cherchez vous ?"
                             allowClear
                             onChange={(event)=> {
                                 setSearchItem(event.target.value)
                             }}
-                            style={{ width: '30%' }}
+                            style={{ width: '50%' }}
                         ></Search>
+                    </Col>
+                    <Col span={12}>
                         <Select
                             mode="multiple"
                             allowClear
-                            style={{ width: '30%'}}
                             tagRender={tagRender}
                             placeholder="Choisissez une catégorie"
+                            style={{ width: '50%' }}
                             defaultValue={[]}
                             onChange={handleChange}
                         >{children}
                         </Select>
+                    </Col>
+                </Row>
             </Card>
             <Card key={2} style={{marginTop: '30px',}}>
                 <div key={2}>
@@ -164,6 +171,39 @@ const HomePage: React.FC = () => {
                             </Link>
 
                 ))}
+                        <Link to={"/creerDT/"} key={1}>
+                            <Card
+                                style={{
+                                    width: 300,
+                                    height: 400,
+                                    margin: "20px",
+                                    borderRadius: "20px",
+                                    overflow: "hidden"
+                                }}
+                                hoverable
+
+                                key={5}
+                            >
+                                <img
+                                    alt={"ajouter"}
+                                    src={AddFT}
+                                    style={{
+                                        height: 250,
+                                        width: 250,
+                                        overflow: "hidden"
+                                    }}
+                                />
+                                <div style={{
+                                    height: 50,
+                                    width: 250,
+                                    overflow: "hidden"
+                                }}></div>
+                                <Meta
+                                    title={"Nouvelle Fiche technique"}
+                                    key={2}
+                                />
+                            </Card>
+                        </Link>
                     </Row>
                 </div>
             </Card>

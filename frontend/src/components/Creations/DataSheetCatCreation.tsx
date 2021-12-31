@@ -85,7 +85,7 @@ const DataSheetCatCreation = () => {
              nameCollection={"fiche technique"}/>
             </Card>
             <br/>
-            <Card key={2} title={"Liste des catégorie d'allergène"}>
+            <Card key={2} title={"Liste des catégorie de fiche technique"}>
                 <Table dataSource={catDataSheets}  pagination={false} rowKey={"idcategoriefichetechnique"} >
                     <Column title="Nom" dataIndex="nomcategoriefichetechnique" key={1} responsive={["xs","sm","md","lg"]} />
                     <Column

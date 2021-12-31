@@ -80,7 +80,7 @@ const CollectionsPage = () => {
                  nameCollection={"ingrédient"}/>
             </Card>
             <br/>
-            <Card key={2} title={"Liste des catégorie d'allergène"}>
+            <Card key={2} title={"Liste des catégorie d'ingrédient"}>
                 <Table dataSource={catIngredients}  pagination={false} rowKey={"idcategorieingredient"} >
                     <Column title="Nom" dataIndex="nomcategorieingredient" key={1} responsive={["xs","sm","md","lg"]} />
                     <Column
