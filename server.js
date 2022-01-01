@@ -18,7 +18,17 @@ const datasheetRoute = require("./routes/datasheetRoute");
 const datasheetJoinRoute = require("./routes/datasheetJoinRoute");
 const ingredientStepRoute = require("./routes/ingredientStepJoinRoute")
 const costRoute = require("./routes/costRoute");
+const path = require("path");
 
+
+if (process.env.NODE_ENV === "production") {
+  //server static content
+  //npm run build
+  app.use(express.static(path.join(__dirname, "frontend/public")));
+}
+
+console.log(__dirname);
+console.log(path.join(__dirname, "client/build"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use("/author", authorRoute);
@@ -32,7 +42,10 @@ app.use("/datasheetCat", datasheetCatRoute);
 app.use("/datasheet", datasheetRoute);
 app.use("/datasheetJoin", datasheetJoinRoute);
 app.use("/ingredientStepJoin", ingredientStepRoute);
-app.use("/", (req, res) => {res.send("Please select a correct route")});
+//app.use("/", (req, res) => {res.send("Please select a correct route")});
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "frontend/public/index.html"));
+});
 
 
 app.listen(port, () => {
