@@ -24,7 +24,7 @@ const path = require("path");
 if (process.env.NODE_ENV === "production") {
   //server static content
   //npm run build
-  app.use(express.static(path.join(__dirname, "frontend/public")));
+  app.use(express.static(path.join(__dirname, "client/public")));
 }
 
 console.log(__dirname);
@@ -44,7 +44,7 @@ app.use("/datasheetJoin", datasheetJoinRoute);
 app.use("/ingredientStepJoin", ingredientStepRoute);
 //app.use("/", (req, res) => {res.send("Please select a correct route")});
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "frontend/public/index.html"));
+  res.sendFile(path.join(__dirname, "client/public/index.html"));
 });
 
 
