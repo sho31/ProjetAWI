@@ -141,11 +141,9 @@ const StepCreation: React.FC<DatasheetProps> = ({onChange, fields, onFinish}) =>
 
                                                                             }
 
-                                                                            }
-                                                                    onChange={(value) => console.log(key)}>
+                                                                            }>
                                                                         {ingredients.map((item :SimpleIngredient) => <Select.Option key={item.idingredient} value={item.idingredient}>{item.nomingredient}</Select.Option>)}
                                                                     </Select>
-                                                                    <p>La quantité est state.value</p>
                                                                 </Form.Item>
                                                                 <Form.Item
                                                                     name={[name, 'quantite']}
