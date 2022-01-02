@@ -1,13 +1,14 @@
 import React from "react";
 import { Divider, Statistic, Row, Col } from "antd";
-import CostService from "../../services/CostService"
-import DatasheetService from "../../services/DataSheetService"
-import CostT from "../../types/Cost"
+import CostService from "../../../services/CostService"
+import DatasheetService from "../../../services/DataSheetService"
+import CostT from "../../../types/Cost"
 
 interface Props {
     DatasheetId: number;
     theoricalNbCouverts: number
     nbCouverts : number;
+    cout: boolean;
 }
 
 interface State {
@@ -97,10 +98,12 @@ class Cost extends React.Component<Props, State> {
             coefwithoutcharges : cost.coefwithoutcharges
         })
     }
+
     render() {
-        return (
-            <div>
-                <h1>Couts</h1>
+        if(this.props.cout){
+            return (
+                <div>
+                    <h1>Couts</h1>
                     <Row gutter={16}>
                         <Col span={6}>
                             <Statistic title={"Coût matière pour " + this.props.theoricalNbCouverts + " couverts" } suffix = " €"  value={this.state.materialscost ? ((this.state.materialscost/this.props.nbCouverts)*this.props.theoricalNbCouverts) : (0)} precision={2} />
@@ -150,13 +153,17 @@ class Cost extends React.Component<Props, State> {
                     <Row>
                         <Col span={12}>
                             {this.state.profitabilityTreshold === -1 ?<Statistic title={"Seuil de rentabilité" } value={"Cette recette n'est pas rentable jusqu'au nombre de couverts prévu initialement"} precision={2} />
-                            : <Statistic title={"Seuil de rentabilité"} suffix = " couverts"  value={this.state.profitabilityTreshold} />}
+                                : <Statistic title={"Seuil de rentabilité"} suffix = " couverts"  value={this.state.profitabilityTreshold} />}
 
                         </Col>
                     </Row>
 
-            </div>
-        );
+                </div>
+            );
+        }
+        else{
+            return (<p></p>);
+        }
     }
 }
 
