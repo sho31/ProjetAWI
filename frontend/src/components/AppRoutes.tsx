@@ -17,6 +17,7 @@ import AllergenCatCreation from "./Creations/AllergenCatCreation";
 import IngredientCatCreation from "./Creations/IngredientCatCreation";
 import DataSheetCatCreation from "./Creations/DataSheetCatCreation";
 import UnitCreation from "./Creations/UnitCreation";
+import AuthorCreation from "./Creations/AuthorCreation";
 
 const AppRoutes = () => {
 
@@ -33,6 +34,7 @@ const AppRoutes = () => {
                     <Route path="/gerer/catFT" element={<SiderMenu><DataSheetCatCreation/></SiderMenu>} />
                     <Route path="/gerer/catIngredient" element={<SiderMenu><IngredientCatCreation/></SiderMenu>} />
                     <Route path="/gerer/catAllergene" element={<SiderMenu><AllergenCatCreation/></SiderMenu>} />
+                    <Route path="/gerer/auteur" element={<SiderMenu><AuthorCreation/></SiderMenu>} />
                 </Routes>
             </BrowserRouter>
         </Fragment>

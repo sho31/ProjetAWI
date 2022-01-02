@@ -61,6 +61,11 @@ class SiderMenu extends React.Component {
                                     Cat Allergène
                                 </Link>
                             </Menu.Item>
+                            <Menu.Item key={11}>
+                                <Link to='/gerer/auteur'>
+                                    Auteur
+                                </Link>
+                            </Menu.Item>
                         </SubMenu>
                     </Menu>
                 </Sider>

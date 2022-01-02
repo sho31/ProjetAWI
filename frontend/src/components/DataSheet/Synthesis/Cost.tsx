@@ -111,7 +111,6 @@ class Cost extends React.Component<Props, State> {
                         <Col span={6}>
                             {this.state.chargescalculated ?  <Statistic title="Coût des charges" suffix = " €"  value={this.state.chargescost} precision={2}  />
                                 :  <Statistic title="Coût des charges" suffix = " €"  value={"Charges non calculées"} precision={2}  />}
-
                         </Col>
                     </Row>
                     <Row gutter={16}>
@@ -121,7 +120,6 @@ class Cost extends React.Component<Props, State> {
                         <Col span={6}>
                             <Statistic title="Coût de production par portion" suffix = " €"  value={this.state.productionCostPerPortion} precision={2} />
                         </Col>
-
                     </Row>
                     <Divider></Divider>
                     <Row>
@@ -130,7 +128,6 @@ class Cost extends React.Component<Props, State> {
                                 : <Statistic title="Coefficient de calcul du prix de vente (sans compter les charges)" value={this.state.coefwithoutcharges} precision={2} />}
 
                         </Col>
-
                     </Row>
                     <Row>
                         <Col span={12}>

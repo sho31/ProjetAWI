@@ -90,7 +90,6 @@ const RecursiveRealization: React.FC<Props> = (props) => {
                                 }
                             </Card>
                         </React.Fragment>
-
                         }
                         <Divider key={index+3}></Divider>
                     </div>
@@ -100,8 +99,7 @@ const RecursiveRealization: React.FC<Props> = (props) => {
         );
     }
     else {
-
-        return (// FICHE Technique fille
+        return (// FICHE Technique fille sans autre fiche technique incluse
             <div>
                 {steps &&
                 steps.map((step, index) => (
