@@ -35,6 +35,7 @@ const IngredientListDataSheet: React.FC<Props> = (props) => {
                 })
             }
         }
+
         decrementStock(props.theoricalNbCouverts, props.decrementStock).then( () => "ok");
         getIngredientList(props.idDataSheet, props.idCatIngredient).then( () => "ok");
     }, [props.idDataSheet,props.idCatIngredient, props.decrementStock]);

@@ -2,7 +2,6 @@ import React, {useEffect, useState} from 'react';
 import { Form, Input, Select, InputNumber, Button, Upload } from 'antd';
 import imageUpload from './imageUpload'
 import { UploadOutlined} from '@ant-design/icons';
-import axios from 'axios';
 import datasheetCatService from '../../services/DataSheetCatService'
 import DataSheetCat from "../../types/DataSheetCat";
 import AuthorService from "../../services/AuthorService";

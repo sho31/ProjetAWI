@@ -3,12 +3,6 @@ import React, {useState, useEffect, Fragment} from "react";
 import StepService from "../../../services/StepService";
 import Time from "../../../types/Time";
 
-import { Switch } from 'antd';
-import IngredientListDataSheet from "./IngredientListDataSheet";
-import DatasheetData from "../../../types/Datasheet";
-
-
-
 interface Props {
     id: number;
 }
@@ -46,13 +40,13 @@ const DataSheetTime: React.FC<Props> = (props) => {
         return (
 
             <Fragment>
-                <p>Durée: {totalTime}min</p>
+                <p>Total: {totalTime}min</p>
             </Fragment>
         );
     }
     return (
         <Fragment>
-            <p>Durée: {step1.tempsetape}min</p>
+            <p>Total: {step1.tempsetape}min</p>
         </Fragment>
     );
 

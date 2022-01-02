@@ -1,12 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import {Button, Modal, Form, Input, Radio, Select, InputNumber} from 'antd';
+import {Button, Modal, Form, Input, Select, InputNumber} from 'antd';
 import CatIngredientService from "../../services/CatIngredientService";
 import IngredientCat from "../../types/IngredientCat";
 import UnitService from "../../services/UnitService";
 import Unit from "../../types/Unit";
 import AllergenCatService from "../../services/AllergenCatService";
 import AllergenCat from "../../types/AllergenCat"
-import DataSheetCat from "../../types/DataSheetCat";
+
 interface Values {
     idcategorieingredient: number | null;
     idcategorieallergene: number | null;
@@ -21,6 +21,7 @@ interface CollectionCreateFormProps {
     onCreate: (values: Values) => void;
     onCancel: () => void;
 }
+
 interface IngredientFormProps {
     onCreateForm: (values: Values) => void;
 }

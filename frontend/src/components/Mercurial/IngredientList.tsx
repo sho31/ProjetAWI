@@ -3,7 +3,6 @@ import CatIngredientService from "../../services/CatIngredientService";
 import IngredientService from "../../services/IngredientService";
 import ITutorialData from '../../types/Ingredient';
 import {Space, Table, Button, Popconfirm, InputNumber} from "antd";
-import IngredientToBeRestocked from "./IngredientToBeRestocked";
 
 interface Props {
     id: number;

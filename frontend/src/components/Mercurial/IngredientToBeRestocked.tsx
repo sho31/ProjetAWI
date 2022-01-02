@@ -1,9 +1,7 @@
 import React, {useState, useEffect, Fragment} from "react";
-import CatIngredientService from "../../services/CatIngredientService";
 import IngredientService from "../../services/IngredientService";
 import ITutorialData from '../../types/Ingredient';
-import {Space, Table, Button, Popconfirm, Badge, InputNumber} from "antd";
-
+import {Space, Table, Button, Badge, InputNumber} from "antd";
 
 interface Props {
     dom: any;

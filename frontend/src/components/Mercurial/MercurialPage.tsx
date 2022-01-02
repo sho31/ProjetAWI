@@ -103,8 +103,7 @@ const MercurialPage: React.FC = () => {
                                 }
                             }
                             return null;
-                        }).
-                        map((catingredient,index) => (
+                        }).map((catingredient,index) => (
                             <h3 key={index}>
                                 {catingredient.nomcategorieingredient}
                                 <IngredientList id={catingredient.idcategorieingredient} dom={dom} updateDom={updateDom}/>
