@@ -131,7 +131,7 @@ const getSellingPricePerPortion = (cost : CostData, nbCouvertsTotal : number, nb
 //returns the minimal nbPortion below nbCouvertsTotal where the benefit is positive. Returns -1 if there is no possible profitability below or equal the planned nbCouvertsTotal of the datasheet
 const getProfitabilityTreshold = (cost : CostData, nbCouvertsTotal : number) => {
     for (let i : number = 1; i++; i <= nbCouvertsTotal) {
-        if (i == nbCouvertsTotal) {
+        if (i === nbCouvertsTotal) {
             if (getTotalBenefit(cost) > 0) {
                 return i
             }
@@ -164,8 +164,6 @@ const CostService = {
     getTotalCostPerPortion,
     getMaterialsCostPerNbCouverts,
     getSellingPricePerPortion
-
-
 };
 
 export default CostService;

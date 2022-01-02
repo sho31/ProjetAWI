@@ -1,12 +1,15 @@
-import React, {useState, useEffect} from "react";
-import {Card,Descriptions, Divider, Statistic, Row, Col, Button } from "antd";
+import React from "react";
+import { Divider, Statistic, Row, Col } from "antd";
 import CostService from "../../services/CostService"
 import DatasheetService from "../../services/DataSheetService"
 import CostT from "../../types/Cost"
+
 interface Props {
     DatasheetId: number;
+    theoricalNbCouverts: number
     nbCouverts : number;
 }
+
 interface State {
     cost : CostT
     totalProductionCost : number
@@ -22,6 +25,7 @@ interface State {
     coefwithcharges : number | undefined
     coefwithoutcharges :number | undefined
 }
+
 class Cost extends React.Component<Props, State> {
     state: State = {
         cost:  {
@@ -96,10 +100,10 @@ class Cost extends React.Component<Props, State> {
     render() {
         return (
             <div>
-                <Card title = "Coûts">
+                <h1>Couts</h1>
                     <Row gutter={16}>
                         <Col span={6}>
-                            <Statistic title={"Coût matière pour " + this.props.nbCouverts + " couverts" } suffix = " €"  value={this.state.materialscost} precision={2} />
+                            <Statistic title={"Coût matière pour " + this.props.theoricalNbCouverts + " couverts" } suffix = " €"  value={this.state.materialscost ? ((this.state.materialscost/this.props.nbCouverts)*this.props.theoricalNbCouverts) : (0)} precision={2} />
                         </Col>
                         <Col span={6}>
                             {this.state.chargescalculated ?  <Statistic title="Coût des charges" suffix = " €"  value={this.state.chargescost} precision={2}  />
@@ -109,7 +113,7 @@ class Cost extends React.Component<Props, State> {
                     </Row>
                     <Row gutter={16}>
                         <Col span={6}>
-                            <Statistic title={"Coût de production total pour " + this.props.nbCouverts + " couverts" } suffix = " €"  value={this.state.totalProductionCost} precision={2} />
+                            <Statistic title={"Coût de production total pour " + this.props.theoricalNbCouverts + " couverts" } suffix = " €"  value={(this.state.totalProductionCost/this.props.nbCouverts)*this.props.theoricalNbCouverts} precision={2} />
                         </Col>
                         <Col span={6}>
                             <Statistic title="Coût de production par portion" suffix = " €"  value={this.state.productionCostPerPortion} precision={2} />
@@ -127,7 +131,7 @@ class Cost extends React.Component<Props, State> {
                     </Row>
                     <Row>
                         <Col span={12}>
-                            <Statistic title={"Prix de vente total pour " + this.props.nbCouverts + " couverts" } value={this.state.totalSellingPrice} suffix = " €" precision={2} />
+                            <Statistic title={"Prix de vente total pour " + this.props.theoricalNbCouverts + " couverts" } value={(this.state.totalSellingPrice/this.props.nbCouverts)*this.props.theoricalNbCouverts} suffix = " €" precision={2} />
                         </Col>
                         <Col span={12}>
                             <Statistic title="Prix de vente par portion" value={this.state.SellingPricePerPortion} suffix = " €"  precision={2} />
@@ -136,7 +140,7 @@ class Cost extends React.Component<Props, State> {
                     <Divider></Divider>
                     <Row>
                         <Col span={12}>
-                            <Statistic title={"Bénéfice total pour " + this.props.nbCouverts + " couverts" } suffix = " €"  value={this.state.totalBenefit} precision={2} />
+                            <Statistic title={"Bénéfice total pour " + this.props.theoricalNbCouverts + " couverts" } suffix = " €"  value={(this.state.totalBenefit/this.props.nbCouverts)*this.props.theoricalNbCouverts} precision={2} />
                         </Col>
                         <Col span={12}>
                             <Statistic title="Bénéfice par portion" suffix = " €"  value={this.state.BenefitPerPortion} precision={2} />
@@ -145,12 +149,11 @@ class Cost extends React.Component<Props, State> {
                     <Divider></Divider>
                     <Row>
                         <Col span={12}>
-                            {this.state.profitabilityTreshold == -1 ?<Statistic title={"Seuil de rentabilité" } value={"Cette recette n'est pas rentable jusqu'au nombre de couverts prévu initialement"} precision={2} />
+                            {this.state.profitabilityTreshold === -1 ?<Statistic title={"Seuil de rentabilité" } value={"Cette recette n'est pas rentable jusqu'au nombre de couverts prévu initialement"} precision={2} />
                             : <Statistic title={"Seuil de rentabilité"} suffix = " couverts"  value={this.state.profitabilityTreshold} />}
 
                         </Col>
                     </Row>
-                </Card>
 
             </div>
         );

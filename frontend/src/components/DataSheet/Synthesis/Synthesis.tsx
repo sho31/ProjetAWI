@@ -19,21 +19,28 @@ const Synthesis: React.FC<Props> = (props) => {
             <Row key={1}>
                 <Col span={8} key={1}><h3>Ingrédients</h3></Col>
                 <Col span={8} key={2}><h3>Allergènes</h3></Col>
-                <Col span={8} key={3}><h3>Couts</h3></Col>
+                <Col span={8} key={3}><h3>Durée</h3></Col>
             </Row>
             <Row key={2}>
                 <Col span={8} key={1}>
                     <CatIngredientList id={props.id} theoricalNbCouverts={props.theoricalNbCouverts} nbCouverts={props.nbCouverts} decrementStock={props.decrementStock}/>
                 </Col>
-                <Col span={8} key={2}><div>
-                    <CatAllergenByDatasheet id={props.id}/>
-                </div></Col>
-                <Col span={8} key={3}>
-                    <div key={1}>
+                <Col span={8} key={2}>
+                    <div>
+                        <CatAllergenByDatasheet id={props.id}/>
+                    </div>
+                </Col>
+                <Col span={8} key={2}>
+                    <div>
                         <DatasheetTime id={props.id}/>
+                    </div>
+                </Col>
 
-                            <Cost DatasheetId={props.id} nbCouverts={props.nbCouverts}/>
-
+            </Row>
+            <Row>
+                <Col span={24} key={3}>
+                    <div key={1}>
+                        <Cost DatasheetId={props.id} nbCouverts={props.nbCouverts} theoricalNbCouverts={props.theoricalNbCouverts}/>
                     </div>
                 </Col>
             </Row>

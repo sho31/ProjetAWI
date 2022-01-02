@@ -1,21 +1,19 @@
-import React, {useEffect, useState} from 'react';
+import React, {Fragment, useEffect, useState} from 'react';
 import {Form, Input, Select, InputNumber, Button, Space, Card, Divider} from 'antd';
 import {MinusCircleOutlined, PlusOutlined} from '@ant-design/icons';
 import SimpleIngredient from "../../types/SimpleIngredient";
 import ingredientService from "../../services/IngredientService";
 import Datasheet from "../../types/Datasheet";
 import DatasheetService from "../../services/DataSheetService";
+import {Link} from "react-router-dom";
 
 const { TextArea } = Input;
-
-const Option = Select.Option;
 
 
 // @ts-ignore
 // @ts-ignore
 const StepCreation: React.FC<DatasheetProps> = ({onChange, fields, onFinish}) => {
     //TODO Controller qu'une ft jointure n'a pas le mm numéro d'étape qu'une etape
-    //TODO rediriger vers creation ingredient
     const [form] = Form.useForm()
     const fieldss = fields;
     const [ingredients, setIngredients] = useState<Array<SimpleIngredient>>([]);
@@ -120,7 +118,7 @@ const StepCreation: React.FC<DatasheetProps> = ({onChange, fields, onFinish}) =>
                                             </Form.Item>
                                         </Space>
 
-                                            {<a>Un ingrédient ne figure pas dans la liste ? Cliquez pour accéder à la création d'ingrédient</a>}
+                                            <Link to='/mercurial'><a>Un ingrédient ne figure pas dans la liste ? Cliquez pour accéder à la création d'ingrédient</a></Link>
                                             <Form.List name={[fieldKey, "ingredients"]}>
                                                 {(fields, { add, remove }) => (
                                                     <>

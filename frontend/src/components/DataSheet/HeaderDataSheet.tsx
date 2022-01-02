@@ -10,10 +10,6 @@ import "../../tailwind.css";
 import { MinusOutlined, PlusOutlined} from '@ant-design/icons';
 import { useParams } from "react-router-dom";
 import TakeAwayCall from "./TakeAwayLabel/TakeAwayCall";
-import CatIngredientList from "./Synthesis/CatIngredientList";
-import CatAllergenByDatasheet from "./Synthesis/CatAllergenByDatasheet";
-import DatasheetTime from "./Synthesis/DatasheetTime";
-
 
 
 let initDataSheet = new DatasheetData(0,0,0,"","",0,"");
@@ -55,10 +51,6 @@ const HeaderDataSheet: React.FC = () => {
         if(theoricalNbCouverts > 1){
             setTheoricalNbCouverts(theoricalNbCouverts-1);
         }
-    };
-
-    const showPopconfirm = () => {
-        setVisible(true);
     };
 
     const handleOk = () => {
