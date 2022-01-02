@@ -39,7 +39,7 @@ const TakeAwayCall: React.FC<Props> = (props) => {
             <Row key={2}>
                 <Col span={8} key={3}><h3>{dataSheet.nomplat}</h3></Col>
                 <Col span={8} key={1}>
-                    <CatIngredientList id={props.id} theoricalNbCouverts={0} nbCouverts={0} decrementStock={false}/>
+                    <CatIngredientList id={props.id} theoricalNbCouverts={0} nbCouverts={0} decrementStock={false} cout/>
                 </Col>
                 <Col span={8} key={2}><div>
                     <CatAllergenByDatasheet id={props.id}/>

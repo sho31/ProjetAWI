@@ -13,11 +13,11 @@ interface Props {
     theoricalNbCouverts: number;
     nbCouverts: number;
     decrementStock: boolean;
+    cout: boolean;
 }
 
 const CatIngredientList: React.FC<Props> = (props) => {
     const [catIngredients, setCatIngredients] = useState<Array<IngredientCat>>([]);
-    const [isCout, setCout] = useState<boolean>(false);
 
     useEffect(() => {
         const getIngredientCatsList = async (idDataSheet: number) => {
@@ -30,11 +30,8 @@ const CatIngredientList: React.FC<Props> = (props) => {
                 });
         };
         getIngredientCatsList(props.id).then( () => "ok");
-    }, [props.id]);
+    }, [props.id,props.cout]);
 
-    const buttonHandler = () => {
-        setCout((status) => !status);
-    };
 
     return (
         <Fragment>
@@ -43,14 +40,10 @@ const CatIngredientList: React.FC<Props> = (props) => {
                 catIngredients.map((catIngredient,index) => (
                     <div key={index}>
                         <h4>{catIngredient.nomcategorieingredient}</h4>
-                        <IngredientListDataSheet idCatIngredient={catIngredient.idcategorieingredient} idDataSheet={props.id} cout={isCout} theoricalNbCouverts={props.theoricalNbCouverts} nbCouverts={props.nbCouverts} decrementStock={props.decrementStock}/>
+                        <IngredientListDataSheet idCatIngredient={catIngredient.idcategorieingredient} idDataSheet={props.id} cout={props.cout} theoricalNbCouverts={props.theoricalNbCouverts} nbCouverts={props.nbCouverts} decrementStock={props.decrementStock}/>
                         <br/>
                     </div>
                 ))}
-            </div>
-            <div>
-                <Switch checkedChildren="Avec Cout" unCheckedChildren="Sans Cout" onChange={buttonHandler}/>
-                <br />
             </div>
         </Fragment>
     );
