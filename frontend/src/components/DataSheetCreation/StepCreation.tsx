@@ -6,6 +6,11 @@ import ingredientService from "../../services/IngredientService";
 import Datasheet from "../../types/Datasheet";
 import DatasheetService from "../../services/DataSheetService";
 import {Link} from "react-router-dom";
+import UnitService from "../../services/UnitService";
+import Ingredient from "../../types/Ingredient";
+import Unit from "../../types/Unit";
+import IngredientService from "../../services/IngredientService";
+import IngredientCreationForm from "../Mercurial/IngredientCreationForm";
 
 const { TextArea } = Input;
 
@@ -14,10 +19,22 @@ const { TextArea } = Input;
 // @ts-ignore
 const StepCreation: React.FC<DatasheetProps> = ({onChange, fields, onFinish}) => {
     //TODO Controller qu'une ft jointure n'a pas le mm numéro d'étape qu'une etape
+    let arrayUnits : Array<Array<String>> = new Array<Array<String>>(30)
+    let units : Array<String> = new Array(30)
+    units.fill("void")
+    arrayUnits.fill(units)
     const [form] = Form.useForm()
     const fieldss = fields;
     const [ingredients, setIngredients] = useState<Array<SimpleIngredient>>([]);
     const [datasheets, setDatasheets] = useState<Array<Datasheet>>([]);
+    const [unit, setUnit] = useState<Array<Array<String>>>(arrayUnits);
+    const [dom, setDom] = useState<Array<Boolean>>(new Array(10))
+    useEffect(
+        ()=> {
+            //refresh the page
+            console.log("refresh")
+        }
+    ,dom)
 
     useEffect( () => {
         ingredientService.getAllIngredients()
@@ -61,7 +78,7 @@ const StepCreation: React.FC<DatasheetProps> = ({onChange, fields, onFinish}) =>
                         <>
                             {fields.map(({key, name, fieldKey}) => {
 
-
+                                const currentStep = fieldKey
                                 return (
                                         <Card key={key} title={"Étape"}
                                               extra={<MinusCircleOutlined onClick={() => {
@@ -118,7 +135,31 @@ const StepCreation: React.FC<DatasheetProps> = ({onChange, fields, onFinish}) =>
                                             </Form.Item>
                                         </Space>
 
-                                            <Link to='/mercurial'><a>Un ingrédient ne figure pas dans la liste ? Cliquez pour accéder à la création d'ingrédient</a></Link>
+                                            <p>Un ingrédient ne figure pas dans la liste ? Cliquez ci-dessous pour ajouter un ingrédient</p>
+                                            <IngredientCreationForm onCreateForm={async (values) => {
+                                                let arr = [...dom]
+                                                arr[0] = true
+                                                setDom(arr)
+                                                const ing: Ingredient = {
+                                                    idingredient: -1,
+                                                    idcategorieingredient: values.idcategorieingredient,
+                                                    idcategorieallergene: values.idcategorieallergene,
+                                                    idunite: values.idunite,
+                                                    nomunite: -1,
+                                                    nomingredient: values.nomingredient,
+                                                    prixunitaireingredient: values.prixunitaireingredient,
+                                                    stock: values.stock
+                                                }
+                                                await IngredientService.create(ing)
+                                                ingredientService.getAllIngredients()
+                                                    .then((response: any) => {
+                                                        setIngredients(response);
+                                                    })
+                                                    .catch((e: Error) => {
+                                                        console.log(e);
+                                                    });
+                                            }}/>
+                                            <br/>
                                             <Form.List name={[fieldKey, "ingredients"]}>
                                                 {(fields, { add, remove }) => (
                                                     <>
@@ -141,7 +182,23 @@ const StepCreation: React.FC<DatasheetProps> = ({onChange, fields, onFinish}) =>
 
                                                                             }
 
-                                                                            }>
+                                                                            }
+
+                                                                    onSelect={(async value => {
+                                                                        console.log("field " + fieldKey, "val " + value, currentStep)
+                                                                        let unit: Unit = await IngredientService.getUnitFromIngredientID(value).then(value => {
+                                                                            return value
+                                                                        }).catch(e => {console.log(e); return {idunite:1, nomunite :"kg"}})
+                                                                        setUnit((prevState => {
+                                                                            prevState[currentStep][fieldKey] = unit.nomunite
+                                                                            return prevState
+                                                                        }))
+                                                                        let arr = [...dom]
+                                                                        arr[0] =true
+                                                                        setDom(arr)
+
+                                                                    })}
+                                                                    >
                                                                         {ingredients.map((item :SimpleIngredient) => <Select.Option key={item.idingredient} value={item.idingredient}>{item.nomingredient}</Select.Option>)}
                                                                     </Select>
                                                                 </Form.Item>
@@ -152,7 +209,8 @@ const StepCreation: React.FC<DatasheetProps> = ({onChange, fields, onFinish}) =>
                                                                 >
                                                                     <InputNumber
                                                                         min={0}
-                                                                        max={100}
+                                                                        max={1000}
+                                                                        addonAfter={unit[currentStep][fieldKey] === "void" ? "" : unit[currentStep][fieldKey]}
                                                                     />
                                                                 </Form.Item>
                                                                 <MinusCircleOutlined onClick={() => {

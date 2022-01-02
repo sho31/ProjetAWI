@@ -1,5 +1,7 @@
 import http from "../http-common";
 import IngredientsData from "../types/Ingredient";
+import UnitService from "./UnitService";
+import Unit from "../types/Unit";
 
 const create = async (data: IngredientsData) => {
     const tmp =  await http.post<IngredientsData>("/ingredient", data);
@@ -37,6 +39,11 @@ const addStock = async (id: any, quantite: number) => {
 const remove = async (id: any) => {
     return await http.delete<any>(`/ingredient/?id=${id}`);
 };
+const getUnitFromIngredientID = async (id :any) => {
+    const ing : IngredientsData = await getIngredientByID(id)
+    const unit : Unit = await UnitService.getUnitByID(ing.idunite)
+    return unit
+}
 
 
 const IngredientService = {
@@ -47,7 +54,8 @@ const IngredientService = {
     updateStock,
     addStock,
     getIngredientByID,
-    create
+    create,
+    getUnitFromIngredientID
 };
 
 export default IngredientService;
