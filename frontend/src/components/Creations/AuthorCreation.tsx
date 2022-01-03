@@ -123,7 +123,7 @@ const AuthorCreation = () => {
 
     return (
         <div>
-            <Card key={1} title={"Ajouter une unité"}>
+            <Card key={1} title={"Ajouter un auteur"}>
                 <Button
                     type="primary"
                     onClick={() => {
@@ -141,7 +141,7 @@ const AuthorCreation = () => {
                     nameCollection={"unité"}/>
             </Card>
             <br/>
-            <Card key={2} title={"Liste des catégorie d'unité"}>
+            <Card key={2} title={"Liste des auteurs"}>
                 <Table dataSource={authors}  pagination={false} rowKey={"idauteur"} >
                     <Column title="Nom" dataIndex="nomauteur" key={1} responsive={["xs","sm","md","lg"]} />
                     <Column title="Prénom" dataIndex="prenomauteur" key={1} responsive={["xs","sm","md","lg"]} />

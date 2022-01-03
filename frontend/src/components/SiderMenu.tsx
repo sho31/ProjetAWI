@@ -26,7 +26,6 @@ class SiderMenu extends React.Component {
             <Layout style={{ minHeight: '100vh' }}>
                 <Sider breakpoint="lg"
                        collapsible collapsed={collapsed} onCollapse={this.onCollapse}>
-                    <div>logo</div>
                     <Menu theme="dark" defaultSelectedKeys={['1']} defaultOpenKeys={['gerer']} mode="inline">
                         <Menu.Item key={1} icon={<HomeOutlined />} >
                             <Link to='/'>Accueil</Link>
