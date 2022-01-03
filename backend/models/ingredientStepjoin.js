@@ -26,10 +26,10 @@ async function updateIngredientStepJoin(idetape, idingredient, quantite) {
     }
 }
 
-async function deleteIngredientStepJoin(idFicheTechniqueParent,idFicheTechniqueFille) {
+async function deleteIngredientStepJoin(idEtape) {
     try {
-        const res = await db.query("DELETE FROM FicheTechniqueJointure WHERE idfichetechniqueparent = $1 AND idfichetechniquefille = $2;",
-            [idFicheTechniqueParent, idFicheTechniqueFille]);
+        const res = await db.query("DELETE FROM ingredientetapejointure WHERE idetape = $1;",
+            [idEtape]);
         return res;
     } catch (e) {
         throw e;
@@ -67,7 +67,6 @@ async function getIngredientCatListStepId(idFicheTechnique) {
                 "SELECT * FROM (SELECT idcategorieingredient,nomcategorieingredient FROM fichetechniquejointure fj INNER JOIN fichetechnique f on f.idfichetechnique = fj.idfichetechniqueparent inner JOIN etape e ON e.idfichetechnique = fj.idfichetechniquefille natural join ingredientetapejointure natural join ingredient natural join categorieingredient WHERE fj.idfichetechniqueparent = $1 AND f.idfichetechnique = $1 GROUP BY idcategorieingredient,nomcategorieingredient UNION SELECT idcategorieingredient,nomcategorieingredient FROM ingredientetapejointure NATURAL Join etape NATURAL Join ingredient NATURAL Join categorieingredient where idfichetechnique = $1 GROUP BY idcategorieingredient,nomcategorieingredient ORDER BY nomcategorieingredient) as tmp GROUP BY idcategorieingredient,nomcategorieingredient;",
                 [idFicheTechnique]
             );
-            Console.log("dedans");
             return resB;
         }
         else{

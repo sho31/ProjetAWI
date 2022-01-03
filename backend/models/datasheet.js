@@ -27,6 +27,7 @@ async function updateDatasheet(id, idCategorieFicheTechnique, idAuteur, nomPlat,
 
 async function deleteDatasheet(id) {
     try {
+        console.log("a")
         const res = await db.query("DELETE FROM FicheTechnique WHERE idFicheTechnique = $1;", [id]);
         return res;
     } catch (e) {

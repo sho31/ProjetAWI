@@ -35,6 +35,16 @@ async function deleteDatasheetJoin(idFicheTechniqueParent,idFicheTechniqueFille)
     }
 }
 
+async function deleteDatasheetJoinByParentDataSheetId(idFicheTechniqueParent) {
+    try {
+        const res = await db.query("DELETE FROM FicheTechniqueJointure WHERE idfichetechniqueparent = $1;",
+            [idFicheTechniqueParent]);
+        return res;
+    } catch (e) {
+        throw e;
+    }
+}
+
 async function getAllDatasheetJoins() {
     try {
         const res  = await db.query('SELECT * FROM FicheTechniqueJointure;')
@@ -74,4 +84,5 @@ module.exports = {
     getAllDatasheetJoins,
     getDatasheetJoinByID,
     getDatasheetIdByParentDataSheetParent,
+    deleteDatasheetJoinByParentDataSheetId,
 };

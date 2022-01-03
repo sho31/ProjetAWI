@@ -14,13 +14,23 @@ async function createCost(idFicheTechnique,chargescalculated, chargescost, mater
     }
 }
 
-
-
 async function deleteCost(id) {
     try {
         const res = await db.query(
             "DELETE FROM cost WHERE idcost = $1;",
             [id]
+        );
+        return res;
+    } catch (e) {
+        throw e;
+    }
+}
+
+async function deleteCostByDataSheetId(idFicheTechnique) {
+    try {
+        const res = await db.query(
+            "DELETE FROM cost WHERE idfichetechnique = $1;",
+            [idFicheTechnique]
         );
         return res;
     } catch (e) {
@@ -67,4 +77,5 @@ module.exports = {
     getCostById,
     getAllCosts,
     getCostByDataSheetId,
+    deleteCostByDataSheetId,
 };
