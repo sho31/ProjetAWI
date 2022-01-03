@@ -12,7 +12,7 @@ const Pool  = require("pg").Pool;
 const devConfig = `postgresql://${process.env.dbUSER}:${process.env.dbPASSWORD}@${process.env.dbHOST}:${process.env.dbPORT}/${process.env.dbDATABASE}`;
 
 const proConfig = process.env.DATABASE_URL; //heroku addons
-
+console.log(process.env.NODE_ENV)
 const pool = new Pool({
   connectionString:
       process.env.NODE_ENV === "production" ? proConfig : devConfig,
