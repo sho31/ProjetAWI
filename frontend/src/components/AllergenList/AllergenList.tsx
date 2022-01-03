@@ -34,7 +34,6 @@ const MercurialPage: React.FC<Props> = (props) => {
                 <Column title="Prix" dataIndex="prixunitaireingredient" key={2} responsive={["xs","sm","md","lg"]} />
                 <Column title="Quantité" dataIndex="stock" key={3} responsive={["xs","sm","md","lg"]}/>
                 <Column title="Unité" dataIndex="nomunite" key={4} responsive={["xs","sm","md","lg"]} />
-                <Column title="Unité" dataIndex="id" key={4} responsive={["xs","sm","md","lg"]} />
             </Table>
         </div>
     );

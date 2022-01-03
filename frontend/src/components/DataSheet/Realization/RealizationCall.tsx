@@ -16,7 +16,8 @@ const RealizationCall: React.FC<Props> = (props) => {
                 <Col span={4} key={3}><h3>Quantité</h3></Col>
                 <Col span={4} key={4}><h3>Unité</h3></Col>
                 <Col span={2} key={5}><h3>Numéro</h3></Col>
-                <Col span={10} key={6}><h3>Etapes</h3></Col>
+                <Col span={8} key={6}><h3>Etapes</h3></Col>
+                <Col span={2} key={7}><h3>Durée</h3></Col>
             </Row>
             <RecursiveRealization id={props.id} nbCouverts={props.nbCouverts} key={props.id+6} theoricalNbCouverts={props.theoricalNbCouverts} numstep={0}/>
         </Card>

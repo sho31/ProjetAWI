@@ -65,14 +65,13 @@ const RecursiveRealization: React.FC<Props> = (props) => {
                                 <IngEtape id={step.idetape} nbCouverts={props.nbCouverts} theoricalNbCouverts={props.theoricalNbCouverts}></IngEtape>
                             </Col>
                             <Col span={2} key={index+2}>{step.numetape}</Col>
-                            <Col span={10} key={index+3}>
+                            <Col span={8} key={index+3}>
                                 <h3>{step.titreetape}
-                                    <br></br>
-                                    {step.tempsetape}min
                                 </h3>
                                 {step.descriptionetape}
                                 <p></p>
                             </Col>
+                            <Col span={2}>{step.tempsetape}min</Col>
                         </Row>
                         {step.numetape+1 === dataSheetJoin[current].numetape &&
 
@@ -90,7 +89,6 @@ const RecursiveRealization: React.FC<Props> = (props) => {
                                 }
                             </Card>
                         </React.Fragment>
-
                         }
                         <Divider key={index+3}></Divider>
                     </div>
@@ -100,8 +98,7 @@ const RecursiveRealization: React.FC<Props> = (props) => {
         );
     }
     else {
-
-        return (// FICHE Technique fille
+        return (// FICHE Technique fille sans autre fiche technique incluse
             <div>
                 {steps &&
                 steps.map((step, index) => (
@@ -113,14 +110,12 @@ const RecursiveRealization: React.FC<Props> = (props) => {
                         {props.numstep !== 0 ? (<Col span={2} key={index+3}>{props.numstep+1}.{step.numetape}</Col>) : (
                             <Col span={2} key={index+3}>{step.numetape}</Col>
                         )}
-                        <Col span={10} key={index+2}>
+                        <Col span={8} key={index+2}>
                             <h3>{step.titreetape}
-                                <br></br>
-                                {step.tempsetape}min
                             </h3>
                             {step.descriptionetape}
-                            <br></br>
                         </Col>
+                        <Col span={2}>{step.tempsetape}min</Col>
                     </Row>
                     <Divider key={index+3}></Divider>
                     </Fragment>

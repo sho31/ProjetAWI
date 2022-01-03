@@ -14,30 +14,16 @@ const create = (data: AuthorData) => {
     return http.post<AuthorData>("/author", data);
 };
 
-const update = (id: any, data: AuthorData) => {
-    return http.put<any>(`/tutorials/${id}`, data);
-};
-
 const remove = (id: any) => {
-    return http.delete<any>(`/tutorials/${id}`);
-};
-
-const removeAll = () => {
-    return http.delete<any>(`/tutorials`);
-};
-
-const findByTitle = (title: string) => {
-    return http.get<Array<AuthorData>>(`/tutorials?title=${title}`);
+    console.log(id)
+    return http.delete<any>(`/author?id=${id}`);
 };
 
 const TutorialService = {
     getAllAuthors,
     get,
     create,
-    update,
     remove,
-    removeAll,
-    findByTitle,
 };
 
 export default TutorialService;

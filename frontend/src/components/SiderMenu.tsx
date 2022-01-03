@@ -26,7 +26,6 @@ class SiderMenu extends React.Component {
             <Layout style={{ minHeight: '100vh' }}>
                 <Sider breakpoint="lg"
                        collapsible collapsed={collapsed} onCollapse={this.onCollapse}>
-                    <div>logo</div>
                     <Menu theme="dark" defaultSelectedKeys={['1']} defaultOpenKeys={['gerer']} mode="inline">
                         <Menu.Item key={1} icon={<HomeOutlined />} >
                             <Link to='/'>Accueil</Link>
@@ -59,6 +58,11 @@ class SiderMenu extends React.Component {
                             <Menu.Item key={10}>
                                 <Link to='/gerer/catAllergene'>
                                     Cat Allergène
+                                </Link>
+                            </Menu.Item>
+                            <Menu.Item key={11}>
+                                <Link to='/gerer/auteur'>
+                                    Auteur
                                 </Link>
                             </Menu.Item>
                         </SubMenu>
