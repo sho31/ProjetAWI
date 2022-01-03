@@ -11,6 +11,7 @@ import Search from "antd/es/input/Search";
 import ImgFT from "../../images/logo_ft.png"
 import Title from "antd/es/typography/Title";
 import AddFT from "../../images/add.png";
+import DefaultIMG from "../../images/default_plat.jpg"
 
 const HomePage: React.FC = () => {
 
@@ -75,6 +76,7 @@ const HomePage: React.FC = () => {
             </Tag>
         );
     }
+    // @ts-ignore
     return (
         <Fragment key={1}>
                 <div key={1}>
@@ -136,40 +138,76 @@ const HomePage: React.FC = () => {
                     return null;
                 }
                 ).map((dataSheet,index) => (
-                            <Link to={"/fichetechnique/"+dataSheet.idfichetechnique} key={index}>
+                    <Fragment key={index}>
+                        {(dataSheet.image !== "")
+                            ? <Link to={"/fichetechnique/"+dataSheet.idfichetechnique} key={index}>
                                 <Badge count={dataSheet.nombrecouverts} style={{height:30, width:30}}color="#5B930A" offset={[-15, 20]}>
-                                <Card
-                                    style={{
-                                        width: 300,
-                                        height: 400,
-                                        margin: "20px",
-                                        borderRadius: "20px",
-                                        overflow: "hidden"
-                                    }}
-                                    hoverable
-                                    cover={
-                                        <img
-                                            alt={dataSheet.nomplat}
-                                            src={dataSheet.image}
-                                            style={{
-                                                height: 300,
-                                                borderRadius: "20px",
-                                                overflow: "hidden"
-                                            }}
-                                        />
-                                    }
-                                    key={index}
-                                >
-                                    <Meta
-                                        avatar={<Avatar src={ImgFT} />}
-                                        title={dataSheet.nomplat}
-                                        description={"Par "+dataSheet.nomauteur}
+                                    <Card
+                                        style={{
+                                            width: 300,
+                                            height: 400,
+                                            margin: "20px",
+                                            borderRadius: "20px",
+                                            overflow: "hidden"
+                                        }}
+                                        hoverable
+                                        cover={
+                                            <img
+                                                alt={dataSheet.nomplat}
+                                                src={dataSheet.image}
+                                                style={{
+                                                    height: 300,
+                                                    borderRadius: "20px",
+                                                    overflow: "hidden"
+                                                }}
+                                            />
+                                        }
                                         key={index}
-                                    />
-                                </Card>
+                                    >
+                                        <Meta
+                                            avatar={<Avatar src={ImgFT} />}
+                                            title={dataSheet.nomplat}
+                                            description={"Par "+dataSheet.nomauteur}
+                                            key={index}
+                                        />
+                                    </Card>
                                 </Badge>
                             </Link>
-
+                            : <Link to={"/fichetechnique/"+dataSheet.idfichetechnique} key={index}>
+                                <Badge count={dataSheet.nombrecouverts} style={{height:30, width:30}}color="#5B930A" offset={[-15, 20]}>
+                                    <Card
+                                        style={{
+                                            width: 300,
+                                            height: 400,
+                                            margin: "20px",
+                                            borderRadius: "20px",
+                                            overflow: "hidden"
+                                        }}
+                                        hoverable
+                                        cover={
+                                            <img
+                                                alt={dataSheet.nomplat}
+                                                src={DefaultIMG}
+                                                style={{
+                                                    height: 300,
+                                                    borderRadius: "20px",
+                                                    overflow: "hidden"
+                                                }}
+                                            />
+                                        }
+                                        key={index}
+                                    >
+                                        <Meta
+                                            avatar={<Avatar src={ImgFT} />}
+                                            title={dataSheet.nomplat}
+                                            description={"Par "+dataSheet.nomauteur}
+                                            key={index}
+                                        />
+                                    </Card>
+                                </Badge>
+                            </Link>
+                        }
+                    </Fragment>
                 ))}
                         <Link to={"/creerDT/"} key={1}>
                             <Card

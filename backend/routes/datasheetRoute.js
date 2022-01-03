@@ -51,6 +51,20 @@ router.delete("/", async function (req, res, next) {
     }
 });
 
+router.delete("/withAllComponents", async function (req, res, next) {
+    try {
+        const idDatasheet = req.query.id;
+        const Datasheet = await DatasheetController.deleteDatasheetAndAllComponents(idDatasheet)
+        if (!Datasheet) {
+            return res.status(204).json({message: "Aucune fiche technique avec cet id"});
+        }
+        res.status(200).json({ message: "Suppresion effectuée"})
+    } catch (e) {
+        res.status(500).json({ message: "can't load data" });
+    }
+});
+
+
 router.put("/", async function (req, res, next) {
     try {
         const idDatasheet = req.query.id;

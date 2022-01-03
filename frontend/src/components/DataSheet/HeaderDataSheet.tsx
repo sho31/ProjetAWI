@@ -8,9 +8,10 @@ import ReactToPrint from "react-to-print";
 import ButtonGroup from "antd/es/button/button-group";
 import "../../tailwind.css";
 import { MinusOutlined, PlusOutlined} from '@ant-design/icons';
-import { useParams } from "react-router-dom";
+import {Link, useParams} from "react-router-dom";
 import TakeAwayCall from "./TakeAwayLabel/TakeAwayCall";
-
+import DefaultIMG from "../../images/default_plat.jpg"
+import ITutorialData from "../../types/Ingredient";
 
 let initDataSheet = new DatasheetData(0,0,0,"","",0,"");
 
@@ -53,6 +54,17 @@ const HeaderDataSheet: React.FC = () => {
         }
     };
 
+    const removeDataSheet = async (id: number) => {
+        await DataSheetService.removeDataSheet(id)
+            .then((response: any) => {
+                setdataSheet(response);
+                setTheoricalNbCouverts(response.nombrecouverts);
+            })
+            .catch((e: Error) => {
+                console.log(e);
+            });
+    };
+
     const handleOk = () => {
         setConfirmLoading(true);
         setTimeout(() => {
@@ -72,6 +84,12 @@ const HeaderDataSheet: React.FC = () => {
             message.success({ content: 'Vous avez vendu ' +theoricalNbCouverts+ ' plats', duration: 5 });
         }, 1000);
     };
+    const confirm = async (id: number) => {
+        await removeDataSheet(id);
+    }
+
+    const cancel = async () => {
+    }
 
     if(dataSheet.idfichetechnique !==0){ // Si on a récupérer une fiche technique
         return (
@@ -79,11 +97,20 @@ const HeaderDataSheet: React.FC = () => {
                     <div key={1} ref={dataSheetRef} >
                         <Card title="En-tête" bordered={false} key={2}>
                             <h1 className="text-right">{dataSheet.nomplat}</h1>
-                            <Image
-                                width={200}
-                                src={dataSheet.image}
-                                alt={"burger"}
-                            />
+                            {dataSheet.image !== ""
+                                ? <Image
+                                    width={200}
+                                    src={dataSheet.image}
+                                    alt={"burger"}
+                                    />
+                                :
+                                <Image
+                                    width={200}
+                                    src={DefaultIMG}
+                                    alt={"burger"}
+                                />
+                            }
+
                             <div>Nombre de couverts :
                                 <ButtonGroup>
                                     <Button onClick={declineBadge}>
@@ -136,6 +163,17 @@ const HeaderDataSheet: React.FC = () => {
                         <div key={4} ref={takeAwayLabel}>
                             <TakeAwayCall id={dataSheet.idfichetechnique}/>
                         </div>
+                    </div>
+                    <div key={4}>
+                        <Link to={"/"}>
+                        <Popconfirm title="Etes vous sur de vouloir supprimer cette fiche technique？" onConfirm={() => confirm(dataSheet.idfichetechnique)} onCancel={() => cancel()} key={1}>
+                            <a href="/" key={1}>
+                                <Button type="primary" danger key={1}>
+                                    Supprimer
+                                </Button>
+                            </a>
+                        </Popconfirm>
+                        </Link>
                     </div>
                 </Fragment>
         );

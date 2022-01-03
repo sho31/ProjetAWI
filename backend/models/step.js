@@ -39,6 +39,18 @@ async function deleteStep(id) {
     }
 }
 
+async function deleteAllDataSheetSteps(idFichetechnique) {
+    try {
+        const res = await db.query(
+            "DELETE FROM etape WHERE idfichetechnique = $1;",
+            [idFichetechnique]
+        );
+        return res;
+    } catch (e) {
+        throw e;
+    }
+}
+
 async function getAllSteps() {
     try {
         const res = await db.query("SELECT * FROM etape ORDER BY numetape;");
@@ -97,6 +109,18 @@ async function getStepByDataSheetId(idFicheTechnique) {
     }
 }
 
+async function getJSONStepByDataSheetId(idFicheTechnique) {
+    try {
+        const res = await db.query(
+            "SELECT idetape FROM etape WHERE idfichetechnique = $1;",
+            [idFicheTechnique]
+        );
+        return res;
+    } catch (e) {
+        throw e;
+    }
+}
+
 module.exports = {
     createStep,
     updateStep,
@@ -106,4 +130,6 @@ module.exports = {
     getStepByDataSheetId,
     getGlobalTimeToMakeDataSheetChild,
     getGlobalTimeToMakeDataSheet,
+    deleteAllDataSheetSteps,
+    getJSONStepByDataSheetId,
 };

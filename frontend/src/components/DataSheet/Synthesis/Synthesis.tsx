@@ -45,7 +45,8 @@ const Synthesis: React.FC<Props> = (props) => {
             <Row key={3}>
                 <Col span={24} key={3}>
                     <div key={1}>
-                        <Cost DatasheetId={props.id} nbCouverts={props.nbCouverts} theoricalNbCouverts={props.theoricalNbCouverts} cout={isCout}/>
+                        {//<Cost DatasheetId={props.id} nbCouverts={props.nbCouverts} theoricalNbCouverts={props.theoricalNbCouverts} cout={isCout}/>
+                            }
                     </div>
                 </Col>
             </Row>

@@ -1,4 +1,8 @@
 const DatasheetModel = require("../models/datasheet")
+const StepModel = require("../models/step")
+const DatasheetJoinModel = require("../models/datasheetJoin")
+const CostModel = require("../models/cost")
+const IngredientStepJoinModel = require("../models/ingredientStepjoin")
 
 async function getAllDatasheets() {
     try {
@@ -51,6 +55,39 @@ async function deleteDatasheet(id) {
     }
 }
 
+async function deleteDatasheetAndAllComponents(id) {
+    try {
+        // deletes des etapes et ingrédients jointure
+        const res = await StepModel.getJSONStepByDataSheetId(id);
+        for(let i =0;i<res.rows.length;i++){
+            await IngredientStepJoinModel.deleteIngredientStepJoin(res.rows[i].idetape);
+        }
+        // delete toutes les étapes de la fiche technique
+        const resA = await StepModel.deleteAllDataSheetSteps(id);
+        if(resA != null){
+            console.log("ok1")
+            // delete toutes les apparitions dans la fichetechniquejointure
+            await DatasheetJoinModel.deleteDatasheetJoinByParentDataSheetId(id);
+
+            const resB = await CostModel.deleteCostByDataSheetId(id)
+            if (resB !== null) {
+                // delete de la fiche technique
+                console.log("ok2")
+                const resC = await DatasheetModel.deleteDatasheet(id)
+                if (resC !== null) {
+                    console.log("ok3")
+                    return resC;
+                }
+
+            }
+            return null
+        }
+        return null;
+    } catch (e) {
+        throw e;
+    }
+}
+
 async function updateDatasheet(id,body) {
     try {
         var newId = parseInt(id);
@@ -76,5 +113,6 @@ module.exports = {
     updateDatasheet,
     deleteDatasheet,
     getAllDatasheets,
-    getDatasheetByID
+    getDatasheetByID,
+    deleteDatasheetAndAllComponents,
 };

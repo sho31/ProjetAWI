@@ -31,7 +31,11 @@ const getStepsByDataSheet = async () => {
     return tmp.data;
 };
 
-
+const removeDataSheet = async (id :number ) => {
+    const tmp = await http.delete<number>(`/datasheet/withAllComponents?id=${id}`);
+    console.log(tmp.data)
+    return tmp.data;
+};
 
 
 const IngredientService = {
@@ -41,6 +45,7 @@ const IngredientService = {
     getDataSheetJoin,
     create,
     createJoin,
+    removeDataSheet,
 };
 
 
