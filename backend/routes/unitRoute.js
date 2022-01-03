@@ -8,6 +8,7 @@ router.get("/all", async function (req, res, next) {
         const unit = await unitController.getAllUnits();
         res.status(200).json(unit)
     } catch (e) {
+        console.log(e)
         res.status(500).json({ message: "can't load data" });
     }
 });
