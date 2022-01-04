@@ -7,9 +7,6 @@ const create = async (data:CostData) => {
     return  tmp.data
 };
 const createWithOtherDatasheetsCosts = async (primarySheetCost: CostData, otherSheetsCosts : Array<CostData> ) => {
-    console.log("primary", primarySheetCost)
-    console.log("other", otherSheetsCosts)
-
     let newCost : CostData = primarySheetCost;
     newCost.includeddatasheetscost =0;
     for (const cost of otherSheetsCosts) {
@@ -21,27 +18,10 @@ const createWithOtherDatasheetsCosts = async (primarySheetCost: CostData, otherS
         }
 
     }
-    console.log(newCost.includeddatasheetscost, "newcost")
     await create(newCost)
     return newCost
 };
-const createWithOtherDatasheetsCostss = (primarySheetCost: CostData, otherSheetsCosts : Array<CostData> ) => {
-    console.log("primary", primarySheetCost)
-    console.log("other", otherSheetsCosts)
 
-    let newCost : CostData = primarySheetCost;
-    newCost.includeddatasheetscost =0;
-    for (const cost of otherSheetsCosts) {
-        console.log(cost)
-        if(cost.chargescost !== undefined) {
-            newCost.includeddatasheetscost = +newCost.includeddatasheetscost + +cost.materialscost + +cost.chargescost
-        } else {
-            newCost.includeddatasheetscost = +newCost.includeddatasheetscost + +cost.materialscost
-        }
-    }
-    //await create(newCost)
-    return newCost
-};
 const getIngredientsCost = async (ingredients : [{idingredient : number, quantite : number}]) => {
     let materialscost : number = 0
     let unitCost : number;
@@ -73,10 +53,6 @@ const getMaterialsCostPerNbCouverts = (cost : CostData, nbCouvertsTotal : number
 
 const getChargesCost = async (salaryCost : number,fluidCost : number, totalMinutes : number) =>{
     const totalHours : number = totalMinutes/60.0
-    console.log(totalHours, "hours")
-    console.log("salary" , salaryCost)
-    console.log(fluidCost, "fluid")
-    console.log(salaryCost * totalHours + fluidCost*totalHours)
     return salaryCost * totalHours + fluidCost*totalHours
 
 }
@@ -168,7 +144,6 @@ const getProfitabilityTreshold = (cost : CostData, nbCouvertsTotal : number) => 
 const CostService = {
     create,
     createWithOtherDatasheetsCosts,
-    createWithOtherDatasheetsCostss,
     getCostByDataSheet,
     getCostForSeveralDataSheet,
     getChargesCost,

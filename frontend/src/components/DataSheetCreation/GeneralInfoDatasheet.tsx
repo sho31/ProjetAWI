@@ -91,14 +91,6 @@ const GeneralInfoDatasheet: React.FC<DatasheetProps> = ({ onChange, fields, onFi
                     </Form.Item>
 
                 </Form.Item>
-                <Form.Item
-                    name="upload"
-                    label="Upload"
-                    valuePropName="fileList"
-                    getValueFromEvent={normFile}
-                    extra="Aperçu de la recette"
-                >
-                </Form.Item>
                 <Form.Item>
                     <Button type="primary" htmlType="submit">
                         Suivant

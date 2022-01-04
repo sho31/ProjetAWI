@@ -162,7 +162,7 @@ const submit= async () => {
         coefwithoutcharges: costForm.coefwithoutcharges,
         includeddatasheetscost: 0
     }
-
+    console.log("cost before up",cost)
     // @ts-ignore
     const costCreated : any= await CostService.createWithOtherDatasheetsCosts(cost,includeddatasheetscost)
         .then(value => console.log("cost",value))
