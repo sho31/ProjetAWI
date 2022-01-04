@@ -6,10 +6,10 @@ export default class Cost {
     materialscost: number;
     coefwithcharges : number | undefined;
     coefwithoutcharges : number | undefined;
-    includedDatasheetsCost : number | undefined;
+    includeddatasheetscost : number | undefined;
 
 
-    constructor(idCost: number, idfichetechnique: number, chargescalculated: boolean, chargescost: number | undefined, materialscost: number, coefwithcharges: number | undefined, coefwithoutcharges: number | undefined, includedDatasheetsCost : number | undefined) {
+    constructor(idCost: number, idfichetechnique: number, chargescalculated: boolean, chargescost: number | undefined, materialscost: number, coefwithcharges: number | undefined, coefwithoutcharges: number | undefined, includeddatasheetscost : number | undefined) {
         this.idCost = idCost;
         this.idfichetechnique = idfichetechnique;
         this.chargescalculated = chargescalculated;
@@ -17,6 +17,6 @@ export default class Cost {
         this.materialscost = materialscost;
         this.coefwithcharges = coefwithcharges;
         this.coefwithoutcharges = coefwithoutcharges;
-        this.includedDatasheetsCost = includedDatasheetsCost;
+        this.includeddatasheetscost = includeddatasheetscost;
     }
 }

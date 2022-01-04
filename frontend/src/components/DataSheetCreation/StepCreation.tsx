@@ -1,5 +1,5 @@
 import React, {Fragment, useEffect, useState} from 'react';
-import {Form, Input, Select, InputNumber, Button, Space, Card, Divider} from 'antd';
+import {Form, Input, Select, InputNumber, Button, Space, Card, Divider, message} from 'antd';
 import {MinusCircleOutlined, PlusOutlined} from '@ant-design/icons';
 import SimpleIngredient from "../../types/SimpleIngredient";
 import ingredientService from "../../services/IngredientService";
@@ -11,6 +11,7 @@ import Ingredient from "../../types/Ingredient";
 import Unit from "../../types/Unit";
 import IngredientService from "../../services/IngredientService";
 import IngredientCreationForm from "../Mercurial/IngredientCreationForm";
+import StepService from "../../services/StepService";
 
 const { TextArea } = Input;
 
@@ -18,7 +19,6 @@ const { TextArea } = Input;
 // @ts-ignore
 // @ts-ignore
 const StepCreation: React.FC<DatasheetProps> = ({onChange, fields, onFinish}) => {
-    //TODO Controller qu'une ft jointure n'a pas le mm numéro d'étape qu'une etape
     let arrayUnits : Array<Array<String>> = new Array<Array<String>>(30)
     let units : Array<String> = new Array(30)
     units.fill("void")
@@ -52,6 +52,10 @@ const StepCreation: React.FC<DatasheetProps> = ({onChange, fields, onFinish}) =>
                 console.log(e);
             });
     }, []);
+    //The following form is an AntDesign Form Component, using imbricated forms (Form.List), we get Arrays for each form list containing the values of the form.
+    //Each form list manages an array of Fields, add contains callback methods add and remove that we can assign to buttons
+    //Each array of fields is then map to fields component.
+    //The values are then easily accesible on submit.
     return(
         <>
             <h2>Création de la progression</h2>
@@ -63,11 +67,14 @@ const StepCreation: React.FC<DatasheetProps> = ({onChange, fields, onFinish}) =>
                 fields={fields}
                 initialValues={{ etapes:[{descriptionetape : "",ingredients: [null],numetape: null,tempsetape: null,titreetape: null}]}}
                 onFieldsChange={(_, allFields) => {
-                    //console.log("fieeeelds", fieldss)
                     onChange(allFields);
                 }}
                 onFinish={(values) => {
-                    onFinish(values);
+                    if(StepService.verifyStepOrder(values)) {
+                        onFinish(values);
+                    }else {
+                        message.error("Vérifier que les numéros d'étape se suivent et ne sont pas égaux")
+                    }
                 }}
 
             >
@@ -82,9 +89,12 @@ const StepCreation: React.FC<DatasheetProps> = ({onChange, fields, onFinish}) =>
                                 return (
                                         <Card key={key} title={"Étape"}
                                               extra={<MinusCircleOutlined onClick={() => {
-                                                  remove(name)
-                                                  //console.log("test",fieldss)
-                                                  onChange(fieldss);
+                                                  if(name ===0) {
+                                                      message.info("Chaque fiche technique doit posséder au moins une étape")
+                                                  }else {
+                                                      remove(name)
+                                                      onChange(fieldss);
+                                                  }
                                               }}
                                               />}
                                               style={{width: '100%', margin:8}}>

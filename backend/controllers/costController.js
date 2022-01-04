@@ -45,9 +45,9 @@ async function createCost(body) {
         const materialscost = body.materialscost;
         const coefwithcharges = body.coefwithcharges
         const coefwithoutcharges = body.coefwithoutcharges;
-        const includedDatasheetsCost = body.includedDatasheetsCost;
+        const includeddatasheetscost = body.includeddatasheetscost;
 
-        const res = await costModel.createCost(idFicheTechnique,chargescalculated, chargescost, materialscost, coefwithcharges, coefwithoutcharges,includedDatasheetsCost);
+        const res = await costModel.createCost(idFicheTechnique,chargescalculated, chargescost, materialscost, coefwithcharges, coefwithoutcharges,includeddatasheetscost);
         return res;
     } catch (e) {
         throw e;

@@ -2,11 +2,11 @@ const db = require("../dataBase");
 
 /* CRUD */
 
-async function createCost(idFicheTechnique,chargescalculated, chargescost, materialscost, coefwithcharges, coefwithoutcharges,includedDatasheetsCost) {
+async function createCost(idFicheTechnique,chargescalculated, chargescost, materialscost, coefwithcharges, coefwithoutcharges,includeddatasheetscost) {
     try {
         const res = await db.query(
             "INSERT INTO cost (idFicheTechnique,chargescalculated, chargescost, materialscost, coefwithcharges, coefwithoutcharges,includeddatasheetscost) VALUES($1,$2,$3,$4,$5,$6,$7) RETURNING idcost;",
-            [idFicheTechnique,chargescalculated, chargescost, materialscost, coefwithcharges, coefwithoutcharges,includedDatasheetsCost]
+            [idFicheTechnique,chargescalculated, chargescost, materialscost, coefwithcharges, coefwithoutcharges,includeddatasheetscost]
         );
         return res;
     } catch (e) {

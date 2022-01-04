@@ -31,72 +31,79 @@ class Cost extends React.Component<Props, State> {
     state: State = {
         cost:  {
             chargescalculated: false,
-            chargescost: 0,
-            idCost: 0,
-            idfichetechnique: 0,
-            includedDatasheetsCost: 0,
-            materialscost: 0,
-            coefwithcharges : 0,
-            coefwithoutcharges : 0
+            chargescost: 1,
+            idCost: 1,
+            idfichetechnique: 1,
+            includeddatasheetscost: 1,
+            materialscost: 1,
+            coefwithcharges : 1,
+            coefwithoutcharges : 1
         },
-        totalProductionCost : 0,
-        productionCostPerPortion : 0,
-        totalSellingPrice : 0,
-        SellingPricePerPortion : 0,
-        totalBenefit : 0,
-        BenefitPerPortion : 0,
-        profitabilityTreshold : 0,
-        chargescost : 0,
-        materialscost :0,
+        totalProductionCost : 1,
+        productionCostPerPortion : 1,
+        totalSellingPrice : 1,
+        SellingPricePerPortion : 1,
+        totalBenefit : 1,
+        BenefitPerPortion : 1,
+        profitabilityTreshold : 1,
+        chargescost : 1,
+        materialscost :1,
         chargescalculated : false,
-        coefwithcharges : 0,
-        coefwithoutcharges :0
+        coefwithcharges : 1,
+        coefwithoutcharges :1
     };
     async componentDidMount() {
-        let datasheetNbCouverts : number
+        let datasheetNbCouverts : number =1;
         let cost : CostT = {
             chargescalculated: false,
-            chargescost: 0,
-            idCost: 0,
-            idfichetechnique: 0,
-            includedDatasheetsCost: 0,
-            materialscost: 0,
-            coefwithcharges : 0,
-            coefwithoutcharges : 0
+            chargescost: 1,
+            idCost: 1,
+            idfichetechnique: 1,
+            includeddatasheetscost: 1,
+            materialscost: 1,
+            coefwithcharges : 1,
+            coefwithoutcharges : 1
         }
-        let totalProductionCost : number = 0
-        let productionCostPerPortion : number = 0
-        let totalSellingPrice : number = 0
-        let SellingPricePerPortion : number = 0
-        let totalBenefit : number = 0
-        let BenefitPerPortion : number = 0
-        let profitabilityTreshold : number = 0;
+        let totalProductionCost : number = 1
+        let productionCostPerPortion : number = 1
+        let totalSellingPrice : number = 1
+        let SellingPricePerPortion : number = 1
+        let totalBenefit : number = 1
+        let BenefitPerPortion : number = 1
+        let profitabilityTreshold : number = 1;
+        let materialscost : number = 1;
 
-        datasheetNbCouverts = await DatasheetService.getDataSheetByID(this.props.DatasheetId).then(value => value.nombrecouverts)
-        cost = await CostService.getCostByDataSheet(this.props.DatasheetId)
-        console.log("cost",cost)
-        totalProductionCost = CostService.getTotalCostPerNbCouverts(cost,datasheetNbCouverts,this.props.nbCouverts)
-        productionCostPerPortion =  CostService.getTotalCostPerPortion(cost, datasheetNbCouverts,this.props.nbCouverts)
-        totalSellingPrice =  CostService.getSellingPricePerNbCouverts(cost,datasheetNbCouverts, this.props.nbCouverts)
-        SellingPricePerPortion  =  CostService.getSellingPricePerPortion(cost, datasheetNbCouverts, this.props.nbCouverts)
-        totalBenefit =  CostService.getTotalBenefitPerNbCouverts(cost,datasheetNbCouverts, this.props.nbCouverts)
-        BenefitPerPortion = CostService.getTotalBenefitPerPortion(cost, datasheetNbCouverts,this.props.nbCouverts)
-        profitabilityTreshold = CostService.getProfitabilityTreshold(cost, datasheetNbCouverts)
-        this.setState({
-            cost:  cost,
-            totalProductionCost : totalProductionCost,
-            productionCostPerPortion : productionCostPerPortion,
-            totalSellingPrice : totalSellingPrice,
-            SellingPricePerPortion : SellingPricePerPortion,
-            totalBenefit : totalBenefit,
-            BenefitPerPortion : BenefitPerPortion,
-            profitabilityTreshold : profitabilityTreshold,
-            chargescost : cost.chargescost,
-            materialscost : CostService.getMaterialsCostPerNbCouverts(cost, datasheetNbCouverts, this.props.nbCouverts),
-            chargescalculated : cost.chargescalculated,
-            coefwithcharges : cost.coefwithcharges,
-            coefwithoutcharges : cost.coefwithoutcharges
+        datasheetNbCouverts = await DatasheetService.getDataSheetByID(this.props.DatasheetId).then(value => value.nombrecouverts).catch((e) => {
+            console.log("erreeeeeur",e)
+            return 1;
         })
+
+        cost = await CostService.getCostByDataSheet(this.props.DatasheetId).then((value) => {
+            // @ts-ignore
+            if(value=="") {return cost} else{return value}
+        })
+        console.log(cost)
+        if (cost !== {chargescalculated: false,
+            chargescost: 1,
+            idCost:1,
+            idfichetechnique: 1,
+            includeddatasheetscost:1,
+            materialscost: 1,
+            coefwithcharges : 1,
+            coefwithoutcharges : 1}) {
+
+            totalProductionCost = CostService.getTotalCostPerNbCouverts(cost,datasheetNbCouverts,this.props.nbCouverts)
+            productionCostPerPortion =  CostService.getTotalCostPerPortion(cost, datasheetNbCouverts,this.props.nbCouverts)
+            totalSellingPrice =  CostService.getSellingPricePerNbCouverts(cost,datasheetNbCouverts, this.props.nbCouverts)
+            SellingPricePerPortion  =  CostService.getSellingPricePerPortion(cost, datasheetNbCouverts, this.props.nbCouverts)
+            totalBenefit =  CostService.getTotalBenefitPerNbCouverts(cost,datasheetNbCouverts, this.props.nbCouverts)
+            BenefitPerPortion = CostService.getTotalBenefitPerPortion(cost, datasheetNbCouverts,this.props.nbCouverts)
+            materialscost = CostService.getMaterialsCostPerNbCouverts(cost, datasheetNbCouverts, this.props.nbCouverts)
+            profitabilityTreshold = CostService.getProfitabilityTreshold(cost, datasheetNbCouverts)
+
+        }
+
+
     }
 
     render() {
@@ -156,12 +163,13 @@ class Cost extends React.Component<Props, State> {
                     </Row>
 
                 </div>
+
             );
         }
         else{
             return (<p></p>);
         }
-    }
+        }
 }
 
 

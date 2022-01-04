@@ -1,5 +1,6 @@
 import { Steps, Button, message } from 'antd';
 import React, {useState} from 'react'
+import { useNavigate } from 'react-router-dom';
 import CostManagement from './CostManagement'
 import  StepCreation from './StepCreation'
 import GeneralInfoDatasheet from './GeneralInfoDatasheet'
@@ -59,6 +60,7 @@ let generalInfo :GeneralInfo;
 let stepForm : StepForm;
 let costForm : CostForm;
 
+//This function uses the data from all the forms and creates the datasheet in the database by calling the according services.
 const submit= async () => {
     message.loading("Création de la fiche technique...")
     //Datasheet object
@@ -72,7 +74,7 @@ const submit= async () => {
         nomauteur: ""
     }
 
-
+    //gets the id of the datasheet created
     let idDatasheetPromise;
     idDatasheetPromise = await DataSheetService.create(datasheet).then((value => { // @ts-ignore
 
@@ -83,8 +85,9 @@ const submit= async () => {
     let stepsID : Array<number> = []
     let currentStep : StepsFromForm;
     let ingredients : [{idingredient : number, quantite : number}] = [{idingredient : -1, quantite : -1}];
-    //STEPS
-    //console.log(stepForm)
+
+    //STEPS : Creates the steps in the database
+
     for (let i = 0 ; i < stepForm.etapes.length; i++) {
         currentStep = stepForm.etapes[i];
         console.log("current step " + i, currentStep)
@@ -101,43 +104,54 @@ const submit= async () => {
             // @ts-ignore
             return value.result.rows[0].idetape
         })).catch(e => console.log(e));
-        //ingredients
+
+        //Creates the ingredients in the database (using a join table)
+
         console.log("j'ai attendu etape", stepsID[i])
-        for (let j = 0 ; j < stepForm.etapes[i].ingredients.length; j++) {
+        try {
+            for (let j = 0 ; j < stepForm.etapes[i].ingredients.length; j++) {
+                try {
+                    let currentIngredient = stepForm.etapes[i].ingredients[j]
+                    ingredients[j] = {idingredient : currentIngredient.idingredient, quantite : currentIngredient.quantite}
+                    let res = await StepIngredientJoinService.create({idfichetechnique : idDatasheetPromise,idetape : stepsID[i], idingredient : currentIngredient.idingredient, quantite : currentIngredient.quantite})
+                        .then(value => console.log("ing",value)).catch(e => console.log(e))
+                }catch (e) {
+                    console.log(e)
+                }
+
+            }
+        }catch(e){
+            console.log("no ingredients in step" + i)
+        }
+
+    }
+    //INCLUDED DATASHEETS : creates the included datasheets in the database by using a join table
+    let includedDatasheetsIds : [number] = [0];//Used to compute cost
+    try {
+        for (let k = 0 ; k < stepForm.fichetechniquejointure.length; k++) {
             try {
-                let currentIngredient = stepForm.etapes[i].ingredients[j]
-                ingredients[j] = {idingredient : currentIngredient.idingredient, quantite : currentIngredient.quantite}
-                let res = await StepIngredientJoinService.create({idfichetechnique : idDatasheetPromise,idetape : stepsID[i], idingredient : currentIngredient.idingredient, quantite : currentIngredient.quantite})
-                    .then(value => console.log("ing",value)).catch(e => console.log(e))
+                let currentDatasheetJoin : {fichetechnique : number, stepnumber : number} = stepForm.fichetechniquejointure[k];
+                includedDatasheetsIds[k] = currentDatasheetJoin.fichetechnique
+                let res = await DataSheetService.createJoin({idfichetechniquefille : currentDatasheetJoin.fichetechnique, idfichetechniqueparent : idDatasheetPromise, numetape : currentDatasheetJoin.stepnumber})
+                    .then(value => console.log("join",value))
             }catch (e) {
                 console.log(e)
             }
-
         }
+    }catch (e) {
+        console.log("no datasheet join")
     }
-    //datasheet join
-    let includedDatasheetsIds : [number] = [0];//Used to compute cost
-    for (let k = 0 ; k < stepForm.etapes.length; k++) {
-        try {
-            console.log("joinn",stepForm.fichetechniquejointure[k])
-            let currentDatasheetJoin : {fichetechnique : number, stepnumber : number} = stepForm.fichetechniquejointure[k];
-            includedDatasheetsIds[k] = currentDatasheetJoin.fichetechnique
-            let res = await DataSheetService.createJoin({idfichetechniquefille : currentDatasheetJoin.fichetechnique, idfichetechniqueparent : idDatasheetPromise, numetape : currentDatasheetJoin.stepnumber})
-                .then(value => console.log("join",value))
-        }catch (e) {
-            console.log(e)
-        }
 
 
-    }
-    console.log("ON PASSSE AU COUT")
-    //COST
+    //COST : fills the cost table in the database
     let totalMinutes : number = await StepService.getGlobalTimeToMakeDataSheet(idDatasheetPromise).then((value => parseInt(value.tempsetape)))
     let chargesCost : number = await CostService.getChargesCost(costForm.salarycost, costForm.fluidcost, totalMinutes);
     let ingredientCost : number = await CostService.getIngredientsCost(ingredients);
-    let materialCost : number = await CostService.getMaterialsCost(ingredientCost, costForm.seasoning)
-    let includedDatasheetsCost: Array<CostData> = await CostService.getCostForSeveralDataSheet(includedDatasheetsIds);
-    console.log("cost incl" ,includedDatasheetsCost)
+    let materialCost : number =  CostService.getMaterialsCost(ingredientCost, costForm.seasoning)
+
+    //Gets the cost from the included datasheets
+    let includeddatasheetscost: Array<CostData> = await CostService.getCostForSeveralDataSheet(includedDatasheetsIds);
+    console.log("cost incl" ,includeddatasheetscost)
     let cost : Cost = {
         idCost: 0,
         idfichetechnique: idDatasheetPromise,
@@ -146,37 +160,38 @@ const submit= async () => {
         materialscost: materialCost,
         coefwithcharges: costForm.coefwithcharges,
         coefwithoutcharges: costForm.coefwithoutcharges,
-        includedDatasheetsCost: 0
+        includeddatasheetscost: 0
     }
 
     // @ts-ignore
-    const costCreated : any= await CostService.createWithOtherDatasheetsCosts(cost,includedDatasheetsCost)
+    const costCreated : any= await CostService.createWithOtherDatasheetsCosts(cost,includeddatasheetscost)
         .then(value => console.log("cost",value))
-        .catch((e) => {console.log("cost",e)})
-    console.log("donee")
+        .catch((e) => {console.log("cost FAIL",e)})
     message.success('Fiche technique créée!')
+    return  Promise.resolve(idDatasheetPromise)
 }
 
 
-
+//This component is composed of the 3 datasheets form and allows a step by step navigation
 const DataSheetCreation = () => {
+    let navigate = useNavigate();
     const onFinishGeneralInfo= (values: GeneralInfo) => {
-        message.success('Submit General info')
-        console.log('Submit General inf',values)
         generalInfo = values;
         next()
 
     }
     const onFinishSteps= (values: StepForm) => {
-        message.success('Submit steps')
-        console.log('Submit steps',values)
         stepForm = values
-        next()
+        if (stepForm.etapes.length <= 0) {
+            message.error("Il faut au moins une étape dans la Fiche Technique")
+        }else {
+            next()
+        }
+
     }
-    const onFinishCost= (values: CostForm) => {
-        console.log('submit cost',values)
+    const onFinishCost= async (values: CostForm) => {
         costForm = values
-        submit()
+        submit().then((value)=> {navigate("/fichetechnique"+ "/" +value)})
     }
     const [fieldsGeneralInfo, setFieldsGeneralInfo] = useState<FieldData[]>([]);
     const [fieldsCostManagement, setFieldsCostManagement] = useState<FieldData[]>([]);
@@ -186,7 +201,7 @@ const DataSheetCreation = () => {
             title: 'Informations générales',
             content: <GeneralInfoDatasheet fields={fieldsGeneralInfo} onChange={(newFields : FieldData[]) => {
                 setFieldsGeneralInfo(newFields)
-                }} onFinish={onFinishGeneralInfo}></GeneralInfoDatasheet>,
+                }} onFinish={onFinishGeneralInfo}/>,
             isValidated : false,
             auteur : null,
             fichetechnique: null
@@ -195,7 +210,7 @@ const DataSheetCreation = () => {
             title: 'Progression',
             content: <StepCreation fields={fieldsStepCreation} onChange={(newFields : FieldData[]) => {
                 setFieldsStepCreation(newFields)
-                }} onFinish={onFinishSteps}></StepCreation>,
+                }} onFinish={onFinishSteps}/>,
             isValidated : false,
             etape : null,
             fichetechniquejointure : null
@@ -204,7 +219,7 @@ const DataSheetCreation = () => {
             title: 'Coût',
             content: <CostManagement fields={fieldsCostManagement} onChange={(newFields : FieldData[]) => {
                 setFieldsCostManagement(newFields)
-               }} onFinish={onFinishCost}></CostManagement>,
+               }} onFinish={onFinishCost}/>,
             isValidated : false,
             cost : null
         },
@@ -212,10 +227,6 @@ const DataSheetCreation = () => {
 
 
     const [current, setCurrent] = React.useState(0);
-    const onGeneralInfoFinish = () => {
-        next();
-        console.log(fieldsGeneralInfo)
-    }
 
     const next = () => {
         setCurrent(current + 1);
@@ -240,9 +251,6 @@ const DataSheetCreation = () => {
                         Précédent
                     </Button>
                 )}
-                <Button style={{ margin: '0 8px' }} onClick={() => next()}>
-                    Précédentsss
-                </Button>
             </div>
         </>
     );

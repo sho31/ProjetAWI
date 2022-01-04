@@ -4,24 +4,43 @@ import IngredientService from "../services/IngredientService";
 
 const create = async (data:CostData) => {
     const tmp =  await http.post<CostData>("/cost", data);
-    //console.log(tmp)
     return  tmp.data
 };
 const createWithOtherDatasheetsCosts = async (primarySheetCost: CostData, otherSheetsCosts : Array<CostData> ) => {
+    console.log("primary", primarySheetCost)
     console.log("other", otherSheetsCosts)
+
     let newCost : CostData = primarySheetCost;
-    newCost.includedDatasheetsCost =0;
+    newCost.includeddatasheetscost =0;
     for (const cost of otherSheetsCosts) {
         console.log(cost)
         if(cost.chargescost !== undefined) {
-            newCost.includedDatasheetsCost = +newCost.includedDatasheetsCost + +cost.materialscost + +cost.chargescost
+            newCost.includeddatasheetscost = +newCost.includeddatasheetscost + +cost.materialscost + +cost.chargescost
         } else {
-            newCost.includedDatasheetsCost = +newCost.includedDatasheetsCost + +cost.materialscost
+            newCost.includeddatasheetscost = +newCost.includeddatasheetscost + +cost.materialscost
         }
 
     }
-    console.log(newCost.includedDatasheetsCost, "newcost")
+    console.log(newCost.includeddatasheetscost, "newcost")
     await create(newCost)
+    return newCost
+};
+const createWithOtherDatasheetsCostss = (primarySheetCost: CostData, otherSheetsCosts : Array<CostData> ) => {
+    console.log("primary", primarySheetCost)
+    console.log("other", otherSheetsCosts)
+
+    let newCost : CostData = primarySheetCost;
+    newCost.includeddatasheetscost =0;
+    for (const cost of otherSheetsCosts) {
+        console.log(cost)
+        if(cost.chargescost !== undefined) {
+            newCost.includeddatasheetscost = +newCost.includeddatasheetscost + +cost.materialscost + +cost.chargescost
+        } else {
+            newCost.includeddatasheetscost = +newCost.includeddatasheetscost + +cost.materialscost
+        }
+    }
+    //await create(newCost)
+    return newCost
 };
 const getIngredientsCost = async (ingredients : [{idingredient : number, quantite : number}]) => {
     let materialscost : number = 0
@@ -64,7 +83,7 @@ const getChargesCost = async (salaryCost : number,fluidCost : number, totalMinut
 
 const getCostByDataSheet = async (id: any) => {
     const tmp = await http.get<CostData>(`/cost/bydatasheet?id=${id}`);
-    console.log("tpm", tmp)
+    console.log(tmp,"tmp")
     return tmp.data;
 };
 const getCostForSeveralDataSheet = async (ids: [any]) => {
@@ -130,17 +149,18 @@ const getSellingPricePerPortion = (cost : CostData, nbCouvertsTotal : number, nb
 }
 //returns the minimal nbPortion below nbCouvertsTotal where the benefit is positive. Returns -1 if there is no possible profitability below or equal the planned nbCouvertsTotal of the datasheet
 const getProfitabilityTreshold = (cost : CostData, nbCouvertsTotal : number) => {
-    for (let i : number = 1; i++; i <= nbCouvertsTotal) {
-        if (i === nbCouvertsTotal) {
-            if (getTotalBenefit(cost) > 0) {
+        for (let i : number = 1;i <= nbCouvertsTotal; i++ ) {
+            console.log(i)
+            if (i === nbCouvertsTotal) {
+                if (getTotalBenefit(cost) > 0) {
+                    return i
+                }
+            }
+            if (getTotalBenefitPerPortion(cost,nbCouvertsTotal,i) > 0) {
                 return i
             }
         }
-        if (getTotalBenefitPerPortion(cost,nbCouvertsTotal,i) > 0) {
-            return i
-        }
-    }
-    return -1
+        return 1
 }
 
 
@@ -148,6 +168,7 @@ const getProfitabilityTreshold = (cost : CostData, nbCouvertsTotal : number) => 
 const CostService = {
     create,
     createWithOtherDatasheetsCosts,
+    createWithOtherDatasheetsCostss,
     getCostByDataSheet,
     getCostForSeveralDataSheet,
     getChargesCost,
