@@ -66,7 +66,7 @@ const HomePage: React.FC = () => {
         };
         return (
             <Tag
-                color={"#FF9B00"}
+                color={"#1890ff"}
                 onMouseDown={onPreventMouseDown}
                 closable={closable}
                 onClose={onClose}
@@ -141,7 +141,7 @@ const HomePage: React.FC = () => {
                     <Fragment key={index}>
                         {(dataSheet.image !== "")
                             ? <Link to={"/fichetechnique/"+dataSheet.idfichetechnique} key={index}>
-                                <Badge count={dataSheet.nombrecouverts} style={{height:30, width:30}}color="#5B930A" offset={[-15, 20]}>
+                                <Badge count={dataSheet.nombrecouverts} style={{height:30, width:30}} color="#1890ff" offset={[-15, 20]}>
                                     <Card
                                         style={{
                                             width: 300,
@@ -174,7 +174,7 @@ const HomePage: React.FC = () => {
                                 </Badge>
                             </Link>
                             : <Link to={"/fichetechnique/"+dataSheet.idfichetechnique} key={index}>
-                                <Badge count={dataSheet.nombrecouverts} style={{height:30, width:30}}color="#5B930A" offset={[-15, 20]}>
+                                <Badge count={dataSheet.nombrecouverts} style={{height:30, width:30}} color="#1890ff" offset={[-15, 20]}>
                                     <Card
                                         style={{
                                             width: 300,
