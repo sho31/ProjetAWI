@@ -141,7 +141,7 @@ const HomePage: React.FC = () => {
                     <Fragment key={index}>
                         {(dataSheet.image !== "")
                             ? <Link to={"/fichetechnique/"+dataSheet.idfichetechnique} key={index}>
-                                <Badge count={dataSheet.nombrecouverts} style={{height:30, width:30}} color="#1890ff" text="#108ee9" offset={[-15, 20]}>
+                                <Badge count={dataSheet.nombrecouverts} style={{height:30, width:30}} color="#1890ff" offset={[-15, 20]}>
                                     <Card
                                         style={{
                                             width: 300,
@@ -174,7 +174,7 @@ const HomePage: React.FC = () => {
                                 </Badge>
                             </Link>
                             : <Link to={"/fichetechnique/"+dataSheet.idfichetechnique} key={index}>
-                                <Badge count={dataSheet.nombrecouverts} style={{height:30, width:30}} color="#1890ff" text="#108ee9" offset={[-15, 20]}>
+                                <Badge count={dataSheet.nombrecouverts} style={{height:30, width:30}} color="#1890ff" offset={[-15, 20]}>
                                     <Card
                                         style={{
                                             width: 300,

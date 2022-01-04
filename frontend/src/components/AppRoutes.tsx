@@ -18,7 +18,7 @@ import IngredientCatCreation from "./Creations/IngredientCatCreation";
 import DataSheetCatCreation from "./Creations/DataSheetCatCreation";
 import UnitCreation from "./Creations/UnitCreation";
 import AuthorCreation from "./Creations/AuthorCreation";
-
+import NotFound from "./Error404";
 const AppRoutes = () => {
 
     return (
@@ -35,6 +35,7 @@ const AppRoutes = () => {
                     <Route path="/gerer/catIngredient" element={<SiderMenu><IngredientCatCreation/></SiderMenu>} />
                     <Route path="/gerer/catAllergene" element={<SiderMenu><AllergenCatCreation/></SiderMenu>} />
                     <Route path="/gerer/auteur" element={<SiderMenu><AuthorCreation/></SiderMenu>} />
+                    <Route path='*' element={<NotFound />} />
                 </Routes>
             </BrowserRouter>
         </Fragment>
