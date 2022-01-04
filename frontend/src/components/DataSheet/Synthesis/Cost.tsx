@@ -102,6 +102,21 @@ class Cost extends React.Component<Props, State> {
             profitabilityTreshold = CostService.getProfitabilityTreshold(cost, datasheetNbCouverts)
 
         }
+        this.setState({
+            cost:  cost,
+            totalProductionCost : totalProductionCost,
+            productionCostPerPortion : productionCostPerPortion,
+            totalSellingPrice : totalSellingPrice,
+            SellingPricePerPortion : SellingPricePerPortion,
+            totalBenefit : totalBenefit,
+            BenefitPerPortion : BenefitPerPortion,
+            profitabilityTreshold : profitabilityTreshold,
+            chargescost : cost.chargescost,
+            materialscost : CostService.getMaterialsCostPerNbCouverts(cost, datasheetNbCouverts, this.props.nbCouverts),
+            chargescalculated : cost.chargescalculated,
+            coefwithcharges : cost.coefwithcharges,
+            coefwithoutcharges : cost.coefwithoutcharges
+        })
 
 
     }
